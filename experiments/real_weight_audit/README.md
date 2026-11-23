@@ -25,4 +25,11 @@ Weight-zero measurements do **not** measure activation sparsity. That separately
 
 ## Current status
 
-The workflow is authored; until a completed successful Actions run and verified checkpoint hashes are inspected, **trained model block sparsity is unmeasured**.
+**Completed, independently checked:** GitHub Actions run [45241981337](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45241981337), job 137928727818, succeeded. Both pretrained checkpoint downloads matched the published SHA-256 hashes. Direct read-only measurements:
+
+| Pretrained model | Eligible 2D elements | Exact zero elements | Eligible 4x4 blocks | Exact zero 4x4 | Eligible 8x8 blocks | Exact zero 8x8 |
+|---|---:|---:|---:|---:|---:|---:|
+| MicroMixer attention-free 1M | 874,624 | **0** | 54,272 | **0** | 13,456 | **0** |
+| MicroT attention transformer 300K | 296,960 | **0** | 18,560 | **0** | 4,640 | **0** |
+
+The measurements are preserved in [results/MEASURED_2026-11-23.json](results/MEASURED_2026-11-23.json). This falsifies the assumption that *these particular ordinary, unpruned models* support any exact-zero-weight block skipping; it does NOT prove all pretrained models are dense and does not measure activations or infer speed. The zero-block bypass datapath remains mathematically valid and could still apply to deliberately sparse weights if task quality is independently validated.
