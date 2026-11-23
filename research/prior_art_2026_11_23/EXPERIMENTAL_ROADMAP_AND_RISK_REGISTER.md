@@ -1,0 +1,51 @@
+# Prioritized research-to-physical experimental roadmap and risk register
+
+**Date:** 2026-11-23. **Decision status:** proposed, not automatically authorized to buy, fabricate, install, copy licensed third-party IP, or overwrite project files. Keep our `main` engineering state and all historical negative results intact.
+
+## What is already completed by AI-Native-Computing
+- v0.2–v0.5 analytical memory/topology/physical screens; equal-resource eight-node mesh did not beat centralized synthetic reference.
+- v0.6–v1.0 RTL processing elements, with passing GitHub Icarus/Yosys verification. v1.0: 8 configurations ×95 cases = 760 RTL passes; 64-row/2-lane and 64-row/4-lane generic Yosys synthesis: 19,400 vs 20,334 cells, **not** physical area/power/frequency.
+- Real Safetensors weight audit: two genuinely trained small checkpoints had **zero exactly-zero 4×4 or 8×8 blocks**; this falsified *natural all-zero weight-block skipping* for those checkpoint samples. The actual runtime activation-zero rates remain UNKNOWN.
+- No physical FPGA card programmed, custom motherboard/ASIC fabricated, genuine GPU head-to-head matched benchmark, or wall-power measurement in our project.
+
+## Phased experiments with rejection gates
+
+| Priority / gate | Decisive next work and reused prior art | Required artifact / measurements | Explicit accept or reject rule |
+|---|---|---|---|
+| **P0 G0: lock source and baseline** | Freeze current source+readme blob/commit; license audit Gemmini/Chipyard/openTPU/APEX/DeepStack; pin optimized GPU models + accessible actual devices and instrumented wattmeter | `SOURCES_LOCK.md`, fork/dependency SHAs, task dataset/quality protocol, device ledger | No external code included until redistribution/use rights verified; no physical superiority claim from specifications |
+| **P0 G1: real activation measurements** | Execute reviewed/pinned trained model inference, collect exact-zero intermediate activation masks for MicroT/MicroMixer, then larger representative Transformer/SSM; vary context/batch, precision | Per-layer activation distribution, serialized tensor masks, model/dataset hashes and task quality | **If zero skip cannot beat its own dispatcher/memory overhead at measured activation rates, demote gating as primary design immediately** |
+| **P0 G1: reuse baseline** | Compile/run a minimal Gemmini/Chipyard config (or simpler portable test), openTPU and APEX reproducibility gate as available; no hardware claims from software-only CI | Independent build/test logs, HDL target version and observed memory/cycles | Prefer reusable baseline over rebuilding equivalent systolic engine; document unavailable hardware |
+| **P1 G2: bounded data movement** | Build queue/burst/closed-loop model for our v1.0 (64 rows, 2/4 lanes) vs Gemmini-compatible alternative; import ATLAS thermal and DeepStack/NeuPIMs ideas subject to licenses | Per-bank transactions, PHY assumptions, controller stalls, cacheline efficiency, power/thermal sensitivity | Reject configuration if superiority disappears under plausible bus efficiency or same resource budget |
+| **P1 G2: alternative AI computation** | Compare transformer against Mamba SSM, LLaDA diffusion and one hybrid; identical task suite and quality thresholds; profile per-operator trace | Accuracy/time-to-answer/sequence state, bytes and iterations, training requirements | Reject model idea if end-task quality/latency/energy cannot match controlled baseline |
+| **P1 G3: proof-carrying automated architecture loop** | Adapt auto-arch-tournament + SparseCraft evaluation philosophy to multiple PE/memory designs, with immutable holdout and 3-seed implementation | RTL regression, formal assertions, 3-seed FPGA P&R and benchmark fitness with retained failures | Reject every candidate that cannot pass independent oracle or gaming-resistant score; do not optimize fabricated numbers |
+| **P1 G3: small physical FPGA experiment** | Select a supported FPGA board with published DSP/BRAM/external DDR electrical specs. Port compact Gemmini-like control plus our v1.0 controls with same memory/precision. | Actual clock (post-route), utilization, latency and instrumented board/system joules, BER/integrity | Require measurable physically repeatable gain at equal quality and memory before scaling modules |
+| **P2 G4: package/system feasibility** | Compare central/2-package/mesh/memory-stack/optical-link options under **equal HBM, total compute and power**, including external I/O, heat, packaging, yield and repair | Floorplans, board signals, pJ/bit, controller and power-delivery budgets, thermals and uncertainty | Reject any topology violating achievable lane, reticle, cooling or manufacturing limits; do not treat UCIe package bandwidth as PCB bandwidth |
+| **P2 G4: physically credible subsystem** | RTL+macro integration on mapped FPGA/ASIC-style library, with SRAM compiler and real memory PHY; use OpenROAD/Hammer/Chipyard as appropriate | P&R timing closure, area, power estimates with disclosure of PDK and libraries | No ASIC prediction accepted without layout legality, timing/IR-drop/thermal constraints; proxy PDK is not fabricated silicon |
+| **P3 G5: fabricate or assemble prototype** | Manufacture a limited prototype chiplet/PCB only after G0–G4 show enough upside; alternative commercial FPGA mezzanine before ASIC possible | Independent power probes, full firmware/compiler, model correctness, memory traces and complete real task performance | Hardware advantage must survive matched contemporary GPU controls and uncertainty; failed runs archived |
+| **P3 G6: repeat or redesign** | Revisit negative results, redesign architecture/model or reject failed mechanism; retain all decision history | Controlled A/B experiments and repeatability across task families | Do not declare project finished until useful-task/energy advantage is demonstrated on real hardware |
+
+**No calendar/time estimate:** availability of fabricated access, test instruments and funding is unknown. Staging depends on evidence gates, not dates.
+
+## Risk register (ranked by potentially invalidating the entire approach)
+
+| Risk | Severity | Evidence/status | Mitigation / falsification |
+|---|---|---|---|
+| **RISK-01 No real activation sparsity benefit** | Critical | Weight audit was negative; activation rates unmeasured, v1.0 gating needs actual zeros | Instrument *real* trained activations immediately; require >0 net improvement after controller/burst costs; otherwise pivot to dense/locality/SSM |
+| **RISK-02 Competitive baseline moves faster** | Critical | Rubin published 22TB/s peak HBM4; our older HBM4 advantage dissolved after equalization | Fix measured Rubin/Mi355X/TPU controls; retest latest deployed devices rather than older cards |
+| **RISK-03 Incomplete physical memory model** | Critical | v1.0 uses RTL register buffer and testbench preassembled 64-byte column response; no HBM controller/PHY | Implement backpressure, burst, bank, response latency, queue depths; compare physically supported PHY |
+| **RISK-04 Apparent speed only from using more resources** | Critical | Our eight-module mesh lost equal-resource synthetic test | Run memory/cost/compute/power equalized and absolute throughput benchmarks separately |
+| **RISK-05 Comparison changes AI quality** | Critical | Mamba/diffusion/low-bit/sparsity alter semantics and/or model | Pre-register task quality floor, datasets, training data and accuracy confidence interval |
+| **RISK-06 Silicon area/power non-viability** | Critical | SRAM-only 12GB die physically exceeded ordinary reticle; generic Yosys cells not mapped area | Physical standard-cell + SRAM macro/timing/thermal floorplan and board-level budget |
+| **RISK-07 EDA artifact not fabrication proof** | High | openTPU NanGate45, OpenTallas and ATLAS are research proxies, not manufactured candidate | Preserve A–F provenance; require actual FPGA or fabricated silicon and wattmeter |
+| **RISK-08 Third-party IP/opaque binaries** | High | DeepStack mixed binary grants; NVDLA special terms; R10/R12/R15 unclear root licensing | Separate licensed vs restricted assets, legal review, no copied code until allowed |
+| **RISK-09 Simulator calibration and hidden assumptions** | High | DeepStack opaque models, ATLAS anonymization, NeuPIMs in-house PIM modeling | Independently recreate microbench traces and independently parameterize pessimistic/base/optimistic cases |
+| **RISK-10 Thermal and interconnect fabrication** | High | UCIe package signal assumptions cannot become PCB links; wafer cooling nontrivial | Model SI, insertion loss, retimers, pJ/bit, cooling, yield, repair and package topology |
+| **RISK-11 Single-model ASIC obsolescence** | High | Fixed-weight model silicon requires redesign for changing architectures/weights | Separate immutable model components from programmable routing/adapter pathways |
+| **RISK-12 Overfit architecture search** | High | AI optimizer can silently manipulate metrics or benchmarks | Signed frozen gate, independent evaluator, held-out datasets, multiple seeds and rollback audit |
+| **RISK-13 Alternative technology experimental mismatch** | High | NorthPole vision vs GPU, Loihi sensor, optical image classification, Taalas LLM are different workloads | Preserve per-task proof scope; no universal ranking of unmatched architecture claims |
+| **RISK-14 Dependence on unavailable physical boards** | Medium | No user's FPGA card/precision wattmeter validated | Prefer source reproducibility and accessible supported FPGA before making hardware commitments |
+
+## Recommended near-term decision
+**Do not immediately tape out or keep expanding activation-gated RTL.** The next high-information experiment is the **real trained-model activation audit**. In parallel reproduce one substantial independent reference platform (Gemmini/Chipyard or openTPU/APEX) to establish existing, working hardware development infrastructure. If measured activation zeros are inadequate, pivot the project’s primary mechanism to memory locality, heterogeneous stateful/attention compute, or structurally trained model/hardware co-design. Continue physical validation irrespective of which mechanism wins.
+
+The proposed experiments are reversible. Research artifacts alone do not authorize new purchases, software license acceptance, destructive modifications or manufacturing.
