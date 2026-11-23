@@ -58,6 +58,21 @@ jobs:
               grep -F "PASS v0.7 RTL randomized verification LANES=$lanes ACC_W=$acc" /tmp/rtltest/v07.log
             done
           done
+      - name: Compare generic cell counts across multiplier lane configurations
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rtltest
+          echo 'CELL_SWEEP_BEGIN'
+          for lanes in 1 2 4 8 16; do
+            for acc in 16 32; do
+              log="/tmp/rtltest/yosys_l${lanes}_a${acc}.log"
+              yosys -Q -T -p "read_verilog -DSYNTHESIS prototype_v0_7/rtl/block_sparse_pe_v07.v; chparam -set LANES $lanes -set ACC_W $acc block_sparse_pe_v07; hierarchy -check -top block_sparse_pe_v07; synth -top block_sparse_pe_v07; stat" > "$log"
+              count="$(grep 'Number of cells:' "$log" | tail -n 1 | awk '{print $4}')"
+              test -n "$count"
+              echo "CELL_SWEEP lanes=$lanes acc=$acc cells=$count"
+            done
+          done
+          echo 'CELL_SWEEP_END'
       - name: Generic logic synthesis sanity (not ASIC PPA)
         run: |
           yosys -Q -T -p 'read_verilog -DSYNTHESIS prototype_v0_7/rtl/block_sparse_pe_v07.v; hierarchy -check -top block_sparse_pe_v07; synth -top block_sparse_pe_v07; stat'
