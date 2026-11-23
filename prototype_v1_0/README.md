@@ -33,3 +33,14 @@ This layout **can reduce memory-command overhead under those assumptions**, but 
 3. Add banked register/SRAM-macro memory and **two-buffer prefetch overlap**, measure if request/compute serialization dominates.
 4. Measure real trained model activation zeros. Two earlier pretrained checkpoints had **no exact-zero weights**, but this does not establish their activation distributions.
 5. Revisit algorithm and model family if there is no task-quality-matched advantage over tuned GPUs. A passing microkernel is not success.
+
+## Verified GitHub Actions results
+
+GitHub Actions run [45259340579](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45259340579), job 137989557786, **completed successfully**. The following were verified in the job logs:
+
+- 8 Icarus Verilog configurations × 95 cases each = **760 passing RTL test transactions**.
+- 7/7 new Python tests and 15/15 prior v0.9 Python regression tests passed.
+- Yosys generic synthesis: **19,400 cells** at ROWS=64/LANES=2/ACC=32, and **20,334 cells** at ROWS=64/LANES=4/ACC=32.
+- For the stated controller, 2 lanes need 32 active compute cycles per 64-row column; 4 lanes need 16. The four-lane candidate adds approximately **4.8%** counted generic cells. Clock periods, energy and physical SRAM are *not measured*.
+
+Detailed source and limitations: [CI_EVIDENCE_2026-11-23.md](docs/CI_EVIDENCE_2026-11-23.md).
