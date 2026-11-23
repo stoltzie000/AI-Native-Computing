@@ -1,0 +1,45 @@
+name: RTL v0.9 column-major coalesced-fetch verification
+
+on:
+  push:
+    paths:
+      - 'prototype_v0_9/**'
+      - '.github/workflows/rtl-v09-verification.yml'
+  pull_request:
+    paths:
+      - 'prototype_v0_9/**'
+      - '.github/workflows/rtl-v09-verification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install HDL tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+      - name: Run independent column-major data layout/oracle tests
+        run: python -m unittest discover -s prototype_v0_9/tests -p 'test_*.py' -v
+      - name: Run numerical and externally-counted column-request HDL tests
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ai-v09
+          for acc in 16 32; do
+            iverilog -g2012 -Wall -s tb_column_gated_pe -Ptb_column_gated_pe.ACC_W_TB="$acc" \
+              -o /tmp/ai-v09/rtl \
+              prototype_v0_9/rtl/column_gated_pe.v prototype_v0_9/rtl/tb_column_gated_pe.sv
+            vvp /tmp/ai-v09/rtl | tee /tmp/ai-v09/run.log
+            grep -F "PASS v0.9 column-gated RTL ACC_W=$acc" /tmp/ai-v09/run.log
+          done
+      - name: Generic synthesis sanity (not physical PPA)
+        run: |
+          yosys -Q -T -p 'read_verilog -DSYNTHESIS prototype_v0_9/rtl/column_gated_pe.v; hierarchy -check -top column_gated_pe; synth -top column_gated_pe; stat'
