@@ -24,3 +24,13 @@ See [product definition](docs/PRODUCT_DEFINITION.md), [validation protocol](docs
 [Simulator and tests](simulator_v0_4/README.md) · [Hardware evidence boundaries](simulator_v0_4/docs/PHYSICAL_BOUNDARIES.md) · [Failure-analysis ledger](simulator_v0_4/docs/TOPOLOGY_REVIEW.md) · [Deterministic result report](simulator_v0_4/results/summary.json) · [Regression workflow](.github/workflows/simulator-v0-4-tests.yml).
 
 v0.4 adds explicit point-to-point physical link limits, route-dependent latency, port-count rejections, and small CPU recursive-doubling numerical correctness tests. In an isolated runtime 24/24 v0.4 tests and 43/43 existing v0.3 tests passed. All 11 v0.4 files uploaded to GitHub were verified against local copies by Git blob SHA. These are **hypothetical E1 scenario calculations**, not measured physical AI hardware or evidence of defeating a current GPU. The next gates remain physical link characterization, energy/area/thermal budget and matched GPU validation.
+
+## Equal-resource & algorithmic feasibility correction — v0.5 (2026-11-23)
+
+[**Simulator v0.5 and tested source**](simulator_v0_5/README.md) · [Physical baseline evidence](simulator_v0_5/docs/PHYSICAL_AND_BASELINE_SOURCES.md) · [Design rejection ledger](simulator_v0_5/docs/DECISION_LEDGER.md) · [Next experiments](simulator_v0_5/docs/RESEARCH_ROADMAP.md) · [Deterministic results](simulator_v0_5/results/summary.json).
+
+**Critical baseline correction:** NVIDIA Rubin now advertises 288GB HBM4 at 22 TB/s, comparable in memory class to our previous eight-stack hypothetical 288GB/22.4TB/s design. The nominal HBM configuration alone does not establish GPU superiority. In an E1 equal-memory/compute experiment, **one idealized shared domain modeled ~569.70 outputs/s, two packages ~557.74, and the eight-package mesh ~507.99**. These are synthetic resource models, not measured throughput or actual Rubin benchmarks.
+
+**Algorithmic experiment:** Lossless skipping of three of four exact-zero blocks in a constructed 16x16 matrix passed independent numerical checks and stored toy weight data plus metadata in 261B vs 1024B (74.51% reduction); **this does not establish real AI model sparsity, equal model quality or superior hardware performance**.
+
+The package passed **70/70 local tests**, and the complete historical v0.2–v0.5 suites passed **158/158 tests** after clean ZIP extraction. GitHub v0.5 source and results were fetched back and matched exact local Git blob hashes. No silicon, custom PCB, physical power measurement, or complete AI model performance test has been completed.
