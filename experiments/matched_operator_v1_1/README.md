@@ -30,3 +30,11 @@ A future fair speed/energy comparison must implement one shared quantization/pre
 GitHub Actions workflow `.github/workflows/matched-operator-v1-1.yml` runs the three execution paths and keeps evidence for 30 days; source and decisions are committed separately. **Only a push changing that workflow on its research branch triggers CI**, plus manual dispatch; no `pull_request` event or duplicate notification trigger.
 
 **Acceptance rule:** all three systems agree exactly on the selected arithmetic fixtures, with no skips or unreported failures. A passing result establishes a common functional task—not hardware performance parity.
+
+## Completed verification — 2026-11-23
+
+The real [GitHub Actions run 45290172189](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45290172189) completed **SUCCESS** with 7/7 fixture tests and 7/7 original Python tests. All 11 same-data cases passed openTPU ISA, all 11 passed our real v1.0 Icarus RTL at 2 lanes and at 4 lanes, and **3/3** selected cases passed actual openTPU RTL through the pinned Verilator 5.054 toolchain. **36/36 cross-system fixture executions passed**; the exact generated test-data SHA was independently checked.
+
+[Exact CI and artifact evidence](CI_EVIDENCE_2026-11-23.md) · [Machine-readable summary](results/VERIFIED_SUMMARY_2026-11-23.json) · [Retained raw 42-entry test artifact](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45290172189/artifacts/14874521670).
+
+**Decision:** This is our first demonstrated common mathematical operator across two genuinely implemented RTL systems. It is **not a shared datapath, physical memory measurement, quantized MXU throughput or whole-system GPU comparison**. Detailed caveats above remain in force.
