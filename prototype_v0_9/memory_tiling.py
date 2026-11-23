@@ -53,7 +53,7 @@ def estimate(cfg:Tiling):
     return {
         "row_tile":cfg.row_tile,"tiles":tiles,"requests":requests,
         "useful_bytes":useful,"transferred_bytes":transferred,
-        "burst_utilization":1 if transferred==0 else useful/transferred,
+        "burst_utilization":None if transferred==0 else useful/transferred,
         "memory_cycles_per_request":memory_cycles,
         "compute_cycles_per_active_column":compute_cycles,
         "idealized_total_cycles":tile_cycles*tiles,
