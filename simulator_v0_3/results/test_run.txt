@@ -1,0 +1,8 @@
+AI-Native-Computing simulator v0.3 verification
+Date: 2026-11-23
+Environment: isolated Python 3.13 runtime, no physical custom hardware or GPU used.
+Command: python -m unittest discover -s . -p 'test_*.py' -v
+Observed result: 43 tests; 43 passed; 0 failures; 0 errors.
+Deterministic report check: python run_experiments.py | cmp - results/summary.json — PASS.
+Functional demo: 8x12 matrix-vector, 4 shards; 24 ring messages; 384 logical bytes sent; maximum absolute error 0.0 for exact binary-rational example.
+Notes: Tests establish arithmetic/invariants/software behavior ONLY, not performance prediction accuracy, model quality, manufacturing feasibility, or measured power consumption.
