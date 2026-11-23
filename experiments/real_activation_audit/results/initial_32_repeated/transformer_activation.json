@@ -1,0 +1,722 @@
+{
+  "checkpoint_file_bytes": 1193768,
+  "checkpoint_repo": "llaa33219/MicroT-test1-300K-TinyStories",
+  "checkpoint_sha256": "9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224",
+  "device": "CPU",
+  "kind": "transformer",
+  "known_limitations": [
+    "Only nn.Linear/nn.Conv1d module inputs are hooked, not functional F.linear/F.conv1d calls.",
+    "Conv1d input zeros are not directly interchangeable with per-column linear weight gating.",
+    "Values zero due to masking/padding or layers with other operators may affect generalizability.",
+    "These are activation element statistics, NOT physical memory read savings or GPU timings.",
+    "Short byte-level TinyStories models are not representative of state-of-the-art LLMs."
+  ],
+  "measurement": "exact zeros in pre-weight module inputs, no model training or parameter mutation",
+  "model": "MicroT V88 transformer 300K",
+  "output_token_id_digest_sha256": [
+    "5058340db99386a5afc1a2d78cac587ea5d2cac161eef0c1f03ffe6e1843952b",
+    "0fb15031012890fce8843991422724605f733473c7101389c8acc7608cff22e3",
+    "148ea1fc6916709f1699ca84330794b3b3fda8c6edff42ddd8552d10c67fa55d",
+    "9ee9960d3201e6dd076af8c2468eb929f5cf0abc9e536d18d30d53e9bf4e200b",
+    "ce8190e8f640992fa5c2f72003fe3dd48da1e65f116ba6713fa7a83b24ec4285",
+    "7e91932f85114c97683af23950874d401428aa410886acbd3417dffd10e214c9",
+    "1eb4cd08f7abcdbb4da5de46dd02c004996570d552e72a3a3acfe59d324769b3",
+    "5b08c94431230009682cd3427c221fe8af8f157d581dc50a2ca077a0f1512548",
+    "5058340db99386a5afc1a2d78cac587ea5d2cac161eef0c1f03ffe6e1843952b",
+    "0fb15031012890fce8843991422724605f733473c7101389c8acc7608cff22e3",
+    "148ea1fc6916709f1699ca84330794b3b3fda8c6edff42ddd8552d10c67fa55d",
+    "9ee9960d3201e6dd076af8c2468eb929f5cf0abc9e536d18d30d53e9bf4e200b",
+    "ce8190e8f640992fa5c2f72003fe3dd48da1e65f116ba6713fa7a83b24ec4285",
+    "7e91932f85114c97683af23950874d401428aa410886acbd3417dffd10e214c9",
+    "1eb4cd08f7abcdbb4da5de46dd02c004996570d552e72a3a3acfe59d324769b3",
+    "5b08c94431230009682cd3427c221fe8af8f157d581dc50a2ca077a0f1512548",
+    "5058340db99386a5afc1a2d78cac587ea5d2cac161eef0c1f03ffe6e1843952b",
+    "0fb15031012890fce8843991422724605f733473c7101389c8acc7608cff22e3",
+    "148ea1fc6916709f1699ca84330794b3b3fda8c6edff42ddd8552d10c67fa55d",
+    "9ee9960d3201e6dd076af8c2468eb929f5cf0abc9e536d18d30d53e9bf4e200b",
+    "ce8190e8f640992fa5c2f72003fe3dd48da1e65f116ba6713fa7a83b24ec4285",
+    "7e91932f85114c97683af23950874d401428aa410886acbd3417dffd10e214c9",
+    "1eb4cd08f7abcdbb4da5de46dd02c004996570d552e72a3a3acfe59d324769b3",
+    "5b08c94431230009682cd3427c221fe8af8f157d581dc50a2ca077a0f1512548",
+    "5058340db99386a5afc1a2d78cac587ea5d2cac161eef0c1f03ffe6e1843952b",
+    "0fb15031012890fce8843991422724605f733473c7101389c8acc7608cff22e3",
+    "148ea1fc6916709f1699ca84330794b3b3fda8c6edff42ddd8552d10c67fa55d",
+    "9ee9960d3201e6dd076af8c2468eb929f5cf0abc9e536d18d30d53e9bf4e200b",
+    "ce8190e8f640992fa5c2f72003fe3dd48da1e65f116ba6713fa7a83b24ec4285",
+    "7e91932f85114c97683af23950874d401428aa410886acbd3417dffd10e214c9",
+    "1eb4cd08f7abcdbb4da5de46dd02c004996570d552e72a3a3acfe59d324769b3",
+    "5b08c94431230009682cd3427c221fe8af8f157d581dc50a2ca077a0f1512548"
+  ],
+  "per_operator": {
+    "Linear:blocks.0.attn.k_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.o_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.q_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.v_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.mlp.fc1": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.mlp.fc2": {
+      "calls": 32,
+      "elements": 348160,
+      "exact_zero_fraction": 1.1488970588235294e-05,
+      "exact_zeros": 4,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 320,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.k_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.o_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.q_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.v_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.mlp.fc1": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.mlp.fc2": {
+      "calls": 32,
+      "elements": 348160,
+      "exact_zero_fraction": 0.004423253676470588,
+      "exact_zeros": 1540,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 123200,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.k_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.o_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.q_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.v_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.mlp.fc1": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.mlp.fc2": {
+      "calls": 32,
+      "elements": 348160,
+      "exact_zero_fraction": 0.008777573529411765,
+      "exact_zeros": 3056,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 244480,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.k_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.o_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.q_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.v_proj": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 8192000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.mlp.fc1": {
+      "calls": 32,
+      "elements": 102400,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.mlp.fc2": {
+      "calls": 32,
+      "elements": 348160,
+      "exact_zero_fraction": 0.022817095588235293,
+      "exact_zeros": 7944,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 635520,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    }
+  },
+  "prompt_byte_lengths": [
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64
+  ],
+  "prompts": 32,
+  "quantization": "none; pretrained torch float inference",
+  "summary_by_operator": {
+    "Linear": {
+      "elements": 3440640,
+      "exact_zero_fraction": 0.0036458333333333334,
+      "exact_zeros": 12544,
+      "logical_total_weight_macs": 353894400,
+      "logical_zero_weight_macs": 1003520
+    }
+  },
+  "upstream_source_commit": "8300d64843dd9e0baa9270600632c25e5aa15dc5"
+}
