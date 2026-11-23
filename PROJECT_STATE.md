@@ -45,3 +45,36 @@ No new executable Codex/GPT task number is assigned here. Before issuing a numbe
 
 ## Safety / repository handling
 Preserve existing work and uncommitted changes. Inspect repository state before future changes; do not overwrite, reset, wipe, or reconfigure repository visibility without approval.
+
+## 2026-11-23 checkpoint — analytical simulator v0.2
+**Status:** Implemented and independently executable in isolated Python 3 environment. All 17 unit tests passed. Source files and deterministic JSON output committed to `simulator_v0_2/`, then re-fetched from GitHub and verified with exact Git blob SHA against local artifacts (8/8 exact matches). The initial README and archived v0.1 were preserved. No user's local PC or hardware was modified.
+
+### Model improvements
+- Capacity validation includes compressed weights + metadata, KV resident state and scratch.
+- KV cache reads and writes contribute to long-context decode traffic.
+- Fast/bulk memory tiers, module count, simplified fabric bandwidth/latency, dense-operation lower bounds, generic work-unit roofline, optional assumed power with unknown energy otherwise.
+- Explicit arithmetic assumptions, falsification and capacity failures.
+- Sources: `simulator_v0_2/docs/SOURCES.md`. Decision/failure log: `simulator_v0_2/docs/DECISION_LEDGER.md`.
+
+### Conditional scenario outcomes (Qwen2.5-32B proxy, 4-bit weights, context=32768, batch=1)
+All rates are optimistic **analytical scenarios**, NOT measured GPU or new-processor results.
+- RTX 5090 memory-spec proxy: 67.7 output units/s
+- H200 memory-spec proxy: 181.4
+- MI355X memory-spec proxy: 302.3
+- Proposed 8-node near-memory: 251.4
+- Proposed 16-node PIM *proxy*: 401.5 (not a physical PIM model)
+- Proposed 4-node 48GB SRAM concept: 1036.4, assumes total 32 TB/s SRAM, full weight+KV residence, unrealistic unverified component parameters
+- SRAM scenario at only 75% fast residency: 290.2; at 50%: 148.1. At 25%: REJECT_CAPACITY. Sensitivity falsifies robust superiority.
+
+### Decision
+G0 partially completed: published model/GPU memory specifications verified, no measured optimized GPU workload yet. E1 analytical model implemented, tests passed. **No physical design proven, no reproducible hardware advantage claimed.** SRAM-centric route remains a high-risk hypothesis; no architecture selected for hardware.
+
+### Next work
+1. Measure or retrieve appropriately matched GPU benchmark traces and quantify kernel efficiency.
+2. Separate true SRAM physical area, yield, thermal, I/O, fabric and power viability from hypothetical numbers.
+3. Build an event/transaction-level memory/fabric simulator with at least one independent reference implementation.
+4. Compare non-transformer and task-quality-matched AI workloads; explore monolithic, on-package, optical/analog/PIM where justified.
+5. Iterate/reject on failure. Only then consider RTL/FPGA and hardware experiments.
+
+### Task sequencing
+No Codex/GPT executable task number assigned by this checkpoint; number continuity remains unresolved.
