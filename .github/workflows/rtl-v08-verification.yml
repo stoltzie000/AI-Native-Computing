@@ -1,0 +1,45 @@
+name: RTL v0.8 activation-gated weight-fetch verification
+
+on:
+  push:
+    paths:
+      - 'prototype_v0_8/**'
+      - '.github/workflows/rtl-v08-verification.yml'
+  pull_request:
+    paths:
+      - 'prototype_v0_8/**'
+      - '.github/workflows/rtl-v08-verification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install RTL tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+      - name: Run independent activation-gating reference and randomized tests
+        run: python -m unittest discover -s prototype_v0_8/tests -p 'test_*.py' -v
+      - name: Check RTL numerical answers and actual weight-request suppression
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ai-v08
+          for acc in 16 32; do
+            iverilog -g2012 -Wall -s tb_activation_gated_pe -Ptb_activation_gated_pe.ACC_W_TB="$acc" \
+              -o /tmp/ai-v08/rtl \
+              prototype_v0_8/rtl/activation_gated_pe.v prototype_v0_8/rtl/tb_activation_gated_pe.sv
+            vvp /tmp/ai-v08/rtl | tee /tmp/ai-v08/run.log
+            grep -F "PASS v0.8 activation-gated RTL ACC_W=$acc" /tmp/ai-v08/run.log
+          done
+      - name: Generic synthesis sanity only (no timing, area or physical power)
+        run: |
+          yosys -Q -T -p 'read_verilog -DSYNTHESIS prototype_v0_8/rtl/activation_gated_pe.v; hierarchy -check -top activation_gated_pe; synth -top activation_gated_pe; stat'

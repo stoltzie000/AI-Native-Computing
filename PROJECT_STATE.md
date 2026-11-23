@@ -193,3 +193,15 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Design decision:** Deprioritize full 16-lane unrolling pending technology-mapped frequency/power; prioritize 2- and 4-lane modules for a first measured FPGA implementation. The 32-bit generic-cells × controller-cycles proxy is 46060 (2 lanes) vs 46074 (4 lanes), versus 75945 (16 lanes). These are NOT mapped area, clock timings or energy measurements.
 
 **Still open:** trained-model sparsity and task-quality experiments; actual FPGA/ASIC performance; physical memory/interconnect/board topology; competitive optimized GPU task performance; proof of superiority.
+
+## 2026-11-23 checkpoint — v0.8 exact activation-gated weight-fetch RTL
+
+**What was built:** `prototype_v0_8/rtl/activation_gated_pe.v`, independent hardware-memory-responder testbench `tb_activation_gated_pe.sv`, signed-integer reference `reference.py` plus randomized unit tests, `traffic_model.py` and sensitivity tests, README and decision ledger. The v0.8 candidate suppresses physical **RTL memory request handshakes** for exact-zero input activations, while checking dense-equivalent arithmetic outputs. One outstanding in-order weight request is supported, with stall handling; no burst memory PHY or actual SRAM/HBM controller is built. All new files were created on a separate branch `research/activation-gated-v08`; prior v0.1-v0.7 preserved. PR #2 remains in review.
+
+**Verified CI evidence:** GitHub Actions run 45239447045/job 137919806911 completed success: Icarus compiled and executed 99 randomized/deterministic cases for each 16- and 32-bit accumulator (198 total); v0.8 Python arithmetic reference 7/7; Yosys default generic synthesis **2250** generic cells. A more recent GitHub Actions run 45239851986/job 137921237306 completed success: **14/14** Python tests (7 functional+7 traffic sensitivity), both 99-case RTL configurations PASS, generic synthesis 2250 cells. Counts are not measured silicon area, clock or watts.
+
+**Quantitative limiting requirement:** Prior E1 Qwen2.5-32B 32K context proxy 17.875GB/step weight and 8.590GB/step KV traffic. Even with zero gating overhead and full bypass of suppressed weights, ideal twofold bandwidth-only benefit requires **74.028% exact-zero input activations**. At a hypothetical 50% exact-zero fraction, theoretical limit is **1.51x** and at 75% **2.03x**, excluding other overhead. NO actual model activation-zero fraction was measured. Current controller serializes one weight request+response, making it likely slower than bulk-streamed/parallel PE in low-sparsity cases; architecture is not accepted as superior.
+
+**Next:** replace one-weight request with coalesced/vectorized memory requests and multiple outstanding tagged transactions, validate with physically justified burst granularity and memory/PHY timing; audit genuine trained model activation zero distributions and quality; compare to optimized dense/sparse GPU kernels with complete-system power. Do not claim general AI performance superiority or motherboard implementation.
+
+**Task continuity:** No numbered Codex/GPT handoff assigned; retain previous numbering.
