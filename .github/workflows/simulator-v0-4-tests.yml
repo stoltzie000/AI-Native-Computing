@@ -1,0 +1,31 @@
+name: Simulator v0.4 — topology regression
+
+on:
+  push:
+    paths:
+      - "simulator_v0_3/**"
+      - "simulator_v0_4/**"
+      - ".github/workflows/simulator-v0-4-tests.yml"
+  pull_request:
+    paths:
+      - "simulator_v0_3/**"
+      - "simulator_v0_4/**"
+      - ".github/workflows/simulator-v0-4-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run v0.3 regression suite
+        run: python -m unittest discover -s simulator_v0_3 -p 'test_*.py' -v
+      - name: Run v0.4 network and numerical regression suite
+        run: python -m unittest discover -s simulator_v0_4 -p 'test_*.py' -v
+      - name: Verify v0.4 deterministic scenario output
+        run: python simulator_v0_4/run_experiments.py | cmp - simulator_v0_4/results/summary.json
