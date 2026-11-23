@@ -183,3 +183,13 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Pending gates:** Generic cell-count LANES/ACC_W sweep running under Actions; record results only after success. Obtain trained model + quality-matched baseline; synthesize physical FPGA on identifiable device; measure real full-system energy/latency. G0/G1/G4/G5 hardware superiority gates remain OPEN. No physical processor/motherboard was manufactured or modified.
 
 **External task numbering:** No numbered Codex or GPT handoff issued. Do not reset sequence without retrieving previous identifier.
+
+## 2026-11-23 checkpoint — v0.7.1 generic synthesis parameter sweep
+
+**Verified:** GitHub Actions run 45237901548 job 137914422602 succeeded, re-running RTL correctness and synthesizing all LANES=1/2/4/8/16 crossed with ACC_W=16/32 using one uniform Yosys generic flow. Results: `prototype_v0_7/results/SYNTHESIS_SWEEP_2026-11-23.md`.
+
+**ACC_W 32 generic cells by LANES:** 2996, 4606, 7679, 14041, 25315. **ACC_W 16:** 2187, 3150, 4809, 8343, 14437. Active compute cycles: 16,8,4,2,1; full controller cycles including acceptance and completion: 18,10,6,4,3.
+
+**Design decision:** Deprioritize full 16-lane unrolling pending technology-mapped frequency/power; prioritize 2- and 4-lane modules for a first measured FPGA implementation. The 32-bit generic-cells × controller-cycles proxy is 46060 (2 lanes) vs 46074 (4 lanes), versus 75945 (16 lanes). These are NOT mapped area, clock timings or energy measurements.
+
+**Still open:** trained-model sparsity and task-quality experiments; actual FPGA/ASIC performance; physical memory/interconnect/board topology; competitive optimized GPU task performance; proof of superiority.
