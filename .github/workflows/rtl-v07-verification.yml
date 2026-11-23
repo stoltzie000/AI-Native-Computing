@@ -40,7 +40,7 @@ jobs:
           set -euo pipefail
           mkdir -p /tmp/rtltest
           iverilog -g2012 -Wall -s tb_v06_differential -o /tmp/rtltest/v06 \
-            prototype_v0_6/rtl/block_sparse_pe.v prototype_v0_7/rtl/tb_v06_differential.sv
+            prototype_v0_7/rtl/block_sparse_pe_v06_compat.v prototype_v0_7/rtl/tb_v06_differential.sv
           vvp /tmp/rtltest/v06 | tee /tmp/rtltest/v06.log
           grep -F 'PASS v0.6 differential randomized RTL' /tmp/rtltest/v06.log
       - name: Compile and run 10 multi-lane/accumulator-width HDL configurations
