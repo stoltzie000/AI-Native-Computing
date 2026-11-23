@@ -1,0 +1,1338 @@
+{
+  "assumptions": [
+    "Single autoregressive decode step, batch=1, no prefill/quality measurements",
+    "Tensor-parallel head-sharded synchronous execution",
+    "Layers have 4 ordered subphases (QKV, attention, O projection, MLP) with 2 collectives; no cross-layer overlap",
+    "GPU capacity and memory peak from vendors; all other hardware service assumptions synthetic",
+    "One aggregate fabric, no physical topology/power/area model",
+    "No system power estimates, therefore no energy-efficiency conclusions"
+  ],
+  "distributed_functional_demo": {
+    "all_modules_equal": true,
+    "distributed_output": [
+      -0.1796875,
+      0.34375,
+      -0.328125,
+      0.4609375,
+      -0.609375,
+      0.4453125,
+      0.4375,
+      -0.3671875
+    ],
+    "matrix_shape": [
+      8,
+      12
+    ],
+    "max_abs_error": 0.0,
+    "modules": 4,
+    "reference_output": [
+      -0.1796875,
+      0.34375,
+      -0.328125,
+      0.4609375,
+      -0.609375,
+      0.4453125,
+      0.4375,
+      -0.3671875
+    ],
+    "ring_messages": 24,
+    "ring_transmitted_bytes": 384
+  },
+  "evidence_level": "E1 model; not hardware measurement",
+  "experiments": [
+    {
+      "context": 2048,
+      "results": [
+        {
+          "architecture": "RTX 5090 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 20.412133,
+          "conditional_steps_per_second": 96.0615,
+          "context": 2048,
+          "decode_step_ms": 10.409997,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 10.274628,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 32GB/1792GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "H200 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 141,
+          "bulk_resident_gb_per_module": 20.412133,
+          "conditional_steps_per_second": 251.8112,
+          "context": 2048,
+          "decode_step_ms": 3.97123,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 3.835861,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 141GB/4800GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "MI355X peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 288,
+          "bulk_resident_gb_per_module": 20.412133,
+          "conditional_steps_per_second": 410.3599,
+          "context": 2048,
+          "decode_step_ms": 2.436885,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 2.301517,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "AMD: 288GB/8000GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 4-module stacked-HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 64,
+          "bulk_resident_gb_per_module": 5.103033,
+          "conditional_steps_per_second": 569.7265,
+          "context": 2048,
+          "decode_step_ms": 1.755228,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.150758,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.551517,
+          "conditional_steps_per_second": 573.9282,
+          "context": 2048,
+          "decode_step_ms": 1.742378,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 0.920607,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM + near-memory SRAM (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.534731,
+          "conditional_steps_per_second": 537.5518,
+          "context": 2048,
+          "decode_step_ms": 1.860286,
+          "fast_capacity_gb_per_module": 0.5,
+          "fast_resident_gb_per_module": 0.016785,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.038514,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 40960,
+          "provenance": "0.5GB SRAM/module (memory macro area lower bound ~105mm2 each); all bandwidth assumptions unverified",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.27785,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.134283
+        },
+        {
+          "architecture": "48GB SRAM wafer-fabric logical modules (high-risk)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 4,
+          "bulk_resident_gb_per_module": 0.5,
+          "conditional_steps_per_second": 1080.1294,
+          "context": 2048,
+          "decode_step_ms": 0.925815,
+          "fast_capacity_gb_per_module": 12,
+          "fast_resident_gb_per_module": 4.603033,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 0.575379,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "Requires multi-die/wafer nodes; single reticle die REJECTED in v0.2.1; speeds hypothetical",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 0.0,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 18.412133
+        },
+        {
+          "architecture": "8-module hot-bank stress case (failure test)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.551517,
+          "conditional_steps_per_second": 64.467,
+          "context": 2048,
+          "decode_step_ms": 15.511819,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 0.920607,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "Intentionally adversarial bank distribution, not expected normal layout",
+          "simulated_operations_tops": 0.067684,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 18.412133,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        }
+      ],
+      "workload": "Qwen2.5-32B-Instruct analytical proxy"
+    },
+    {
+      "context": 8192,
+      "results": [
+        {
+          "architecture": "RTX 5090 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 22.022746,
+          "conditional_steps_per_second": 88.3011,
+          "context": 8192,
+          "decode_step_ms": 11.324882,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 11.173407,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 32GB/1792GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "H200 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 141,
+          "bulk_resident_gb_per_module": 22.022746,
+          "conditional_steps_per_second": 231.3273,
+          "context": 8192,
+          "decode_step_ms": 4.32288,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 4.171405,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 141GB/4800GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "MI355X peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 288,
+          "bulk_resident_gb_per_module": 22.022746,
+          "conditional_steps_per_second": 376.7446,
+          "context": 8192,
+          "decode_step_ms": 2.654318,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 2.502843,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "AMD: 288GB/8000GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 4-module stacked-HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 64,
+          "bulk_resident_gb_per_module": 5.505686,
+          "conditional_steps_per_second": 535.9178,
+          "context": 8192,
+          "decode_step_ms": 1.865958,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.251422,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.752843,
+          "conditional_steps_per_second": 547.0633,
+          "context": 8192,
+          "decode_step_ms": 1.827942,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.001137,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM + near-memory SRAM (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.685726,
+          "conditional_steps_per_second": 517.0757,
+          "context": 8192,
+          "decode_step_ms": 1.933953,
+          "fast_capacity_gb_per_module": 0.5,
+          "fast_resident_gb_per_module": 0.067117,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.107148,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 40960,
+          "provenance": "0.5GB SRAM/module (memory macro area lower bound ~105mm2 each); all bandwidth assumptions unverified",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 19.485809,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.536936
+        },
+        {
+          "architecture": "48GB SRAM wafer-fabric logical modules (high-risk)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 4,
+          "bulk_resident_gb_per_module": 0.5,
+          "conditional_steps_per_second": 1013.9798,
+          "context": 8192,
+          "decode_step_ms": 0.986213,
+          "fast_capacity_gb_per_module": 12,
+          "fast_resident_gb_per_module": 5.005686,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 0.625711,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "Requires multi-die/wafer nodes; single reticle die REJECTED in v0.2.1; speeds hypothetical",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 0.0,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 20.022746
+        },
+        {
+          "architecture": "8-module hot-bank stress case (failure test)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 2.752843,
+          "conditional_steps_per_second": 59.5216,
+          "context": 8192,
+          "decode_step_ms": 16.800624,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": null,
+          "global_roofline_lower_ms": 1.001137,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "Intentionally adversarial bank distribution, not expected normal layout",
+          "simulated_operations_tops": 0.075737,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 20.022746,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        }
+      ],
+      "workload": "Qwen2.5-32B-Instruct analytical proxy"
+    },
+    {
+      "context": 32768,
+      "results": [
+        {
+          "architecture": "RTX 5090 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 28.465197,
+          "conditional_steps_per_second": 66.736,
+          "context": 32768,
+          "decode_step_ms": 14.984424,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 11.8417,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 11.6988,
+                  "data_ready_us": 11.6893,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 11.7084,
+                  "data_ready_us": 11.6893,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 76.2427,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 74.9845,
+                  "data_ready_us": 74.9006,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 75.0683,
+                  "data_ready_us": 74.9006,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 8.6839,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 8.5792,
+                  "data_ready_us": 8.5722,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 8.5861,
+                  "data_ready_us": 8.5722,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 137.3633,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 135.7066,
+                  "data_ready_us": 135.5961,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 135.817,
+                  "data_ready_us": 135.5961,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            }
+          ],
+          "global_roofline_lower_ms": 14.768525,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 32GB/1792GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "H200 peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 141,
+          "bulk_resident_gb_per_module": 28.465197,
+          "conditional_steps_per_second": 174.5358,
+          "context": 32768,
+          "decode_step_ms": 5.729482,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 4.5164,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 4.3735,
+                  "data_ready_us": 4.364,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 4.3831,
+                  "data_ready_us": 4.364,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 29.3051,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 28.0468,
+                  "data_ready_us": 27.9629,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 28.1307,
+                  "data_ready_us": 27.9629,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 3.312,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 3.2073,
+                  "data_ready_us": 3.2003,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 3.2142,
+                  "data_ready_us": 3.2003,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 52.3897,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 50.733,
+                  "data_ready_us": 50.6226,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 50.8435,
+                  "data_ready_us": 50.6226,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            }
+          ],
+          "global_roofline_lower_ms": 5.513583,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "NVIDIA: 141GB/4800GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "MI355X peak-memory proxy",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 288,
+          "bulk_resident_gb_per_module": 28.465197,
+          "conditional_steps_per_second": 283.7645,
+          "context": 32768,
+          "decode_step_ms": 3.524049,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 2.7708,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 2.6279,
+                  "data_ready_us": 2.6184,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 2.6375,
+                  "data_ready_us": 2.6184,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 18.1199,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 16.8616,
+                  "data_ready_us": 16.7777,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 16.9455,
+                  "data_ready_us": 16.7777,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 2.0319,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 1.9271,
+                  "data_ready_us": 1.9202,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 1.9341,
+                  "data_ready_us": 1.9202,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 32.1407,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 30.484,
+                  "data_ready_us": 30.3735,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 30.5944,
+                  "data_ready_us": 30.3735,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            }
+          ],
+          "global_roofline_lower_ms": 3.30815,
+          "kv_replication": 1,
+          "modules": 1,
+          "number_of_collective_operations": 0,
+          "number_of_memory_transactions": 4096,
+          "provenance": "AMD: 288GB/8000GB/s peak; bank count/compute hypothetical",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.0,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 4-module stacked-HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 64,
+          "bulk_resident_gb_per_module": 7.116299,
+          "conditional_steps_per_second": 433.1111,
+          "context": 32768,
+          "decode_step_ms": 2.308876,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 1.4044,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 1.3152,
+                  "data_ready_us": 1.3092,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 1.3211,
+                  "data_ready_us": 1.3092,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 9.2277,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 8.4413,
+                  "data_ready_us": 8.3889,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 8.4937,
+                  "data_ready_us": 8.3889,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 1.0299,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.9644,
+                  "data_ready_us": 0.9601,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 0.9688,
+                  "data_ready_us": 0.9601,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 4.0614,
+              "phase": "collective"
+            },
+            {
+              "elapsed_us": 16.2913,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 15.2558,
+                  "data_ready_us": 15.1868,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 15.3248,
+                  "data_ready_us": 15.1868,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            },
+            {
+              "elapsed_us": 4.0614,
+              "phase": "collective"
+            }
+          ],
+          "global_roofline_lower_ms": 1.654075,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM fabric (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 3.55815,
+          "conditional_steps_per_second": 460.7876,
+          "context": 32768,
+          "decode_step_ms": 2.170197,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 1.095,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 1.0503,
+                  "data_ready_us": 1.0474,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 1.0533,
+                  "data_ready_us": 1.0474,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 7.1305,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 6.7373,
+                  "data_ready_us": 6.7111,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 6.7635,
+                  "data_ready_us": 6.7111,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 0.803,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.7702,
+                  "data_ready_us": 0.7681,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 0.7724,
+                  "data_ready_us": 0.7681,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            },
+            {
+              "elapsed_us": 12.7017,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 12.1839,
+                  "data_ready_us": 12.1494,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 12.2184,
+                  "data_ready_us": 12.1494,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            }
+          ],
+          "global_roofline_lower_ms": 1.32326,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        },
+        {
+          "architecture": "Custom 8-module HBM + near-memory SRAM (hypothesis)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 3.289706,
+          "conditional_steps_per_second": 448.7078,
+          "context": 32768,
+          "decode_step_ms": 2.228622,
+          "fast_capacity_gb_per_module": 0.5,
+          "fast_resident_gb_per_module": 0.268444,
+          "first_layer_events": [
+            {
+              "elapsed_us": 1.2378,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 1.1932,
+                  "data_ready_us": 1.1902,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 1.1961,
+                  "data_ready_us": 1.1902,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 6.1391,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 5.7459,
+                  "data_ready_us": 5.7197,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 5.7721,
+                  "data_ready_us": 5.7197,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 0.9077,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.875,
+                  "data_ready_us": 0.8728,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 0.8772,
+                  "data_ready_us": 0.8728,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            },
+            {
+              "elapsed_us": 14.3584,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 13.8407,
+                  "data_ready_us": 13.8062,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 13.8752,
+                  "data_ready_us": 13.8062,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            }
+          ],
+          "global_roofline_lower_ms": 1.381685,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 40960,
+          "provenance": "0.5GB SRAM/module (memory macro area lower bound ~105mm2 each); all bandwidth assumptions unverified",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 24.317648,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 2.147549
+        },
+        {
+          "architecture": "48GB SRAM wafer-fabric logical modules (high-risk)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 4,
+          "bulk_resident_gb_per_module": 0.5,
+          "conditional_steps_per_second": 814.4617,
+          "context": 32768,
+          "decode_step_ms": 1.227805,
+          "fast_capacity_gb_per_module": 12,
+          "fast_resident_gb_per_module": 6.616299,
+          "first_layer_events": [
+            {
+              "elapsed_us": 0.7498,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.6606,
+                  "data_ready_us": 0.6546,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 0.6665,
+                  "data_ready_us": 0.6546,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 5.0333,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 4.2469,
+                  "data_ready_us": 4.1944,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 4.2993,
+                  "data_ready_us": 4.1944,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 0.5499,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.4844,
+                  "data_ready_us": 0.48,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 0.4888,
+                  "data_ready_us": 0.48,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 2.0768,
+              "phase": "collective"
+            },
+            {
+              "elapsed_us": 8.6979,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 7.6624,
+                  "data_ready_us": 7.5934,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 7.7314,
+                  "data_ready_us": 7.5934,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            },
+            {
+              "elapsed_us": 2.0768,
+              "phase": "collective"
+            }
+          ],
+          "global_roofline_lower_ms": 0.827037,
+          "kv_replication": 1,
+          "modules": 4,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 16384,
+          "provenance": "Requires multi-die/wafer nodes; single reticle die REJECTED in v0.2.1; speeds hypothetical",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 0.0,
+          "total_fabric_bytes_gb": 0.00393216,
+          "total_fast_bytes_gb": 26.465197
+        },
+        {
+          "architecture": "8-module hot-bank stress case (failure test)",
+          "batch": 1,
+          "bulk_capacity_gb_per_module": 32,
+          "bulk_resident_gb_per_module": 3.55815,
+          "conditional_steps_per_second": 45.546,
+          "context": 32768,
+          "decode_step_ms": 21.955843,
+          "fast_capacity_gb_per_module": 0,
+          "fast_resident_gb_per_module": 0.0,
+          "first_layer_events": [
+            {
+              "elapsed_us": 16.7608,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 1.0503,
+                  "data_ready_us": 1.0474,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 2.0977,
+                  "data_ready_us": 2.0947,
+                  "tile": 1
+                }
+              ],
+              "phase": "pre_attention_projection"
+            },
+            {
+              "elapsed_us": 107.4037,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 6.7373,
+                  "data_ready_us": 6.7111,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 13.4484,
+                  "data_ready_us": 13.4222,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_KV_read_write"
+            },
+            {
+              "elapsed_us": 12.2912,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 0.7702,
+                  "data_ready_us": 0.7681,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 1.5383,
+                  "data_ready_us": 1.5361,
+                  "tile": 1
+                }
+              ],
+              "phase": "attention_output_projection"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            },
+            {
+              "elapsed_us": 194.4251,
+              "first_node_tiles": [
+                {
+                  "compute_finish_us": 12.1839,
+                  "data_ready_us": 12.1494,
+                  "tile": 0
+                },
+                {
+                  "compute_finish_us": 24.3333,
+                  "data_ready_us": 24.2988,
+                  "tile": 1
+                }
+              ],
+              "phase": "MLP"
+            },
+            {
+              "elapsed_us": 6.0896,
+              "phase": "collective"
+            }
+          ],
+          "global_roofline_lower_ms": 1.32326,
+          "kv_replication": 1,
+          "modules": 8,
+          "number_of_collective_operations": 128,
+          "number_of_memory_transactions": 32768,
+          "provenance": "Intentionally adversarial bank distribution, not expected normal layout",
+          "simulated_operations_tops": 0.10795,
+          "status": "SIMULATED",
+          "total_bulk_bytes_gb": 26.465197,
+          "total_fabric_bytes_gb": 0.00917504,
+          "total_fast_bytes_gb": 0.0
+        }
+      ],
+      "workload": "Qwen2.5-32B-Instruct analytical proxy"
+    }
+  ],
+  "rejected_nondivisible_16_module_head_layout": {
+    "architecture": "16-module invalid Q-head mapping",
+    "reason": "tensor-parallel modules cannot evenly map Q/KV heads in this simulator",
+    "status": "REJECT_LAYOUT"
+  },
+  "schema_version": "v0.3",
+  "stress_tests": [
+    {
+      "case": "default",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 460.7876,
+        "context": 32768,
+        "decode_step_ms": 2.170197,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 1.32326,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    },
+    {
+      "case": "70pct_useful_bulk",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 365.3224,
+        "context": 32768,
+        "decode_step_ms": 2.737309,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 1.890371,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    },
+    {
+      "case": "40pct_useful_bulk",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 240.6689,
+        "context": 32768,
+        "decode_step_ms": 4.155087,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 3.30815,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    },
+    {
+      "case": "20pct_useful_bulk",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 133.9901,
+        "context": 32768,
+        "decode_step_ms": 7.463237,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 6.616299,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    },
+    {
+      "case": "fabric_latency_20us",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 110.1055,
+        "context": 32768,
+        "decode_step_ms": 9.082197,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 1.32326,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    },
+    {
+      "case": "single_hot_bank",
+      "result": {
+        "architecture": "Custom 8-module HBM fabric (hypothesis)",
+        "batch": 1,
+        "bulk_capacity_gb_per_module": 32,
+        "bulk_resident_gb_per_module": 3.55815,
+        "conditional_steps_per_second": 45.546,
+        "context": 32768,
+        "decode_step_ms": 21.955843,
+        "fast_capacity_gb_per_module": 0,
+        "fast_resident_gb_per_module": 0.0,
+        "first_layer_events": null,
+        "global_roofline_lower_ms": 1.32326,
+        "kv_replication": 1,
+        "modules": 8,
+        "number_of_collective_operations": 128,
+        "number_of_memory_transactions": 32768,
+        "provenance": "All per-module throughput and fabric numbers hypothetical; no layout validated",
+        "simulated_operations_tops": 0.10795,
+        "status": "SIMULATED",
+        "total_bulk_bytes_gb": 26.465197,
+        "total_fabric_bytes_gb": 0.00917504,
+        "total_fast_bytes_gb": 0.0
+      }
+    }
+  ]
+}
