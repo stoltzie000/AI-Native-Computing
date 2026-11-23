@@ -59,7 +59,7 @@ def patch(repo: Path, diff_out: Path) -> None:
     ))
     diff_out.parent.mkdir(parents=True, exist_ok=True)
     diff_out.write_text(diff, encoding="utf-8")
-    if git(repo, "status", "--porcelain") != " M " + RELATIVE_FILE:
+    if git(repo, "status", "--porcelain") != "M " + RELATIVE_FILE:
         raise ValueError("Unexpected working-tree changes after patch")
     print("VERILATOR_COMPAT_ASSERTION_ONLY " + version)
     print(diff)
