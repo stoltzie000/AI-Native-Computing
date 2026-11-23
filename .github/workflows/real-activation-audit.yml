@@ -1,0 +1,73 @@
+name: Real trained-model activation zero audit (single test trigger)
+
+on:
+  push:
+    branches: ['research/real-activation-audit']
+    paths:
+      - '.github/workflows/real-activation-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: real-activation-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  measure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OMP_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      PYTHONHASHSEED: '0'
+    steps:
+      - name: Checkout validated AI-native research
+        uses: actions/checkout@v4
+      - name: Checkout pinned upstream model implementation
+        uses: actions/checkout@v4
+        with:
+          repository: llaa33219/MicroMixer-4
+          ref: 8300d64843dd9e0baa9270600632c25e5aa15dc5
+          path: vendor/MicroMixer-4
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install CPU-only PyTorch and parser, pinned versions
+        run: |
+          python -m pip install 'torch==2.6.0' --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install 'safetensors==0.7.0' 'numpy==2.2.6'
+      - name: Run local deterministic instrument/unit tests
+        run: python -m unittest discover -s experiments/real_activation_audit/tests -p 'test_*.py' -v
+      - name: Download previously SHA-verified trained checkpoints
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ai-weights" reports
+          curl -fLsS --retry 3 --max-time 120 \
+            'https://huggingface.co/llaa33219/MicroMixer-4-1M-TinyStories/resolve/main/epoch_2.safetensors' \
+            -o "$RUNNER_TEMP/ai-weights/mixer.safetensors"
+          echo 'f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e  '"$RUNNER_TEMP/ai-weights/mixer.safetensors" | sha256sum -c -
+          curl -fLsS --retry 3 --max-time 120 \
+            'https://huggingface.co/llaa33219/MicroT-test1-300K-TinyStories/resolve/main/epoch_2.safetensors' \
+            -o "$RUNNER_TEMP/ai-weights/transformer.safetensors"
+          echo '9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224  '"$RUNNER_TEMP/ai-weights/transformer.safetensors" | sha256sum -c -
+      - name: Measure exact zeros on actual pretrained inference
+        env:
+          PYTHONPATH: ${{ github.workspace }}/vendor/MicroMixer-4
+        run: |
+          set -euo pipefail
+          python experiments/real_activation_audit/activation_probe.py \
+            --model mixer --checkpoint "$RUNNER_TEMP/ai-weights/mixer.safetensors" \
+            --prompts 32 --output reports/mixer_activation.json
+          python experiments/real_activation_audit/activation_probe.py \
+            --model transformer --checkpoint "$RUNNER_TEMP/ai-weights/transformer.safetensors" \
+            --prompts 32 --output reports/transformer_activation.json
+      - name: Preserve measurement JSON only (never checkpoint weights)
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-real-model-activation-zero-results
+          path: reports/*_activation.json
+          retention-days: 30
+          if-no-files-found: error
