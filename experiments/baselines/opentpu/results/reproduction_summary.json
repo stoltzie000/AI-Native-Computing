@@ -1,0 +1,20 @@
+{
+  "evidence_level": "Upstream software ISA tests and actual Verilator-vs-ISA RTL differential on GitHub runner",
+  "functional": {
+    "cases": 48,
+    "errors_or_failures": 0,
+    "skipped": 0
+  },
+  "matched_GPU_benchmark_performed": false,
+  "physical_fpga_executed": false,
+  "pinned_commit": "d84db55712aba0d40811d7762cb052f05d55b7e5",
+  "rtl_differential": {
+    "cases": 1,
+    "errors_or_failures": 0,
+    "skipped": 0
+  },
+  "rtl_toolchain": "Verilator v5.054 built from pinned source release bbb60a403932a9f695cb6ff001ceb73de6ad9234",
+  "unmodified_upstream_rtl_compiled": true,
+  "upstream_project": "FeSens/openTPU",
+  "upstream_source_patches": 0
+}
