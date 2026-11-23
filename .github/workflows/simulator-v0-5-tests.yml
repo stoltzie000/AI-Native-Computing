@@ -1,0 +1,38 @@
+name: AI-native v0.5 equal-resource and sparse regression
+
+on:
+  push:
+    paths:
+      - 'simulator_v0_2/**'
+      - 'simulator_v0_3/**'
+      - 'simulator_v0_4/**'
+      - 'simulator_v0_5/**'
+      - '.github/workflows/simulator-v0-5-tests.yml'
+  pull_request:
+    paths:
+      - 'simulator_v0_2/**'
+      - 'simulator_v0_3/**'
+      - 'simulator_v0_4/**'
+      - 'simulator_v0_5/**'
+      - '.github/workflows/simulator-v0-5-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  all-simulator-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prior simulator regression suites
+        run: |
+          python -m unittest discover -s simulator_v0_2 -p 'test_*.py' -v
+          python -m unittest discover -s simulator_v0_3 -p 'test_*.py' -v
+          python -m unittest discover -s simulator_v0_4 -p 'test_*.py' -v
+      - name: Equal-resource, package and sparse functional tests
+        run: python -m unittest discover -s simulator_v0_5 -p 'test_*.py' -v
+      - name: Verify deterministic v0.5 report
+        run: python simulator_v0_5/run_experiments.py | cmp - simulator_v0_5/results/summary.json
