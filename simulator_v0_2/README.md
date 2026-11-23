@@ -62,3 +62,7 @@ These diagnostic token rates do not establish quality or practical speed across 
 ## Research sources
 
 See `docs/SOURCES.md` for direct primary citations and checked facts.
+
+## v0.2.1 physical screen
+
+The `physical_limits.py` and `docs/PHYSICAL_FEASIBILITY_SCREEN.md` independently assess the speculative SRAM capacity against reported high-density macro area. At a **38.1 Mbits/mm²** published SRAM macro density, each **12 GB node requires at least ~2,520 mm² of memory macro** before compute/routing (2.94 conventional reticle footprints). **A single-reticle 12 GB SRAM die is rejected.** The SRAM proposal must be remapped onto wafer-scale or multi-die nodes and re-simulated with real cross-die traffic before it can be an engineering candidate. The full test count is now 21.
