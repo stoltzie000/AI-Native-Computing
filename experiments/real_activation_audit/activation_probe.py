@@ -133,10 +133,21 @@ def construct_model(kind: str):
     raise ValueError(f"Unknown model kind: {kind}")
 
 
-def analyze(kind: str, weight_path: Path, max_prompts=32) -> dict:
+def make_prompt(i: int) -> tuple[bytes, int]:
+    """Generate one uniquely identified prompt, with controlled length."""
+    if not isinstance(i, int) or i < 0 or i > 255:
+        raise ValueError("Prompt index outside experiment range")
+    length = (16, 32, 48, 64)[i % 4]
+    sentence = SENTENCES[(i // 4) % len(SENTENCES)]
+    prefix = f"Story-{i:04d}: "
+    text = (prefix + sentence) * ((length // (len(prefix) + len(sentence))) + 2)
+    return text.encode("utf-8")[:length], length
+
+
+def analyze(kind: str, weight_path: Path, max_prompts=128) -> dict:
     if kind not in SOURCES:
         raise ValueError("Unknown model kind")
-    if max_prompts < 1 or max_prompts > 64:
+    if max_prompts < 1 or max_prompts > 256:
         raise ValueError("Prompt count outside configured finite bound")
     expected = SOURCES[kind]
     actual_hash = file_sha256(weight_path)
@@ -153,12 +164,10 @@ def analyze(kind: str, weight_path: Path, max_prompts=32) -> dict:
     prompt_byte_lengths = []
     try:
         with torch.inference_mode():
-            # Lengths 16 / 32 / 48 / 64, different text sources; real prefill.
+            # Lengths 16 / 32 / 48 / 64 with distinct prefixes; no padding.
             for i in range(max_prompts):
-                length = (16, 32, 48, 64)[i % 4]
-                txt = SENTENCES[i % len(SENTENCES)]
-                repeated = (txt * ((length // len(txt)) + 2)).encode("utf-8")[:length]
-                tokens = torch.tensor(list(repeated), dtype=torch.long).unsqueeze(0)
+                prompt_bytes, length = make_prompt(i)
+                tokens = torch.tensor(list(prompt_bytes), dtype=torch.long).unsqueeze(0)
                 logits = model(tokens)[0]
                 if not logits.is_floating_point() or logits.shape[:2] != tokens.shape:
                     raise ValueError("Unexpected pretrained model output shape/type")
@@ -175,7 +184,7 @@ def analyze(kind: str, weight_path: Path, max_prompts=32) -> dict:
         "kind": kind, "model": expected["name"], "checkpoint_repo": expected["repo"],
         "upstream_source_commit": UPSTREAM_SOURCE_COMMIT,
         "checkpoint_sha256": actual_hash, "checkpoint_file_bytes": weight_path.stat().st_size,
-        "prompts": max_prompts, "prompt_byte_lengths": prompt_byte_lengths,
+        "prompts": max_prompts, "unique_prompts": max_prompts, "prompt_byte_lengths": prompt_byte_lengths,
         "output_token_id_digest_sha256": output_digests,
         "measurement": "exact zeros in pre-weight module inputs, no model training or parameter mutation",
         "quantization": "none; pretrained torch float inference", "device": "CPU",
@@ -194,7 +203,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", choices=list(SOURCES), required=True)
     parser.add_argument("--checkpoint", type=Path, required=True)
-    parser.add_argument("--prompts", type=int, default=32)
+    parser.add_argument("--prompts", type=int, default=128)
     parser.add_argument("--output", type=Path, required=True)
     a = parser.parse_args()
     result = analyze(a.model, a.checkpoint, a.prompts)
