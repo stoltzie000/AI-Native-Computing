@@ -31,7 +31,7 @@
 ## Why this project must not just reproduce prior art
 1. Building another systolic PE or a conventional SRAM buffer without a distinct, **measured** benefit is **DUPLICATE** of established accelerator research; borrow Gemmini/openTPU methods first.
 2. Simply equipping our design with ~22TB/s HBM4 does not beat [Rubin's announced 22TB/s peak](https://www.nvidia.com/en-us/data-center/hgx/). Quality-matched work/joule is the target.
-3. Our v0.6/v0.7 natural zero-*weight* bypass has no work to eliminate on two genuinely trained checkpoints measured in [our audit](../..//experiments/real_weight_audit/results/MEASURED_2026-11-23.json). Structured training remains a separate research opportunity.
+3. Our v0.6/v0.7 natural zero-*weight* bypass has no work to eliminate on two genuinely trained checkpoints measured in [our audit](../../experiments/real_weight_audit/results/MEASURED_2026-11-23.json). Structured training remains a separate research opportunity.
 4. Our 64-row v1.0 buffered PE passed 760 RTL test cases but has **no actual SRAM macro, physical HBM/controller, achieved clock, measured energy or full inference**. Avoid promoting generic Yosys cell counts to FPGA power or claimed superiority.
 5. All unusual representation or operator proposals require a **reproducible quality/utility oracle**; arithmetic savings achieved by changing the task or tolerating worse answers are not a valid win.
 
