@@ -42,3 +42,16 @@ The evidence is considered valid only if both SHA256 checks, strict model checkp
 ## Decision gate
 
 If actual exact-zero rates at the measured linear inputs are negligible, reject naturally occurring exact-zero activation gating as the primary performance argument for the **measured models**. A separate nonlinearity or model family can have different sparsity; no generalization is warranted without its data. Even a high zero rate must survive physical burst granularity, dispatch overhead, clock/power and matched GPU comparisons.
+
+## Verified result — November 23, 2026
+
+GitHub Actions [run 45269327361](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45269327361), job 138024617965, completed **success** with **8 passing unit tests, two SHA256-verified pretrained model files, two strict weight loads, and 128 unique prompt inferences per model**.
+
+| Model | Linear-input exact zero elements | Exact zero fraction | Logical MAC terms associated with zero inputs |
+|---|---:|---:|---:|
+| MicroMixer 1M attention-free | 65,984 / 43,366,400 | **0.1522%** | 8,445,952 / 4,289,331,200 (**0.1969%**) |
+| MicroT 300K transformer | 45,016 / 13,762,560 | **0.3271%** | 3,601,280 / 1,415,577,600 (**0.2544%**) |
+
+**Decision:** Natural exact-zero input gating cannot justify a major whole-model acceleration gain for these measured CPU FP32 models. [Full results and reversible decision](RESULTS_AND_DECISION_2026-11-23.md) · [Machine-readable aggregate](results/128_unique/aggregate.json). The first successful smaller run (32 passes with eight unique cases repeated) is preserved separately under `results/initial_32_repeated/`.
+
+These data are not whole-system DRAM traffic, silicon energy, clock timing, larger-model benchmarks or optimized GPU comparisons. The project's tested 64-row RTL remains useful as a numerical and memory-controller research vehicle, but it is **not** selected as the winning processor architecture.
