@@ -165,3 +165,21 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Next engineering gate:** Obtain verified RTL compilation and numeric testbench success; add randomized RTL-vs-independent-oracle tests and reset/overflow/parametric cases. Only then attempt synthesis and memory/metadata datapath scaling, using real trained-model sparsity and quality data. Physically validate package and PHY requirements before claiming chip speed/efficiency.
 
 **External task numbering:** No numbered executable AI prompt issued; previous continuity remains unresolved.
+
+## 2026-11-23 checkpoint — v0.7 actual RTL compilation, simulation and generic synthesis
+
+**Development location:** draft PR #1, branch `research/rtl-v07-verification`; main branch unchanged until reviewed/merged. Source, testbenches and numerical reference committed and individually fetched back from GitHub. Historical v0.6 RTL preserved.
+
+**Verified first failure:** GitHub Actions run 45236851823 failed compiling historical v0.6: `cell` is a Verilog/SystemVerilog reserved configuration keyword. Saved a verification-only compatible copy renaming this identifier to `cell_index`. The v0.7 new module also uses `cell_index`. See `prototype_v0_7/results/VERIFICATION_2026-11-23.md`.
+
+**Verified success:** GitHub Actions run 45237630207, job 137913469477, completed successfully. Actual Icarus Verilog compiled and executed 256 legacy differential test cases plus 1320 v0.7 cases over five LANES settings × two accumulator widths. Python 11 v0.6 and 13 v0.7 reference/synthetic-safetensors tests passed. Historical prior v0.2–v0.6 Python suite 169/169 passed on clean ZIP extraction. Current combined Python total 182/182. Yosys generic synthesis succeeded for default v0.7 and reported 7636 generic logic cells. None of these numbers is a physical-chip or GPU benchmark.
+
+**New architecture experiment:** The v0.7 PE latches a tile at acceptance (unlike v0.6) and parameterizes the multiplier lanes; registered row partial accumulation avoids lost same-row updates. It still lacks memory controller, interconnect, compressed indices, physical timing, power measurement, actual trained-model evaluation and a custom motherboard.
+
+**Weight audit:** Read-only standard Safetensors/NumPy utility committed, with 7 synthetic fixture unit tests (the 13 v0.7 Python tests comprise 6 arithmetic + 7 audit). Tracks actual binary zero elements, exact zero block rates, negative floating-point zero, edge exclusions and weighted tensor aggregates. Pretrained MicroMixer checkpoint found with published hash but download attempt FAILED. **No real trained model block-sparsity measured.**
+
+**Competitive reality:** Literature on SparseGPT (post-training unstructured pruning), TEAL (activation sparsity and accelerated GPU kernels), and preliminary RoShift (RTX 5090 activation sparsity) means exact zero-block skipping is neither guaranteed available nor automatically novel. See `prototype_v0_7/docs/ALGORITHM_COMPARISON.md`. Alternative processor and model architectures remain in scope.
+
+**Pending gates:** Generic cell-count LANES/ACC_W sweep running under Actions; record results only after success. Obtain trained model + quality-matched baseline; synthesize physical FPGA on identifiable device; measure real full-system energy/latency. G0/G1/G4/G5 hardware superiority gates remain OPEN. No physical processor/motherboard was manufactured or modified.
+
+**External task numbering:** No numbered Codex or GPT handoff issued. Do not reset sequence without retrieving previous identifier.
