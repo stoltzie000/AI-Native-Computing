@@ -28,3 +28,13 @@ Verilog tests require Icarus Verilog and are configured through [the CI workflow
 Six Python unit tests passed locally against source subsequently Git-blob-verified on the PR branch. A full historical v0.2–v0.6 Python rerun passed 169/169 in a clean extraction. Actual Verilog compilation, simulation and synthesis are **unverified** unless attached GitHub Actions logs demonstrate a completed run.
 
 See [verification and failure criteria](docs/DESIGN_REVIEW.md). The branch is submitted as a draft pull request; do not merge until the HDL regressions and review pass.
+
+## Safetensors zero-block audit
+
+A separate read-only utility at [tools/safetensors_sparsity.py](tools/safetensors_sparsity.py) audits *actual available* trained-model weight files. It reports per-2D-tensor exact-zero element and 4×4/8×8 block rates, including BF16/F16/F32 signed-zero handling, edge-block exclusions, and source SHA256. It needs NumPy (`python -m pip install numpy==2.3.5`).
+
+```bash
+python prototype_v0_7/tools/safetensors_sparsity.py path/to/model.safetensors --blocks 4,8
+```
+
+This utility passed six local tests on **synthetic safetensors fixtures**. No pretrained weights were successfully downloaded in the current environment, so the trained-model audit gate is **OPEN**, not a measured sparsity claim. An inspected optional research candidate is [MicroMixer-4-1M-TinyStories](https://huggingface.co/llaa33219/MicroMixer-4-1M-TinyStories/blob/main/epoch_2.safetensors) with published SHA256 `f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e`; download was attempted and failed. We must verify the actual file hash before attributing any measurement to it.
