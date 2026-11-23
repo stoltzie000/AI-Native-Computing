@@ -14,7 +14,7 @@ permissions:
 jobs:
   reproduce:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 50
     steps:
       - name: Checkout AI-Native-Computing (read-only)
         uses: actions/checkout@v4
@@ -35,10 +35,30 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install open-source RTL simulator
+      - name: Checkout pinned Verilator release source
+        uses: actions/checkout@v4
+        with:
+          repository: verilator/verilator
+          ref: bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          path: tools/verilator-src
+          persist-credentials: false
+
+      - name: Install pinned Verilator build prerequisites
         run: |
           sudo apt-get update
-          sudo apt-get install -y verilator make g++
+          sudo apt-get install -y autoconf automake bison flex libfl-dev help2man make g++ perl
+
+      - name: Build and install Verilator 5.054 from immutable release commit
+        working-directory: tools/verilator-src
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "bbb60a403932a9f695cb6ff001ceb73de6ad9234"
+          autoconf
+          ./configure --prefix="$RUNNER_TEMP/verilator-v5.054"
+          make -j 2
+          make install
+          echo "$RUNNER_TEMP/verilator-v5.054/bin" >> "$GITHUB_PATH"
+
 
       - name: Record identity, verify upstream commit and install dependencies
         working-directory: upstream
@@ -46,7 +66,8 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "d84db55712aba0d40811d7762cb052f05d55b7e5"
           test -f LICENSE
-          verilator --version
+          verilator --version | grep -F 'Verilator 5.054'
+          test -z "$(git diff --name-only)"
           python -m pip install 'numpy==2.2.6' 'pytest==8.4.2'
           python -m pip install -e .
           mkdir -p ../project/experiments/baselines/opentpu/results
@@ -71,13 +92,6 @@ jobs:
             tests/test_compiler.py::test_dot_chunks_rows_beyond_mxu_columns \
             --junitxml=../project/experiments/baselines/opentpu/results/functional_junit.xml
 
-      - name: Apply assertion-only Verilator compatibility with tracked-source diff guard
-        run: |
-          set -euo pipefail
-          python project/experiments/baselines/opentpu/apply_verilator_5_020_compat.py upstream \
-            --diff-out project/experiments/baselines/opentpu/results/verilator_5_020_assertion_only.patch
-          git -C upstream diff --check
-          
       - name: Reproduce actual Verilator RTL-vs-ISA MM differential
         working-directory: upstream
         run: |
