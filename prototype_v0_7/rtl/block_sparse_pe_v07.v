@@ -19,7 +19,7 @@ module block_sparse_pe_v07 #(
   localparam CELLS=BLOCK_SIZE*BLOCK_SIZE;
   localparam [1:0] IDLE=0, RUN=1, FINISH=2;
   reg [1:0] state;
-  reg [31:0] cell;
+  reg [31:0] cell_index;
   reg [CELLS*DATA_W-1:0] weights_hold;
   reg [BLOCK_SIZE*DATA_W-1:0] vector_hold;
   reg signed [ACC_W-1:0] accum [0:BLOCK_SIZE-1];
@@ -58,7 +58,7 @@ module block_sparse_pe_v07 #(
     product_ext=0;
     idx=0;
     for(lane=0;lane<LANES;lane=lane+1) begin
-      idx=cell+lane;
+      idx=cell_index+lane;
       if(idx<CELLS) begin
         weight_tmp=$signed(weights_hold[idx*DATA_W +: DATA_W]);
         vector_tmp=$signed(vector_hold[(idx%BLOCK_SIZE)*DATA_W +: DATA_W]);
@@ -74,7 +74,7 @@ module block_sparse_pe_v07 #(
   always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin
       state<=IDLE;
-      cell<=0;
+      cell_index<=0;
       weights_hold<=0;
       vector_hold<=0;
       done<=0;
@@ -87,7 +87,7 @@ module block_sparse_pe_v07 #(
         IDLE: if(start) begin
           weights_hold<=weights_flat;
           vector_hold<=vector_flat;
-          cell<=0;
+          cell_index<=0;
           issued_multiplies<=0;
           active_compute_cycles<=0;
           for(k=0;k<BLOCK_SIZE;k=k+1) accum[k]<=0;
@@ -97,8 +97,8 @@ module block_sparse_pe_v07 #(
           for(k=0;k<BLOCK_SIZE;k=k+1) accum[k]<=accum[k]+row_partial[k];
           issued_multiplies<=issued_multiplies+multiplies_this_cycle;
           active_compute_cycles<=active_compute_cycles+1;
-          if(cell+LANES>=CELLS) state<=FINISH;
-          else cell<=cell+LANES;
+          if(cell_index+LANES>=CELLS) state<=FINISH;
+          else cell_index<=cell_index+LANES;
         end
         FINISH: begin
           done<=1;
