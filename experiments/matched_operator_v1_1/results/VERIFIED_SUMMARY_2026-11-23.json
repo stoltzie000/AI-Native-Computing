@@ -1,0 +1,40 @@
+{
+  "experiment": "G1.1 common signed INT8 matvec correctness",
+  "run_id": 45290172189,
+  "job_id": 138096581156,
+  "conclusion": "success",
+  "contract": "64x4 signed INT8 matrix-vector to exact signed INT32 sum",
+  "fixture_sha256": "6cacaf38065f50773531c84408572d930988a0c51d01608212db152cde474d38",
+  "fixture_cases": 11,
+  "python_tests": {
+    "fixture": 7,
+    "existing_v1": 7
+  },
+  "execution_results": {
+    "openTPU_ISA": {
+      "cases": 11,
+      "passed": 11
+    },
+    "v1_0_RTL_2_lanes": {
+      "cases": 11,
+      "passed": 11
+    },
+    "v1_0_RTL_4_lanes": {
+      "cases": 11,
+      "passed": 11
+    },
+    "openTPU_Verilator_RTL": {
+      "cases": 3,
+      "passed": 3
+    }
+  },
+  "cross_implementation_fixture_executions": 36,
+  "verified_artifact_id": 14874521670,
+  "external_upstream_commit": "d84db55712aba0d40811d7762cb052f05d55b7e5",
+  "verilator_source_commit": "bbb60a403932a9f695cb6ff001ceb73de6ad9234",
+  "external_path": "openTPU FP32 VOP MUL+RSUM, NOT quantized MXU/MM",
+  "local_path": "v1.0 signed INT8 modular PE, synthetic 64B column responder",
+  "physical_fpga_executed": false,
+  "matched_hardware_speed_or_power": false,
+  "matched_GPU_benchmark": false
+}
