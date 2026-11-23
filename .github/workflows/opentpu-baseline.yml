@@ -71,7 +71,7 @@ jobs:
             tests/test_compiler.py::test_dot_chunks_rows_beyond_mxu_columns \
             --junitxml=../project/experiments/baselines/opentpu/results/functional_junit.xml
 
-      - name: Apply fail-closed assertion-only compatibility for Verilator 5.020
+      - name: Apply assertion-only Verilator compatibility with tracked-source diff guard
         run: |
           set -euo pipefail
           python project/experiments/baselines/opentpu/apply_verilator_5_020_compat.py upstream \
