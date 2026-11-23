@@ -60,10 +60,10 @@ jobs:
           set -euo pipefail
           python experiments/real_activation_audit/activation_probe.py \
             --model mixer --checkpoint "$RUNNER_TEMP/ai-weights/mixer.safetensors" \
-            --prompts 32 --output reports/mixer_activation.json
+            --prompts 128 --output reports/mixer_activation.json
           python experiments/real_activation_audit/activation_probe.py \
             --model transformer --checkpoint "$RUNNER_TEMP/ai-weights/transformer.safetensors" \
-            --prompts 32 --output reports/transformer_activation.json
+            --prompts 128 --output reports/transformer_activation.json
       - name: Preserve measurement JSON only (never checkpoint weights)
         uses: actions/upload-artifact@v4
         with:
