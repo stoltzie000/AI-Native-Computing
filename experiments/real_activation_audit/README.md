@@ -17,7 +17,7 @@ The runner downloads and hashes checkpoints **before** loading them, then calls 
 
 ## What exactly is measured
 
-For 32 deterministic byte-level text prompts (8 template sentences, four unpadded sequence lengths 16/32/48/64), trace forward *prefill* through actual pretrained models, in FP32 CPU mode:
+For 128 unique deterministic byte-level text prompts (8 template sentences plus distinct sequence identifiers, four unpadded sequence lengths 16/32/48/64), trace forward *prefill* through actual pretrained models, in FP32 CPU mode:
 
 - Exact binary/numerical zeros in the inputs to every `torch.nn.Linear` (zero including `-0.0`) and separately every `torch.nn.Conv1d`.
 - Total operator-input elements, exact zeros, fractions, per-layer variation and shape examples.
@@ -32,12 +32,12 @@ Run locally if pinned pretrained weights and the source package are available. N
 
 ```bash
 python -m unittest discover -s experiments/real_activation_audit/tests -p 'test_*.py' -v
-python experiments/real_activation_audit/activation_probe.py --model mixer --checkpoint /path/to/epoch_2.safetensors --prompts 32 --output /tmp/mixer.json
+python experiments/real_activation_audit/activation_probe.py --model mixer --checkpoint /path/to/epoch_2.safetensors --prompts 128 --output /tmp/mixer.json
 ```
 
 GitHub Actions is configured for **one branch push trigger**, *not* both pushes and pull requests; no scheduled workflow. No extra GitHub Actions run is triggered by adding docs or editing research files afterward. Further reruns are only when explicitly chosen by changing the audit workflow on the working branch or GitHub UI `workflow_dispatch`. This reduces notification volume but does not change the user's GitHub account notification preferences.
 
-The evidence is considered valid only if both SHA256 checks, strict model checkpoint loads, 7 unit tests and both full real inference scans pass and the JSON reports are inspected. Failure is not silently upgraded to a positive measurement.
+The evidence is considered valid only if both SHA256 checks, strict model checkpoint loads, 8 unit tests and both full real inference scans pass and the JSON reports are inspected. Failure is not silently upgraded to a positive measurement.
 
 ## Decision gate
 
