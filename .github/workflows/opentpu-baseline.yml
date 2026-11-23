@@ -1,0 +1,97 @@
+name: Pinned openTPU ISA and RTL reference reproduction
+
+on:
+  push:
+    branches:
+      - research/opentpu-baseline-reproduction
+    paths:
+      - '.github/workflows/opentpu-baseline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - name: Checkout AI-Native-Computing (read-only)
+        uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+
+      - name: Checkout pinned public openTPU reference (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+
+      - name: Install reproducible Python toolchain
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install open-source RTL simulator
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator make g++
+
+      - name: Record identity, verify upstream commit and install dependencies
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "d84db55712aba0d40811d7762cb052f05d55b7e5"
+          test -f LICENSE
+          verilator --version
+          python -m pip install 'numpy==2.2.6' 'pytest==8.4.2'
+          python -m pip install -e .
+          mkdir -p ../project/experiments/baselines/opentpu/results
+          python -m pip freeze > ../project/experiments/baselines/opentpu/results/python_dependencies.txt
+          git rev-parse HEAD > ../project/experiments/baselines/opentpu/results/upstream_commit.txt
+          verilator --version > ../project/experiments/baselines/opentpu/results/verilator_version.txt
+
+      - name: Test local report validator and v1.0 reference
+        working-directory: project
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s experiments/baselines/opentpu/tests -p 'test_*.py' -v
+          python -m unittest discover -s prototype_v1_0/tests -p 'test_*.py' -v
+
+      - name: Reproduce openTPU ISA, weight stream and compiler memory tests
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          python -m pytest -q tests/test_isa.py tests/test_dataflow.py \
+            tests/test_compiler.py::test_hardware_loop_lowering_uses_address_registers \
+            tests/test_compiler.py::test_rows_loaded_into_an_accumulators_tile_go_one_ld_a_row \
+            tests/test_compiler.py::test_dot_chunks_rows_beyond_mxu_columns \
+            --junitxml=../project/experiments/baselines/opentpu/results/functional_junit.xml
+
+      - name: Reproduce actual Verilator RTL-vs-ISA MM differential
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          python -m pytest -q 'tests/test_rtl.py::test_fuzz_mm_replay[2-8-0]' \
+            --junitxml=../project/experiments/baselines/opentpu/results/rtl_junit.xml
+
+      - name: Fail closed on missing, skipped or failed external RTL verification
+        working-directory: project
+        run: |
+          set -euo pipefail
+          python experiments/baselines/opentpu/validate_reports.py \
+            experiments/baselines/opentpu/results/functional_junit.xml \
+            experiments/baselines/opentpu/results/rtl_junit.xml \
+            --output experiments/baselines/opentpu/results/reproduction_summary.json
+
+      - name: Preserve exact test reports and tool identities
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pinned-opentpu-independent-verification
+          path: project/experiments/baselines/opentpu/results/
+          if-no-files-found: warn
+          retention-days: 30
