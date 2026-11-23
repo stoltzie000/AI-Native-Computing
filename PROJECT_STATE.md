@@ -205,3 +205,17 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Next:** replace one-weight request with coalesced/vectorized memory requests and multiple outstanding tagged transactions, validate with physically justified burst granularity and memory/PHY timing; audit genuine trained model activation zero distributions and quality; compare to optimized dense/sparse GPU kernels with complete-system power. Do not claim general AI performance superiority or motherboard implementation.
 
 **Task continuity:** No numbered Codex/GPT handoff assigned; retain previous numbering.
+
+## 2026-11-23 checkpoint — v0.9 column-major coalesced demand fetch
+
+**Purpose:** Replace v0.8's single-weight request traffic with a column-major memory layout that fetches all row weights of an active input column in one logical memory request; exact-zero activations skip the entire column and its MAC operations.
+
+**Verified GitHub Actions:** Run 45240716833 job 137924272265 succeeded: independent Python oracle 8/8, Icarus 132 signed/stall/reset/handshake cases per 16- and 32-bit accumulation (264 RTL cases), Yosys generic synthesis 5370 cells (not mapped physical PPA). Run 45241154124 job 137925835100 succeeded after adding burst-tiling model: **15/15 Python tests**, same 264 RTL cases passed, 5370 generic cells. Earlier v0.8 remains intact. Branch `research/column-gated-v09`, PR #3 created, original main preserved until merge.
+
+**Falsifiable memory result:** In 4x4 INT8 with two active columns, v0.8 emits eight single-weight requests and v0.9 emits two 4-weight column requests; the number of useful weight bytes is equal. Coalescing does not inherently improve actual off-chip bandwidth utilization: with hypothetical 64B physical transactions, a logical 4B column request wastes 60B.
+
+**Fixed-workload scale-up sensitivity:** For a fixed 64-row × 4-column matrix, two active columns, 4 MAC lanes, hypothetical 64B minimum transfer and 200-cycle first-byte latency, a 4-row tile makes 32 column requests/2048B physical for 128B useful (6.25% utilization); a 64-row tile makes 2 requests/128B physical (100% *conditional* utilization). Idealized overlapped resource cycle estimates 6576 vs 426 respectively, but pipelined model is **not implemented in v0.9 RTL**, assumptions are not real HBM measurements, and no GPU comparison exists.
+
+**Decision:** Pursue a 64-row column tile staged in local SRAM with only 2–4 time-multiplexed MAC lanes and queued/burst-aware memory controller as next design hypothesis. Do not assume effective bursts, zero-activation sparsity, physical clocks or energy. Real AI task-quality and measured GPU baselines remain OPEN. Full chip, motherboard, physical power and silicon superiority remain NOT demonstrated.
+
+**Evidence:** `prototype_v0_9/README.md`, `docs/VERIFICATION_AND_SELECTION.md`, `memory_tiling.py`, `reference.py`, RTL/testbench and 15 Python tests. Task numbering unchanged (no new executable AI task issued).
