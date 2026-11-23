@@ -5,6 +5,7 @@
 ## Delivered research artifacts
 1. [Prior-art matrix](PRIOR_ART_MATRIX.md): R01–R15 reviewed from their current GitHub READMEs/licenses, plus X01–X09 physical/alternative technologies. Evidence tiers, implementation and limitations, dispositions, licensing flags, links and README Git blob SHAs.
 2. [Reversible decision ledger](CONCEPT_DECISION_LEDGER.md): all C01–C15 classified with reasons/falsifiers/reversal conditions; every R01–R15 has a reconsideration trigger.
+   - [Evidence completeness and missing performance metrics](PERFORMANCE_EVIDENCE_AND_GAPS.md): explicitly distinguishes published measured throughput, memory, latency, energy, output quality, scaling and unavailable matched comparisons for each candidate.
 3. [Expanded mechanism register](NEW_CONCEPT_REGISTER.md): C16–C28 ranked with overlaps, hypotheses, likely failure modes and experiment.
 4. [Quality-matched GPU and physical benchmark protocol](BENCHMARK_AND_PROOF_PROTOCOL.md): model/task matrix, matched baselines, measurements, correctness, power boundaries, uncertainty and claims standard.
 5. [Prioritized experimental roadmap and risk register](EXPERIMENTAL_ROADMAP_AND_RISK_REGISTER.md): specific gates with stop criteria, system-level physical challenges and 14 critical risks.
