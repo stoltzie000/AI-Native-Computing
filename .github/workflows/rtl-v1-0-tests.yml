@@ -1,0 +1,59 @@
+name: v1.0 64-row burst-buffered RTL
+on:
+  push:
+    paths:
+      - 'prototype_v1_0/**'
+      - '.github/workflows/rtl-v1-0-tests.yml'
+  pull_request:
+    paths:
+      - 'prototype_v1_0/**'
+      - '.github/workflows/rtl-v1-0-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install HDL simulators
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+      - name: Independent Python oracle and previous v0.9 tests
+        run: |
+          python -m unittest discover -s prototype_v0_9/tests -p 'test_*.py' -v
+          python -m unittest discover -s prototype_v1_0/tests -p 'test_*.py' -v
+      - name: Verify real RTL request transactions and wrapped arithmetic across 8 configurations
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/anpc-v1
+          for rows in 8 64; do
+            for lanes in 2 4; do
+              for acc in 16 32; do
+                iverilog -g2012 -Wall -s tb_column_buffered_pe \
+                  -Ptb_column_buffered_pe.ROWS_TB="$rows" \
+                  -Ptb_column_buffered_pe.LANES_TB="$lanes" \
+                  -Ptb_column_buffered_pe.ACC_W_TB="$acc" \
+                  -o /tmp/anpc-v1/simulation \
+                  prototype_v1_0/rtl/column_buffered_pe.v \
+                  prototype_v1_0/rtl/tb_column_buffered_pe.sv
+                vvp /tmp/anpc-v1/simulation | tee /tmp/anpc-v1/log.txt
+                grep -F "PASS v1.0 burst-buffered PE ROWS=$rows LANES=$lanes ACC=$acc" /tmp/anpc-v1/log.txt
+              done
+            done
+          done
+      - name: Check generic synthesizability across both candidate lane counts
+        run: |
+          set -euo pipefail
+          for lanes in 2 4; do
+            log="/tmp/anpc-v1/yosys_l${lanes}.log"
+            yosys -Q -T -p "read_verilog -DSYNTHESIS prototype_v1_0/rtl/column_buffered_pe.v; chparam -set ROWS 64 -set LANES $lanes -set ACC_W 32 column_buffered_pe; hierarchy -check -top column_buffered_pe; synth -top column_buffered_pe; stat" > "$log"
+            count="$(grep 'Number of cells:' "$log" | tail -1 | awk '{print $4}')"
+            test -n "$count"
+            echo "SYNTH_V1 ROWS=64 LANES=$lanes ACC=32 generic_cells=$count"
+          done
