@@ -12,7 +12,7 @@ class PatchTests(unittest.TestCase):
             + "`ifndef SYNTHESIS\n"
             + ANCHOR + "\n"
             + "  if (rb_v[b] && rb_a[b] != " + EXPRESSION + ") begin\n"
-            + '    $display("%0d", ' + EXPRESSION + ");\n"
+            + '    $display("%0d", ' + EXPRESSION + ');\n'
             + "  end\n"
             + "`endif\n"
             + "endmodule\n"
