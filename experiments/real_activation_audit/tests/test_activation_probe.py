@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import torch
-from activation_probe import ActivationCollector, SENTENCES, SOURCES, file_sha256
+from activation_probe import ActivationCollector, SENTENCES, SOURCES, file_sha256, make_prompt
 
 class ProbeTests(unittest.TestCase):
     def test_linear_zero_count_and_logical_macs(self):
@@ -44,6 +44,12 @@ class ProbeTests(unittest.TestCase):
         self.assertEqual(len(SENTENCES),8)
         self.assertEqual(set(SOURCES),{'mixer','transformer'})
         self.assertTrue(all(len(x['sha256'])==64 for x in SOURCES.values()))
+    def test_all_128_prompts_are_unique(self):
+        generated = [make_prompt(i)[0] for i in range(128)]
+        self.assertEqual(len(set(generated)), 128)
+        self.assertEqual({make_prompt(i)[1] for i in range(128)}, {16,32,48,64})
+        with self.assertRaises(ValueError):make_prompt(256)
+
     def test_qualified_report(self):
         m=torch.nn.Sequential(torch.nn.Linear(3,4),torch.nn.ReLU(),torch.nn.Linear(4,3))
         p=ActivationCollector().attach(m)
