@@ -1,0 +1,915 @@
+{
+  "checkpoint_file_bytes": 1193768,
+  "checkpoint_repo": "llaa33219/MicroT-test1-300K-TinyStories",
+  "checkpoint_sha256": "9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224",
+  "device": "CPU",
+  "kind": "transformer",
+  "known_limitations": [
+    "Only nn.Linear/nn.Conv1d module inputs are hooked, not functional F.linear/F.conv1d calls.",
+    "Conv1d input zeros are not directly interchangeable with per-column linear weight gating.",
+    "Values zero due to masking/padding or layers with other operators may affect generalizability.",
+    "These are activation element statistics, NOT physical memory read savings or GPU timings.",
+    "Short byte-level TinyStories models are not representative of state-of-the-art LLMs."
+  ],
+  "measurement": "exact zeros in pre-weight module inputs, no model training or parameter mutation",
+  "model": "MicroT V88 transformer 300K",
+  "output_token_id_digest_sha256": [
+    "13fb5b72f4592792d9b9420cb1099ba7b3a626f4e90e676c64b4fb737bdccb32",
+    "3e94f24754bba0649b07a0a430aa5676d6d5c9ea2d88eb13b45907c33086edb5",
+    "4dd83b5f247862e1b5d307d94e1aa299a1bd87e64aee83e692f134d295000a36",
+    "ce5ce9e1d60abad490e7d460c958c3c4e407e0a5bb9ac113461717425c1f616a",
+    "e1cd3ab4bae6d7ef456b2812183a4cd487f9daf95f1999419d58dbd8bbe8653e",
+    "d38570f6aa5bc20d8b213c9c08271cc50c72c8e362fb01c7b69797f9e8dd8ce2",
+    "6a3551edf651e2e94142cec868f17a5ee15362823ff2437e584cba9d3aa7b107",
+    "f9988d4e7f77b8c760599fd798898a7b7631717b5e9687599d6f329a9c7a9288",
+    "153f3e9311cc1b67e1bc1cf7ff8017fc9e50c24a773a8c7446692d98409b693d",
+    "f2eac73de93046dd57f3ad06c2cc8da9d72d2de6f80b3680639e9bf7fea9dd8a",
+    "27adebfff229f36fc7871fb7192c044e264d657e85b1e21d5eff0fae1da1b71a",
+    "3ca10941e9a58f67a6f9de393ab1933d290935ffeafaa5fcee126df4041a1d52",
+    "8dd2a097c05963ab6de4fa35a5f8ff56aff3aa3133ad207b2687e69ee400f030",
+    "73287aaf69fc30eea335066bad7fdbe4d07c13acdf68c6b78be9bf8c95b3b549",
+    "22eb38fa7e402e32615db9091d9461e7f2b70d44c577e4b780b7e27123b29f03",
+    "ff08db0a875e790b18a42689a0e21ba502446cee6f8f4cc240a0948ccc090c30",
+    "7890da0bbc6b13f50bd4c8165070daa9eab98a1cd648f5876dd669e956012a50",
+    "9b170a18c47e7ae0059bc4df1036e7ad4ff4a80509596b9db9b2f0eaebf6639c",
+    "42335d80e916b60ae044954bc68070631bf8d916d5ab6226aa92797f874a3420",
+    "d0c3f5fa747f9d3f4bf28f8bf78b2caa5a8fab619b0a5d2c7416221fe48a9812",
+    "18dceaca4d9e96ea946596578f43593ab4d7b75fcee82b2def6052086b448d79",
+    "e9a122f2130b4b4055a0fc6d00039d54ed673d4f897dc999d567c1aec63bb2ea",
+    "843bd897508d51fba9dfe659fb2da6804ee4d666ad7aa407c02522fa0355c142",
+    "13beed06af25f8f4213688f556cfe1be3d94d48d8fd012c99a0e2c1e75b6529b",
+    "92789ce482a7de1d7320721718810ca46c367dbea263dd1c166e3eda8009bf13",
+    "c1a0a4f02ea825813867c44ece4ebd77a4a1f30e4d7640de4246f8a8b58508af",
+    "45e424bb07c76114eb0b6e896026e141da9fce09fc25e4fd0fb041f847891343",
+    "1d18b9f0410554c645cb0fa47a293df96f510e5c3b2ca377e7ce883f21c2cc11",
+    "05be34adcb23ca1d8694f2c9593a5130a2508474d27b2cbbd2bb59368818e738",
+    "d24d60466f101c10424f484565990e9f0326d8b71705a73af39b4238d91db3c8",
+    "fcd5175f8c3b12fd2a691a6fbbe846bc439711faa665f1112c04dd4e04864c56",
+    "760334f05900d9e7d5e0dfaa77acfa7a327643ecd26e4d7a520676f15342f1c6",
+    "1bfb03bb066c7314cbd138079365d53537dc943260e451e93d780060c5e1d945",
+    "e7510d93b8ae0d5e22770ec0c21543108f2fb54248960fb8d922e4cd387641c8",
+    "a4031475c9d49fbe11b9c9f762faf623d007dc00046ddabdd6b009a95c1ff055",
+    "a5a858c90d754bb4e0a5e75174bd6bf7b677db04c690150fe07210428edc6546",
+    "70585eca969772262d3849c238414caa374f8088cc0824933676428a8926217c",
+    "4bbd265020bcf1c4fe92645e40e1f3e9ef27f02b20e5af8447e76971ba090d69",
+    "af565707872b9091f32ee3ae937a008112304c97ef52d6deea7230dfeeb95144",
+    "ca2092a7605f06fbe873ee7684fc63845491ce77f6f7cf542eacb7afbd87b2ab",
+    "55c23c482f97f73c6544957d2a4f7d8d17148378a39e0a5ccbf5b1e0ec315757",
+    "90e2911efc58d5f268f2dbe9c9a0f1e9eca377f89dd6a2cc6296b9792c4a3a8d",
+    "aa95529c532951b58e939f3b4c8147b4edab72892e09097a857e89b92a3f0c63",
+    "f27711bc707d6c06210f409729a55fcabfb9e0b1665ec850404b16dc71e36537",
+    "5c6949290fcffaa057e0b02612cedeef00a7da1b19aeea637ac7c369d674fce9",
+    "26a948be100f321608a55c8564fcc118b4d2d022715e5005e120b452f68e837a",
+    "732b518ebd6d35a15b583fc1acd4e347b5f8fdfc0a8384e913af31191e531a5e",
+    "cee488e6635843c6ab6ba8bd6cfdd28a246e29a650583e7b10e3f6d4671b843f",
+    "2cd3867d821c6349dc56df8970582527f7ef63ad1a04d8910cec9172264fcd3e",
+    "1b350e36cc7957b5befc95ed561fee5380ec4f13a00dc80b4421a5daaeb57c9e",
+    "bd1fcd322581eeda294367bac5eb0201434cf8c44efa755527e624c56871bf2c",
+    "cf12f7f09898f0db8f5fe7f25d8ff637d89c2b395475fd5b3a966a8b712ab8a1",
+    "346f81305bed2ec6e6a29a27bf68295a7e7952a1e27f27c1c3b0d8a6c3265a50",
+    "8525d2897f1384b1724075db2703af3d24a2072449ac54d48c7138c7725e00a3",
+    "930e1997dc3b9b43b0a667a0a605bd366403c261b6b9c5179034fe961d743648",
+    "e02ddcd8129d175c9da8476102962cc5f6171fbba09e701cb015a64571def2fa",
+    "63cb979a40e6357eaa74798276cd7099a666644b38afa010bef295e43300d8dc",
+    "24664b5c6b4f4dad3ba026e9db20017248ea3fb0e87723e509216a3b86819483",
+    "6902246124ccd686a7c87e1f396ae8994a61e00f9b7130f464c676d9d0b2f117",
+    "29008eda78cba7c8157157a3aceddafd816e6dcd20e9fae1078967d5e1ee9b9c",
+    "0de4e5e1ea50a7f84217b86f023b547ec68b626345ed4acbd0e305f60551da46",
+    "8e041adc4dcb7525ce28d1a19896a492c542cff67bcd603f48771b2aff39d80e",
+    "1fcaf9a20c1bb43c8d90e7c383641fdcac9854b5186a2b36f78c26f267fc21d7",
+    "106b06969baf46e53fb5efbd848ad1aae5717a67efd775f63d759415c889e5eb",
+    "6cbdcb7e95dd007eef56a2a6736c93e08bb49a4bcbb17ef65e405e849fd0bdc6",
+    "596f58fa37017839bcdd4e2c2b15aa2c63a452f415f29de4a5d8db9fb4b99031",
+    "15a40a5e5800599752ad8f36972fa90f6128b01d739fb1bd4da4c22e0e925994",
+    "9be73bd7a96c84885ff9c43b3f228b114f26f4a6790fe71f6f35bb50bc25cf3e",
+    "9d055a4d05c7fedb7b0bea7ce66844e2feaa8fd895fd2e32c68665b9fedff396",
+    "48ffac098567af21c769bc38d87ceb81eb7c7d854112ac222a30fb6856e69395",
+    "d6abccb8428bb550d935357861962ad7a5dd875e850ead3b22c01d785c960418",
+    "9fd45038ee444e7f27428daf4f4181021cae5d0dccb7ef7c92dd24ca91ef2e16",
+    "c5c33bfa7cd2c0272916a88b85f90f53644f78e49528647ca7b7826ec351451b",
+    "d5776bcaa6234233ba5cafdbf44b48832954a8c0e22e4485e34ff83af35c1b56",
+    "0064b77964ce9d74b82e4a9d6f61442c6778c1a50564d248bc7bafc72c94448b",
+    "ec090387e3b2f1b8134366e8b95c975cae9e921d5a0b16c1a588fcc0765bc8d3",
+    "45a9390ccda9dda195d67554842f81c247fb0af45a9c9ed3ad1aeb3b9d03ddce",
+    "d94d217e30e9b2319c1ba3af225be425220c79017e9728a14b674ec08b5994f5",
+    "6e266b7d0b2f01f4fcdb988ea3c9e4cb096ee8ec8bf61e7375029ddf47c96825",
+    "7dade6e49a56c1cd8df566cd7597d0d30713a5d0b9afcfdeaa6b2db4b82c780a",
+    "8073d84374e55f87d0d007057f016adc72f9376f4971132d5cbd947c7ec934cb",
+    "f76c2bb21d67c5c0732a35ed2ad02aaea21488bf28c9d6f002d3dd17477a754a",
+    "80e6c2be2153a59553dbc01be8a580aa7694f908faaaae365c075daf63d65bf4",
+    "3d52bfd062adb91e8712e8e1991485f74d2fddbce6d6fa4da66a2c29e4a056b6",
+    "2196da11c67add9cc5bfe1d56b10b98f7e14945b27567cf8f97429ade09472be",
+    "2bc77c51815a5c162a0cbfddb5c825b8d49c62ad612abfacf755cd67390b34ac",
+    "512c5f562bbf07209d2590f8fb158445fe661f06856b98667c5be2356a13009e",
+    "0ba9f1115fb25bb2e23a0243af59f8d58007b7dc70bafd4af053a39602ec3082",
+    "9d055a4d05c7fedb7b0bea7ce66844e2feaa8fd895fd2e32c68665b9fedff396",
+    "da4b30fe8c2fa49250c09a1f187b133dc1e715da05d1a34bf68fae90e468d0d3",
+    "b5cb539276e028ae4429a7f2ca7cded5b5324783f25ee571ed90cc329e9ded31",
+    "fe300cef43ed0ed8f6c05b49f290efbc3fab986e131ed2e9e34797b4bdf26c21",
+    "4ed420448e1eddd64ebbc8416822664c841ef1ea735fcc562c79308e92297aa3",
+    "dfb31d6f3df38968a37219d7ae94306cb4786b2d5a8c6a5eb6cbd811e1419eb8",
+    "2c5b28c253f5435a0b407b012ed9ef165f56ac28f4387c56db567a5b7e4b192c",
+    "f623c0c1585efd5d4a8641a2af6967170b1f9ce6a72d964e9257cb229d6378e8",
+    "1a9e6cc0928ed1ef875dbd17e80eca9020e5cc6f6a7a802d14ac3848eefc5b57",
+    "71a5ddfeb5f06c0b5f6ebb0b7b1f9bead55f672dd95d10742f81975fc6a8e0c5",
+    "d344e379388c718cdc08bf0afa0308f6ee197a89c0841ab8f2091d02a97ad89f",
+    "cc7fd827b74c6f996b04bbafda673dfc81d249251ff573119a6648a867e81f81",
+    "9c99e374ce6bc855dddec058ffc4af7789a5032db4449bcd4ceddc9ef3728bfb",
+    "670048a486568da7007a75763d4d0ebb170081b9dd59925b8be5086a394b5b72",
+    "d8c3e3739ca48ccaf4a474347f9c536a4a62366ce5d3cd26cca8e6fdb7f0143a",
+    "75b6195d857250d31af8a9b9351359ad106991b483aff0be234372ab5466e6a1",
+    "13d1d75b5c0810867d73e9112040f6fddb67a0dd75be3e2bf4adaa6e688927eb",
+    "6cb2fa67667fae5b2532ccfb8b9c5206a81d85f641daf97cce807f33dc02a819",
+    "c13af1f9adab8dcefa1244b8a55de4f43a6411ba5f0ef4d31c5d82e965ecc554",
+    "81bf7f2aab4da05970107e2b8deb75a875865eddb90f7ccb57463a0a3a307db5",
+    "5466fab968a9c5687fb62bc28e894c298a206a1e7eab6ed0e5df20655700895b",
+    "d79026719742764bc918faa392ddb353aa4596c98241bc23452fb403e58791c1",
+    "e282ecc53168e654b89976b4d209335a6a85142e9e29735ec4858d82c9ed86b8",
+    "43843424ab1914b4aa0607035b051d69a843c22a8546329628ca60d3b014ddd0",
+    "904355dc8fbe5d12d7e4b827ce72a1ae041692f2d0cc03dd878957218bfc3121",
+    "4429892d5e3bb1e8246dbb7256043942ce8fd7c8b69ff2d5b50dc5dfad35adec",
+    "6b3960f125dd251881a7c06e76e0ed4939f0e9ddb30c3a1da1c3fc9e22e80e37",
+    "f335f6bff53ded4df32e3b0da2cd889ab902117a9d5449aa71dd30def34ed6d8",
+    "93fb259f4afe79437a6ad2f29cb0b7bb14bc12423a348e6f381f9a673606494c",
+    "fc4dafa9eadfe41a7e33caa5eb0f5b3b114420f669db1502089ebecfa3e0758f",
+    "0ef64e218a9478ae5ecb6f4e38867cc3061d18da50cf21ed1942486a758801e2",
+    "0e2414fa8d851076caaa5c8039b1cc29e43d7fc9db7e0f561ebfd941ff2c445b",
+    "2291d42aef3f4bd0c9f1be2c187b7551d296fd1876294024d39011c98aa75b71",
+    "bdee4805d1b7ba29919eb7b9e3c2ddd178b899f958c74c2fe9d64326e4a2d49d",
+    "6778d7dae6296a88d9ad312dc471e1e5d4d07c8904fd1832d937168bf2f16a9d",
+    "081c2b950f965210c71f6eb590f71c04b748f37f6018ceb673928bd5bdb2d38c",
+    "74d4fe6c1ab05a66a9e2e18b823c7ae187fded9d79a04f57a669d5c63d7e0ab1",
+    "6d69ef4f118d167f5ea1844aa21abfa51a08c4b768252e9d88a5bdad81560b1f",
+    "f6491582ceb23ff926a5bb3f95b367011a330944ee897323280ec445df577f47",
+    "259ca685c6a9f0def37fdcea548993d6f4d9dd1eb8c7c52e3b1315d3a93a20af"
+  ],
+  "per_operator": {
+    "Linear:blocks.0.attn.k_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.o_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.q_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.attn.v_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.mlp.fc1": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.0.mlp.fc2": {
+      "calls": 128,
+      "elements": 1392640,
+      "exact_zero_fraction": 1.723345588235294e-05,
+      "exact_zeros": 24,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 1920,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.k_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.o_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.q_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.attn.v_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.mlp.fc1": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.1.mlp.fc2": {
+      "calls": 128,
+      "elements": 1392640,
+      "exact_zero_fraction": 0.005050838694852941,
+      "exact_zeros": 7034,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 562720,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.k_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.o_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.q_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.attn.v_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.mlp.fc1": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.2.mlp.fc2": {
+      "calls": 128,
+      "elements": 1392640,
+      "exact_zero_fraction": 0.01015768612132353,
+      "exact_zeros": 14146,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 1131680,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.k_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.o_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.q_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.attn.v_proj": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 32768000,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.mlp.fc1": {
+      "calls": 128,
+      "elements": 409600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          80
+        ],
+        [
+          1,
+          32,
+          80
+        ],
+        [
+          1,
+          48,
+          80
+        ]
+      ]
+    },
+    "Linear:blocks.3.mlp.fc2": {
+      "calls": 128,
+      "elements": 1392640,
+      "exact_zero_fraction": 0.017098460477941176,
+      "exact_zeros": 23812,
+      "logical_total_weight_macs": 111411200,
+      "logical_zero_weight_macs": 1904960,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          272
+        ],
+        [
+          1,
+          32,
+          272
+        ],
+        [
+          1,
+          48,
+          272
+        ]
+      ]
+    }
+  },
+  "prompt_byte_lengths": [
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64
+  ],
+  "prompts": 128,
+  "quantization": "none; pretrained torch float inference",
+  "summary_by_operator": {
+    "Linear": {
+      "elements": 13762560,
+      "exact_zero_fraction": 0.003270903087797619,
+      "exact_zeros": 45016,
+      "logical_total_weight_macs": 1415577600,
+      "logical_zero_weight_macs": 3601280
+    }
+  },
+  "unique_prompts": 128,
+  "upstream_source_commit": "8300d64843dd9e0baa9270600632c25e5aa15dc5"
+}

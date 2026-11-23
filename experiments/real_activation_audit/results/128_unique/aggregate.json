@@ -1,0 +1,87 @@
+{
+  "date": "2026-11-23",
+  "job_id": 138024617965,
+  "local_test_passed": 8,
+  "models": {
+    "mixer": {
+      "linear_inputs": 43366400,
+      "linear_zero_fraction": 0.0015215466351829988,
+      "linear_zeros": 65984,
+      "logical_macs": 4289331200,
+      "logical_zero_mac_fraction": 0.0019690603514132925,
+      "logical_zero_macs": 8445952,
+      "model": "MicroMixer V87 attention-free 1M",
+      "prompts": 128,
+      "sha256": "f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e",
+      "source_commit": "8300d64843dd9e0baa9270600632c25e5aa15dc5",
+      "top_layers": [
+        {
+          "elements": 81920,
+          "exact_zero_fraction": 0.27633056640625,
+          "name": "Linear:blocks.3.remixer.pool_up"
+        },
+        {
+          "elements": 81920,
+          "exact_zero_fraction": 0.19876708984375,
+          "name": "Linear:blocks.1.remixer.pool_up"
+        },
+        {
+          "elements": 81920,
+          "exact_zero_fraction": 0.1659423828125,
+          "name": "Linear:blocks.5.remixer.pool_up"
+        },
+        {
+          "elements": 81920,
+          "exact_zero_fraction": 0.06712646484375,
+          "name": "Linear:blocks.6.remixer.pool_up"
+        },
+        {
+          "elements": 81920,
+          "exact_zero_fraction": 0.03687744140625,
+          "name": "Linear:blocks.4.remixer.pool_up"
+        }
+      ]
+    },
+    "transformer": {
+      "linear_inputs": 13762560,
+      "linear_zero_fraction": 0.003270903087797619,
+      "linear_zeros": 45016,
+      "logical_macs": 1415577600,
+      "logical_zero_mac_fraction": 0.002544035734953704,
+      "logical_zero_macs": 3601280,
+      "model": "MicroT V88 transformer 300K",
+      "prompts": 128,
+      "sha256": "9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224",
+      "source_commit": "8300d64843dd9e0baa9270600632c25e5aa15dc5",
+      "top_layers": [
+        {
+          "elements": 1392640,
+          "exact_zero_fraction": 0.017098460477941176,
+          "name": "Linear:blocks.3.mlp.fc2"
+        },
+        {
+          "elements": 1392640,
+          "exact_zero_fraction": 0.01015768612132353,
+          "name": "Linear:blocks.2.mlp.fc2"
+        },
+        {
+          "elements": 1392640,
+          "exact_zero_fraction": 0.005050838694852941,
+          "name": "Linear:blocks.1.mlp.fc2"
+        },
+        {
+          "elements": 1392640,
+          "exact_zero_fraction": 1.723345588235294e-05,
+          "name": "Linear:blocks.0.mlp.fc2"
+        },
+        {
+          "elements": 409600,
+          "exact_zero_fraction": 0.0,
+          "name": "Linear:blocks.0.attn.k_proj"
+        }
+      ]
+    }
+  },
+  "report_kind": "trained-model direct measured exact zero rate; not power or GPU throughput",
+  "workflow_run": 45269327361
+}
