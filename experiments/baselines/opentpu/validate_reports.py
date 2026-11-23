@@ -36,8 +36,9 @@ def validate(functional: Path, rtl: Path) -> dict:
         "evidence_level": "Upstream software ISA tests and actual Verilator-vs-ISA RTL differential on GitHub runner",
         "functional": summarize(functional, minimum=20),
         "rtl_differential": summarize(rtl, minimum=1),
-        "rtl_parser_compatibility": "Verilator 5.020: two simulator-only assertion expressions rewritten via pinned verified patch; computation RTL unchanged",
-        "unmodified_upstream_rtl_compiled": False,
+        "rtl_toolchain": "Verilator v5.054 built from pinned source release bbb60a403932a9f695cb6ff001ceb73de6ad9234",
+        "upstream_source_patches": 0,
+        "unmodified_upstream_rtl_compiled": True,
         "physical_fpga_executed": False,
         "matched_GPU_benchmark_performed": False,
     }
