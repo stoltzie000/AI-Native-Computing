@@ -1,0 +1,25 @@
+{
+  "inputs": {
+    "parameters_b": 30,
+    "bits_per_weight": 4,
+    "metadata_fraction": 0.1,
+    "kv_gb": 2,
+    "bandwidth_gbs": 1792,
+    "bandwidth_utilization": 0.65,
+    "compute_tops": 100,
+    "compute_utilization": 0.5,
+    "watts": 350,
+    "fixed_cost_usd": 2500,
+    "extra_bytes_per_token_gb": 0
+  },
+  "outputs": {
+    "weights_gb": 16.5,
+    "required_capacity_gb": 18.5,
+    "bandwidth_limit_tps": 70.5939393939394,
+    "compute_limit_tps": 833.3333333333334,
+    "estimated_decode_tps": 70.5939393939394,
+    "estimated_tokens_per_joule": 0.2016969696969697,
+    "hardware_usd_per_tps": 35.41380494505494,
+    "limiting_factor": "bandwidth"
+  }
+}
