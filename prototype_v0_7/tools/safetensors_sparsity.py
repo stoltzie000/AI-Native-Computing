@@ -97,6 +97,20 @@ def audit(path,blocks=(4,8),compute_sha256=True):
                 if name=='__metadata__':continue
                 if not isinstance(info,dict):raise ValueError('invalid tensor entry')
                 result['tensors'][name]=tensor_stats(mm,data_start,info,blocks)
+            measured=[v for v in result['tensors'].values() if v['status']=='measured']
+            total_elems=sum(v['elements'] for v in measured)
+            total_zeros=sum(v['zero_elements'] for v in measured)
+            by_block={}
+            for b in blocks:
+                key=str(b)
+                eligible=sum(v['blocks'][key]['eligible_blocks'] for v in measured)
+                zeros=sum(v['blocks'][key]['zero_blocks'] for v in measured)
+                by_block[key]={'eligible_blocks':eligible,'zero_blocks':zeros,
+                               'zero_block_fraction':zeros/eligible if eligible else None}
+            result['aggregate']={'measured_matrix_tensors':len(measured),
+                                 'elements':total_elems,'zero_elements':total_zeros,
+                                 'zero_element_fraction':total_zeros/total_elems if total_elems else None,
+                                 'blocks':by_block}
             return result
 
 
