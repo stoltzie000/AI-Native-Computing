@@ -1,0 +1,1167 @@
+{
+  "benchmark_readiness": {
+    "mismatched_fields": [],
+    "status": "BLOCK_QUALITY_UNVERIFIED"
+  },
+  "board_link_stress": {
+    "all_packages_share_memory_compute_budget": true,
+    "evidence": "E1 conditional analytical, no measured silicon",
+    "resource": {
+      "capacity_gb_per_stack": 36,
+      "compute_fraction": 1.0,
+      "context": 32768,
+      "peak_gbs_per_stack": 2800,
+      "stacks": 8,
+      "sustained_fraction": 0.7,
+      "tiles": 16,
+      "total_compute_tops": 1600
+    },
+    "rows": [
+      {
+        "hbm_stacks_per_package": 8,
+        "packages": 1,
+        "result": {
+          "all_collectives_ms": 0.0,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 569.7032,
+          "reference_method": "v0.3 sequential layer schedule",
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 1.7553
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 4,
+        "packages": 2,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.608376,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 423.06974,
+          "context": 32768,
+          "modules": 2,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 2,
+            "latency_us": 4.752941176470589,
+            "link_bytes": 20480.0,
+            "logical_injected_bytes": 20480.0,
+            "max_route_hops": 1,
+            "nodes": 2,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 16,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 1,
+              "required_ports_per_node": 1,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 16,
+              "useful_link_gbs_per_direction": 13.6
+            },
+            "sample_events": null,
+            "stages": 1,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "ring",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 2.363676,
+          "topology": "ring"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 2,
+        "packages": 4,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 1.216753,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 336.46776,
+          "context": 32768,
+          "modules": 4,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 8,
+            "latency_us": 9.505882352941178,
+            "link_bytes": 81920.0,
+            "logical_injected_bytes": 81920.0,
+            "max_route_hops": 1,
+            "nodes": 4,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 16,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 4,
+              "required_ports_per_node": 2,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 64,
+              "useful_link_gbs_per_direction": 13.6
+            },
+            "sample_events": null,
+            "stages": 2,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 2.972053,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 1,
+        "packages": 8,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 3.410824,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 193.56874,
+          "context": 32768,
+          "modules": 8,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 32,
+            "latency_us": 26.647058823529413,
+            "link_bytes": 327680.0,
+            "logical_injected_bytes": 245760.0,
+            "max_route_hops": 2,
+            "nodes": 8,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 12.8,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 10,
+              "required_ports_per_node": 3,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 128.0,
+              "useful_link_gbs_per_direction": 10.88
+            },
+            "sample_events": null,
+            "stages": 3,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.3333333333333333
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 5.166124,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      }
+    ]
+  },
+  "conditional_lane_screen": {
+    "hypothetical_raw_link": {
+      "assumed_pj_per_delivered_bit": 0.3,
+      "encoding_fraction": 0.98,
+      "max_unidirectional_lanes_per_port": 32,
+      "protocol_fraction": 0.85,
+      "raw_gbits_per_sec_per_lane": 64
+    },
+    "result": {
+      "busiest_compute_node_lanes": 120,
+      "duplex_lanes_per_link": 40,
+      "minimum_aggregate_link_phy_w_at_full_load": 6.144,
+      "note": "Raw bit-rate scenario, not a specified PHY; excludes clocks, retimers, cooling, leakage, package traces, error handling and actual waveform validation.",
+      "one_way_lanes_per_link": 20,
+      "peak_aggregate_bidirectional_GBs_per_s": 2560,
+      "requested_per_direction_payload_GBs_per_s": 128,
+      "status": "UNVERIFIED_ELECTRICAL_ENVELOPE",
+      "total_physical_unidirectional_lanes": 400
+    },
+    "warning": "64 Gbit/s per lane is a chosen hypothetical line-rate, not an inference from UCIe 64 GT/s. 0.3 pJ/bit is an illustrative assumed energy number, NOT a measured board or PHY."
+  },
+  "conditional_package_heat": {
+    "best_conditional_packages": 2,
+    "rows": [
+      {
+        "conditional_steps_per_second": 569.7032,
+        "heat": {
+          "compute_w_per_package": 2200.0,
+          "hbm_w_per_package": 160.0,
+          "including_assumed_phy_w_per_package": 2360.0,
+          "package_heat_limit_w": 1400,
+          "packages": 1,
+          "partial_heat_w_per_package": 2360.0,
+          "status": "REJECT_ASSUMED_PACKAGE_HEAT",
+          "unmodeled": "Power delivery losses, interface controllers, leakage, hot spots, heat flux, cooling contact area, supply tolerances, die area and cooling hardware."
+        },
+        "packages": 1
+      },
+      {
+        "conditional_steps_per_second": 557.74095,
+        "heat": {
+          "compute_w_per_package": 1100.0,
+          "hbm_w_per_package": 80.0,
+          "including_assumed_phy_w_per_package": 1180.0,
+          "package_heat_limit_w": 1400,
+          "packages": 2,
+          "partial_heat_w_per_package": 1180.0,
+          "status": "ONLY_ASSUMPTION_LEVEL_NONREJECTION",
+          "unmodeled": "Power delivery losses, interface controllers, leakage, hot spots, heat flux, cooling contact area, supply tolerances, die area and cooling hardware."
+        },
+        "packages": 2
+      },
+      {
+        "conditional_steps_per_second": 546.27074,
+        "heat": {
+          "compute_w_per_package": 550.0,
+          "hbm_w_per_package": 40.0,
+          "including_assumed_phy_w_per_package": 590.0,
+          "package_heat_limit_w": 1400,
+          "packages": 4,
+          "partial_heat_w_per_package": 590.0,
+          "status": "ONLY_ASSUMPTION_LEVEL_NONREJECTION",
+          "unmodeled": "Power delivery losses, interface controllers, leakage, hot spots, heat flux, cooling contact area, supply tolerances, die area and cooling hardware."
+        },
+        "packages": 4
+      },
+      {
+        "conditional_steps_per_second": 507.99252,
+        "heat": {
+          "compute_w_per_package": 275.0,
+          "hbm_w_per_package": 20.0,
+          "including_assumed_phy_w_per_package": 295.0,
+          "package_heat_limit_w": 1400,
+          "packages": 8,
+          "partial_heat_w_per_package": 295.0,
+          "status": "ONLY_ASSUMPTION_LEVEL_NONREJECTION",
+          "unmodeled": "Power delivery losses, interface controllers, leakage, hot spots, heat flux, cooling contact area, supply tolerances, die area and cooling hardware."
+        },
+        "packages": 8
+      }
+    ],
+    "status": "ASSUMED_SCREEN_ONLY_NOT_HARDWARE_SELECTION"
+  },
+  "conditional_power_sensitivity": {
+    "input": "8 compute packages x 275W + 8 HBM x 20W + 150W host + assumed 6.144W dynamic link + 20% cooling allowance",
+    "result": {
+      "assumed_compute_w": 2200,
+      "assumed_hbm_w": 160,
+      "assumed_lower_envelope_w": 3019.3727999999996,
+      "note": "Every component is a user-specified hypothesis; even nonrejection cannot prove physical viability.",
+      "phy_power_known": true,
+      "status": "UNVERIFIED_POWER_ENVELOPE"
+    }
+  },
+  "context_sensitivity": {
+    "2048": {
+      "all_packages_share_memory_compute_budget": true,
+      "evidence": "E1 conditional analytical, no measured silicon",
+      "resource": {
+        "capacity_gb_per_stack": 36,
+        "compute_fraction": 1.0,
+        "context": 2048,
+        "peak_gbs_per_stack": 2800,
+        "stacks": 8,
+        "sustained_fraction": 0.7,
+        "tiles": 16,
+        "total_compute_tops": 1600
+      },
+      "rows": [
+        {
+          "hbm_stacks_per_package": 8,
+          "packages": 1,
+          "result": {
+            "all_collectives_ms": 0.0,
+            "base_memory_compute_ms": 1.216546,
+            "conditional_steps_per_second": 821.9994,
+            "reference_method": "v0.3 sequential layer schedule",
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.216546
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 4,
+          "packages": 2,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.037647,
+            "base_memory_compute_ms": 1.216546,
+            "conditional_steps_per_second": 797.32541,
+            "context": 2048,
+            "modules": 2,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 2,
+              "latency_us": 0.29411764705882354,
+              "link_bytes": 20480.0,
+              "logical_injected_bytes": 20480.0,
+              "max_route_hops": 1,
+              "nodes": 2,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 1,
+                "required_ports_per_node": 1,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 128,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 1,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "ring",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.254193,
+            "topology": "ring"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 2,
+          "packages": 4,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.075294,
+            "base_memory_compute_ms": 1.216546,
+            "conditional_steps_per_second": 774.0896,
+            "context": 2048,
+            "modules": 4,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 8,
+              "latency_us": 0.5882352941176471,
+              "link_bytes": 81920.0,
+              "logical_injected_bytes": 81920.0,
+              "max_route_hops": 1,
+              "nodes": 4,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 4,
+                "required_ports_per_node": 2,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 512,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 2,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.29184,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 1,
+          "packages": 8,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.213233,
+            "base_memory_compute_ms": 1.216546,
+            "conditional_steps_per_second": 699.40882,
+            "context": 2048,
+            "modules": 8,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 32,
+              "latency_us": 1.6658823529411766,
+              "link_bytes": 327680.0,
+              "logical_injected_bytes": 245760.0,
+              "max_route_hops": 2,
+              "nodes": 8,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 102.4,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 10,
+                "required_ports_per_node": 3,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 1024.0,
+                "useful_link_gbs_per_direction": 87.04
+              },
+              "sample_events": null,
+              "stages": 3,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.3333333333333333
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.429779,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        }
+      ]
+    },
+    "32768": {
+      "all_packages_share_memory_compute_budget": true,
+      "evidence": "E1 conditional analytical, no measured silicon",
+      "resource": {
+        "capacity_gb_per_stack": 36,
+        "compute_fraction": 1.0,
+        "context": 32768,
+        "peak_gbs_per_stack": 2800,
+        "stacks": 8,
+        "sustained_fraction": 0.7,
+        "tiles": 16,
+        "total_compute_tops": 1600
+      },
+      "rows": [
+        {
+          "hbm_stacks_per_package": 8,
+          "packages": 1,
+          "result": {
+            "all_collectives_ms": 0.0,
+            "base_memory_compute_ms": 1.7553,
+            "conditional_steps_per_second": 569.7032,
+            "reference_method": "v0.3 sequential layer schedule",
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.7553
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 4,
+          "packages": 2,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.037647,
+            "base_memory_compute_ms": 1.7553,
+            "conditional_steps_per_second": 557.74095,
+            "context": 32768,
+            "modules": 2,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 2,
+              "latency_us": 0.29411764705882354,
+              "link_bytes": 20480.0,
+              "logical_injected_bytes": 20480.0,
+              "max_route_hops": 1,
+              "nodes": 2,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 1,
+                "required_ports_per_node": 1,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 128,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 1,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "ring",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.792947,
+            "topology": "ring"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 2,
+          "packages": 4,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.075294,
+            "base_memory_compute_ms": 1.7553,
+            "conditional_steps_per_second": 546.27074,
+            "context": 32768,
+            "modules": 4,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 8,
+              "latency_us": 0.5882352941176471,
+              "link_bytes": 81920.0,
+              "logical_injected_bytes": 81920.0,
+              "max_route_hops": 1,
+              "nodes": 4,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 4,
+                "required_ports_per_node": 2,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 512,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 2,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.830594,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 1,
+          "packages": 8,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.213233,
+            "base_memory_compute_ms": 1.7553,
+            "conditional_steps_per_second": 507.99252,
+            "context": 32768,
+            "modules": 8,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 32,
+              "latency_us": 1.6658823529411766,
+              "link_bytes": 327680.0,
+              "logical_injected_bytes": 245760.0,
+              "max_route_hops": 2,
+              "nodes": 8,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 102.4,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 10,
+                "required_ports_per_node": 3,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 1024.0,
+                "useful_link_gbs_per_direction": 87.04
+              },
+              "sample_events": null,
+              "stages": 3,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.3333333333333333
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.968533,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        }
+      ]
+    },
+    "8192": {
+      "all_packages_share_memory_compute_budget": true,
+      "evidence": "E1 conditional analytical, no measured silicon",
+      "resource": {
+        "capacity_gb_per_stack": 36,
+        "compute_fraction": 1.0,
+        "context": 8192,
+        "peak_gbs_per_stack": 2800,
+        "stacks": 8,
+        "sustained_fraction": 0.7,
+        "tiles": 16,
+        "total_compute_tops": 1600
+      },
+      "rows": [
+        {
+          "hbm_stacks_per_package": 8,
+          "packages": 1,
+          "result": {
+            "all_collectives_ms": 0.0,
+            "base_memory_compute_ms": 1.324297,
+            "conditional_steps_per_second": 755.1178,
+            "reference_method": "v0.3 sequential layer schedule",
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.324297
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 4,
+          "packages": 2,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.037647,
+            "base_memory_compute_ms": 1.324297,
+            "conditional_steps_per_second": 734.24455,
+            "context": 8192,
+            "modules": 2,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 2,
+              "latency_us": 0.29411764705882354,
+              "link_bytes": 20480.0,
+              "logical_injected_bytes": 20480.0,
+              "max_route_hops": 1,
+              "nodes": 2,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 1,
+                "required_ports_per_node": 1,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 128,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 1,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "ring",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.361944,
+            "topology": "ring"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 2,
+          "packages": 4,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.075294,
+            "base_memory_compute_ms": 1.324297,
+            "conditional_steps_per_second": 714.49439,
+            "context": 8192,
+            "modules": 4,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 8,
+              "latency_us": 0.5882352941176471,
+              "link_bytes": 81920.0,
+              "logical_injected_bytes": 81920.0,
+              "max_route_hops": 1,
+              "nodes": 4,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 128,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 4,
+                "required_ports_per_node": 2,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 512,
+                "useful_link_gbs_per_direction": 108.8
+              },
+              "sample_events": null,
+              "stages": 2,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.0
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.399591,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        },
+        {
+          "hbm_stacks_per_package": 1,
+          "packages": 8,
+          "result": {
+            "algorithm": "recursive_doubling",
+            "all_collectives_ms": 0.213233,
+            "base_memory_compute_ms": 1.324297,
+            "conditional_steps_per_second": 650.39384,
+            "context": 8192,
+            "modules": 8,
+            "network": {
+              "algorithm": "recursive_doubling",
+              "assumed_link_energy_j": null,
+              "hop_message_count": 32,
+              "latency_us": 1.6658823529411766,
+              "link_bytes": 327680.0,
+              "logical_injected_bytes": 245760.0,
+              "max_route_hops": 2,
+              "nodes": 8,
+              "payload_bytes_per_node": 10240.0,
+              "port_and_budget": {
+                "allocated_link_gbs_per_direction": 102.4,
+                "available_ports_per_node": 4,
+                "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+                "physical_links": 10,
+                "required_ports_per_node": 3,
+                "status": "FEASIBLE_PARAMETER_ENVELOPE",
+                "total_allocated_gbs": 1024.0,
+                "useful_link_gbs_per_direction": 87.04
+              },
+              "sample_events": null,
+              "stages": 3,
+              "status": "SIMULATED_ENVELOPE",
+              "topology": "mesh",
+              "wire_amplification": 1.3333333333333333
+            },
+            "status": "SIMULATED_ENVELOPE",
+            "step_ms": 1.53753,
+            "topology": "mesh"
+          },
+          "total_hbm_stacks": 8,
+          "total_hypothetical_compute_TOPS": 1600,
+          "total_nominal_memory_bandwidth_GBs_per_second": 22400
+        }
+      ]
+    }
+  },
+  "equalized_profiles": {
+    "all_packages_share_memory_compute_budget": true,
+    "evidence": "E1 conditional analytical, no measured silicon",
+    "resource": {
+      "capacity_gb_per_stack": 36,
+      "compute_fraction": 1.0,
+      "context": 32768,
+      "peak_gbs_per_stack": 2800,
+      "stacks": 8,
+      "sustained_fraction": 0.7,
+      "tiles": 16,
+      "total_compute_tops": 1600
+    },
+    "rows": [
+      {
+        "hbm_stacks_per_package": 8,
+        "packages": 1,
+        "result": {
+          "all_collectives_ms": 0.0,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 569.7032,
+          "reference_method": "v0.3 sequential layer schedule",
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 1.7553
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 4,
+        "packages": 2,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.037647,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 557.74095,
+          "context": 32768,
+          "modules": 2,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 2,
+            "latency_us": 0.29411764705882354,
+            "link_bytes": 20480.0,
+            "logical_injected_bytes": 20480.0,
+            "max_route_hops": 1,
+            "nodes": 2,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 128,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 1,
+              "required_ports_per_node": 1,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 128,
+              "useful_link_gbs_per_direction": 108.8
+            },
+            "sample_events": null,
+            "stages": 1,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "ring",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 1.792947,
+          "topology": "ring"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 2,
+        "packages": 4,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.075294,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 546.27074,
+          "context": 32768,
+          "modules": 4,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 8,
+            "latency_us": 0.5882352941176471,
+            "link_bytes": 81920.0,
+            "logical_injected_bytes": 81920.0,
+            "max_route_hops": 1,
+            "nodes": 4,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 128,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 4,
+              "required_ports_per_node": 2,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 512,
+              "useful_link_gbs_per_direction": 108.8
+            },
+            "sample_events": null,
+            "stages": 2,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 1.830594,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 1,
+        "packages": 8,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.213233,
+          "base_memory_compute_ms": 1.7553,
+          "conditional_steps_per_second": 507.99252,
+          "context": 32768,
+          "modules": 8,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 32,
+            "latency_us": 1.6658823529411766,
+            "link_bytes": 327680.0,
+            "logical_injected_bytes": 245760.0,
+            "max_route_hops": 2,
+            "nodes": 8,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 102.4,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 10,
+              "required_ports_per_node": 3,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 1024.0,
+              "useful_link_gbs_per_direction": 87.04
+            },
+            "sample_events": null,
+            "stages": 3,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.3333333333333333
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 1.968533,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      }
+    ]
+  },
+  "evidence_level": "E1 only",
+  "exact_zero_block_sparse_functional_demo": {
+    "dense_weight_bytes": 1024,
+    "exact_vector_equality": true,
+    "example": "Constructed 16x16 FP32 matrix, 8x8 block sparsity, 3 zero blocks",
+    "packed_weight_and_metadata_bytes": 261,
+    "qualification": "Only a contrived exactly sparse matrix. Real model sparsity and task quality are unverified.",
+    "total_blocks": 4,
+    "weight_traffic_saving_fraction": 0.7451171875,
+    "zero_blocks": 3
+  },
+  "hidden_central_package_overhead_threshold_ms": 0.037646999999999986,
+  "minimum_memory_traffic": {
+    "disclaimer": "This is a traffic-bound thought experiment. Removing weights or reducing precision can degrade model quality.",
+    "ideal_70pct_bandwidth_only_steps_per_s": 592.4762304400653,
+    "kv_step_gb": 8.590196736,
+    "weight_gb": 17.875,
+    "weight_only_reduction_needed_for_2x_traffic_reduction_at_equal_bandwidth": {
+      "allowed_total_bytes": 13232598368.0,
+      "allowed_weight_fraction": 0.2597147766153846,
+      "factor": 2,
+      "fixed_kv_bytes": 8590196736.0,
+      "minimum_weight_traffic_reduction_fraction": 0.7402852233846153,
+      "original_bytes": 26465196736.0,
+      "possible_by_weight_reduction_only": true,
+      "quality_equivalence": "NOT_ESTABLISHED"
+    }
+  },
+  "missing_for_E4": [
+    "equivalent task-quality measurements",
+    "matched measured GPU trace",
+    "physical interconnect design",
+    "package floorplan",
+    "realistic HBM+compute+PHY power",
+    "clocked RTL or FPGA measurement",
+    "working physical hardware and wall power meter",
+    "confidence intervals"
+  ],
+  "reference_vendor_specs": {
+    "Micron_HBM4": "36GB 12H, greater than 2.8TB/s peak per stack (2.8 used conservatively in scenarios)",
+    "NVIDIA_Rubin_2026": "288GB HBM4, 22TB/s nominal peak, 3.6TB/s NVLink bandwidth; these are not workload benchmarks",
+    "UCIe_4_0": "2026 consortium page describes on-package memory links up to 93.75% data efficiency; does not apply to motherboard"
+  },
+  "schema_version": "0.5",
+  "sustained_40_percent": {
+    "all_packages_share_memory_compute_budget": true,
+    "evidence": "E1 conditional analytical, no measured silicon",
+    "resource": {
+      "capacity_gb_per_stack": 36,
+      "compute_fraction": 1.0,
+      "context": 32768,
+      "peak_gbs_per_stack": 2800,
+      "stacks": 8,
+      "sustained_fraction": 0.4,
+      "tiles": 16,
+      "total_compute_tops": 1600
+    },
+    "rows": [
+      {
+        "hbm_stacks_per_package": 8,
+        "packages": 1,
+        "result": {
+          "all_collectives_ms": 0.0,
+          "base_memory_compute_ms": 3.021174,
+          "conditional_steps_per_second": 330.9972,
+          "reference_method": "v0.3 sequential layer schedule",
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 3.021174
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 4,
+        "packages": 2,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.037647,
+          "base_memory_compute_ms": 3.021174,
+          "conditional_steps_per_second": 326.92334,
+          "context": 32768,
+          "modules": 2,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 2,
+            "latency_us": 0.29411764705882354,
+            "link_bytes": 20480.0,
+            "logical_injected_bytes": 20480.0,
+            "max_route_hops": 1,
+            "nodes": 2,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 128,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 1,
+              "required_ports_per_node": 1,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 128,
+              "useful_link_gbs_per_direction": 108.8
+            },
+            "sample_events": null,
+            "stages": 1,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "ring",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 3.058821,
+          "topology": "ring"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 2,
+        "packages": 4,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.075294,
+          "base_memory_compute_ms": 3.021174,
+          "conditional_steps_per_second": 322.94859,
+          "context": 32768,
+          "modules": 4,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 8,
+            "latency_us": 0.5882352941176471,
+            "link_bytes": 81920.0,
+            "logical_injected_bytes": 81920.0,
+            "max_route_hops": 1,
+            "nodes": 4,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 128,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 4,
+              "required_ports_per_node": 2,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 512,
+              "useful_link_gbs_per_direction": 108.8
+            },
+            "sample_events": null,
+            "stages": 2,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.0
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 3.096468,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      },
+      {
+        "hbm_stacks_per_package": 1,
+        "packages": 8,
+        "result": {
+          "algorithm": "recursive_doubling",
+          "all_collectives_ms": 0.213233,
+          "base_memory_compute_ms": 3.021174,
+          "conditional_steps_per_second": 309.17569,
+          "context": 32768,
+          "modules": 8,
+          "network": {
+            "algorithm": "recursive_doubling",
+            "assumed_link_energy_j": null,
+            "hop_message_count": 32,
+            "latency_us": 1.6658823529411766,
+            "link_bytes": 327680.0,
+            "logical_injected_bytes": 245760.0,
+            "max_route_hops": 2,
+            "nodes": 8,
+            "payload_bytes_per_node": 10240.0,
+            "port_and_budget": {
+              "allocated_link_gbs_per_direction": 102.4,
+              "available_ports_per_node": 4,
+              "note": "Port and bandwidth budget checks only; actual PHY, trace length, placement, thermals, reticle and power unresolved",
+              "physical_links": 10,
+              "required_ports_per_node": 3,
+              "status": "FEASIBLE_PARAMETER_ENVELOPE",
+              "total_allocated_gbs": 1024.0,
+              "useful_link_gbs_per_direction": 87.04
+            },
+            "sample_events": null,
+            "stages": 3,
+            "status": "SIMULATED_ENVELOPE",
+            "topology": "mesh",
+            "wire_amplification": 1.3333333333333333
+          },
+          "status": "SIMULATED_ENVELOPE",
+          "step_ms": 3.234407,
+          "topology": "mesh"
+        },
+        "total_hbm_stacks": 8,
+        "total_hypothetical_compute_TOPS": 1600,
+        "total_nominal_memory_bandwidth_GBs_per_second": 22400
+      }
+    ]
+  },
+  "warning": "No new GPU measurements; no physical ASIC, motherboard or PHY measurements. Every throughput is a hypothetical calculation.",
+  "weight_precision_traffic_sensitivity": [
+    {
+      "ideal_speed_relative_to_4bit_weights": 0.3304423988773157,
+      "kv_step_gb": 8.590196736,
+      "quality_equivalence": "NOT_ESTABLISHED",
+      "total_gb_per_step": 80.090196736,
+      "weight_bits": 16,
+      "weight_gb": 71.5
+    },
+    {
+      "ideal_speed_relative_to_4bit_weights": 0.5968669217588922,
+      "kv_step_gb": 8.590196736,
+      "quality_equivalence": "NOT_ESTABLISHED",
+      "total_gb_per_step": 44.340196736,
+      "weight_bits": 8,
+      "weight_gb": 35.75
+    },
+    {
+      "ideal_speed_relative_to_4bit_weights": 1.0,
+      "kv_step_gb": 8.590196736,
+      "quality_equivalence": "NOT_ESTABLISHED",
+      "total_gb_per_step": 26.465196736,
+      "weight_bits": 4,
+      "weight_gb": 17.875
+    },
+    {
+      "ideal_speed_relative_to_4bit_weights": 1.509907270454043,
+      "kv_step_gb": 8.590196736,
+      "quality_equivalence": "NOT_ESTABLISHED",
+      "total_gb_per_step": 17.527696736,
+      "weight_bits": 2,
+      "weight_gb": 8.9375
+    },
+    {
+      "ideal_speed_relative_to_4bit_weights": 2.0265950440736984,
+      "kv_step_gb": 8.590196736,
+      "quality_equivalence": "NOT_ESTABLISHED",
+      "total_gb_per_step": 13.058946736,
+      "weight_bits": 1,
+      "weight_gb": 4.46875
+    }
+  ]
+}
