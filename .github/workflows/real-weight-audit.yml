@@ -1,0 +1,54 @@
+name: Reproducible pretrained exact-zero weight audit
+
+on:
+  push:
+    paths:
+      - 'experiments/real_weight_audit/**'
+      - '.github/workflows/real-weight-audit.yml'
+  pull_request:
+    paths:
+      - 'experiments/real_weight_audit/**'
+      - '.github/workflows/real-weight-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned parser dependency
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Fetch and cryptographically verify two actual trained safetensors checkpoints
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ai-weights"
+          curl -fLsS --retry 3 --max-time 120 \
+            'https://huggingface.co/llaa33219/MicroMixer-4-1M-TinyStories/resolve/main/epoch_2.safetensors' \
+            -o "$RUNNER_TEMP/ai-weights/micromixer.safetensors"
+          printf 'f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e  %s\n' \
+            "$RUNNER_TEMP/ai-weights/micromixer.safetensors" | sha256sum -c -
+          curl -fLsS --retry 3 --max-time 120 \
+            'https://huggingface.co/llaa33219/MicroT-test1-300K-TinyStories/resolve/main/epoch_2.safetensors' \
+            -o "$RUNNER_TEMP/ai-weights/microtransformer.safetensors"
+          printf '9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224  %s\n' \
+            "$RUNNER_TEMP/ai-weights/microtransformer.safetensors" | sha256sum -c -
+      - name: Read-only exact-zero tensor and 4x4 / 8x8 block audit
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python prototype_v0_7/tools/safetensors_sparsity.py "$RUNNER_TEMP/ai-weights/micromixer.safetensors" --blocks 4,8 > reports/micromixer.json
+          python prototype_v0_7/tools/safetensors_sparsity.py "$RUNNER_TEMP/ai-weights/microtransformer.safetensors" --blocks 4,8 > reports/microtransformer.json
+          python experiments/real_weight_audit/report_summary.py reports/micromixer.json reports/microtransformer.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: exact-zero-weights-results
+          path: reports/*.json
+          if-no-files-found: error
+          retention-days: 30
