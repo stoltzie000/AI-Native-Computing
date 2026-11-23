@@ -151,3 +151,17 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Next gates:** verify matched optimized and measured Rubin/other GPU AI task baselines; measure truly trained model's real block-sparsity plus task-quality; estimate complete HBM-controller/package thermal power with electrical/floorplan evidence; prototype one small hardware compute+memory block, validate timing/energy against independently reproduced numerical oracle. No manufacturing or PC changes authorized by this checkpoint.
 
 **Task continuity:** No numbered external AI task was issued here. Preserve the previously unresolved last task number; do not reset or fabricate numbering.
+
+## 2026-11-23 checkpoint — v0.6 block-sparse RTL candidate
+
+**Goal unchanged:** Original AI-native full system, including processor, memory, motherboard, cooling and potentially non-transformer/non-token algorithms; measurable superiority to strong GPU systems on quality-matched AI tasks. No performance superiority established.
+
+**Source work:** Added `prototype_v0_6/` with a small sequential 4×4 signed INT8×INT8→INT32 block-sparse PE, start/done handshake, correct-by-contract skip of externally certified all-zero blocks, cycle and multiply counters, three RTL testbench examples, Python reference model, randomized and adversarial unit tests, verification caveats and reference test log. All seven source/docs/results files uploaded to GitHub and re-fetched with exact Git blob SHA match against locally verified files (7/7).
+
+**Test evidence:** Python reference passed **11/11 tests** in isolated runtime. Earlier v0.2–v0.5 passed **158/158**, so total **169/169 Python tests** passed across five project iterations in clean-extraction ZIP. v0.5 deterministic output also matched byte-for-byte. RTL source/testbench has been AUTHORED but **not compiled or simulated locally**: Icarus Verilog, Verilator and Yosys are absent from the available runtime. `.github/workflows/sparse-rtl-tests.yml` was created to install Icarus Verilog, compile and run the HDL; **no successful remote workflow run was verified**. No FPGA synthesis, waveform proof, silicon or electrical measurements exist.
+
+**Limitations:** The default PE is intentionally serial (16 multiplications in 16 active cycles per 4×4 block), not high-throughput production hardware. The upstream `block_valid` metadata must be true for correct skip; invalid metadata creates incorrect results. No HBM/SRAM controller, compressed-block index stream, network, voltage/area/power layout, advanced arithmetic, model-quality test or GPU comparison. No user computer modifications, hardware purchases or tapeout performed.
+
+**Next engineering gate:** Obtain verified RTL compilation and numeric testbench success; add randomized RTL-vs-independent-oracle tests and reset/overflow/parametric cases. Only then attempt synthesis and memory/metadata datapath scaling, using real trained-model sparsity and quality data. Physically validate package and PHY requirements before claiming chip speed/efficiency.
+
+**External task numbering:** No numbered executable AI prompt issued; previous continuity remains unresolved.
