@@ -30,7 +30,7 @@ class Tests(unittest.TestCase):
 
     def test_signed_and_overflow(self):
         m = [[-128]*4 for _ in range(4)]
-        self.assertEqual(evaluate(m, [-128]*4, Config(accum_bits=16))["sums"], [-32768]*4)
+        self.assertEqual(evaluate(m, [-128, -128, 0, 0], Config(accum_bits=16))["sums"], [-32768]*4)
         self.assertEqual(signed(65535,16), -1)
 
     def test_bad_input_and_config(self):
