@@ -1,0 +1,16 @@
+test_delay_table (test_rtl_reference.ReferenceTests.test_delay_table) ... ok
+test_fixture (test_rtl_reference.ReferenceTests.test_fixture) ... ok
+test_negative_weights (test_rtl_reference.ReferenceTests.test_negative_weights) ... ok
+test_nonboolean_skip (test_rtl_reference.ReferenceTests.test_nonboolean_skip) ... ok
+test_random_oracle (test_rtl_reference.ReferenceTests.test_random_oracle) ... ok
+test_reject_bad_shape (test_rtl_reference.ReferenceTests.test_reject_bad_shape) ... ok
+test_reject_illegal_skip (test_rtl_reference.ReferenceTests.test_reject_illegal_skip) ... ok
+test_reject_out_of_range (test_rtl_reference.ReferenceTests.test_reject_out_of_range) ... ok
+test_signed8 (test_rtl_reference.ReferenceTests.test_signed8) ... ok
+test_signed8_boundary (test_rtl_reference.ReferenceTests.test_signed8_boundary) ... ok
+test_skip (test_rtl_reference.ReferenceTests.test_skip) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.005s
+
+OK
