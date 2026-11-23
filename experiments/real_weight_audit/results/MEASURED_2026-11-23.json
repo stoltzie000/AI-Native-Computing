@@ -1,0 +1,61 @@
+{
+  "experiment": "actual pretrained exact-zero weight block audit",
+  "date": "2026-11-23",
+  "evidence_level": "direct read-only checkpoint measurement in successful GitHub Actions CI",
+  "github_run_id": 45241981337,
+  "github_job_id": 137928727818,
+  "models": [
+    {
+      "name": "MicroMixer-4-1M-TinyStories",
+      "architecture": "attention-free MLP mixer",
+      "sha256": "f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e",
+      "bytes": 4022572,
+      "matrix_count": 72,
+      "matrix_elements": 874624,
+      "zero_elements": 0,
+      "zero_element_fraction": 0,
+      "blocks": {
+        "4": {
+          "eligible": 54272,
+          "zero_blocks": 0,
+          "zero_fraction": 0
+        },
+        "8": {
+          "eligible": 13456,
+          "zero_blocks": 0,
+          "zero_fraction": 0
+        }
+      }
+    },
+    {
+      "name": "MicroT-test1-300K-TinyStories",
+      "architecture": "small attention transformer",
+      "sha256": "9bf0a9c2f84ef8e17a9cdabfec0ab566da526de099d3e928d96b359306b89224",
+      "bytes": 1193768,
+      "matrix_count": 25,
+      "matrix_elements": 296960,
+      "zero_elements": 0,
+      "zero_element_fraction": 0,
+      "blocks": {
+        "4": {
+          "eligible": 18560,
+          "zero_blocks": 0,
+          "zero_fraction": 0
+        },
+        "8": {
+          "eligible": 4640,
+          "zero_blocks": 0,
+          "zero_fraction": 0
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Model sizes differ and are small; results cannot be generalized to all trained models.",
+    "Only 2D checkpoint weight tensors were measured, not activation vectors or model output quality.",
+    "Zero block audits exclude partial edge blocks.",
+    "No pruning or modified weights were considered.",
+    "No hardware memory traffic, speed, energy, clock or actual GPU comparison was measured."
+  ],
+  "decision": "Reject unpruned exact-zero weight block bypass as primary acceleration for these two measured models; continue alternate designs."
+}
