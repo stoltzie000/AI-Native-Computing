@@ -63,7 +63,7 @@ module block_sparse_pe_v07 #(
         weight_tmp=$signed(weights_hold[idx*DATA_W +: DATA_W]);
         vector_tmp=$signed(vector_hold[(idx%BLOCK_SIZE)*DATA_W +: DATA_W]);
         product_tmp=weight_tmp*vector_tmp;
-        product_ext={{(ACC_W-2*DATA_W){product_tmp[2*DATA_W-1]}},product_tmp};
+        product_ext=product_tmp; // signed assignment extends to ACC_W
         row_partial[idx/BLOCK_SIZE]=row_partial[idx/BLOCK_SIZE]+product_ext;
         multiplies_this_cycle=multiplies_this_cycle+1;
       end
