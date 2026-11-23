@@ -15,3 +15,9 @@ The first source compatibility patch did **not** modify the synthesizable datapa
 Use upstream openTPU at unchanged pinned commit `d84db55712aba0d40811d7762cb052f05d55b7e5`. Build **unmodified Verilator v5.054** at pinned release commit `bbb60a403932a9f695cb6ff001ceb73de6ad9234` in the CI runner, then run the same selected external tests. Confirm the upstream working tree has no tracked changes before and after external testing. Reproduce on an immutable runner with JUnit result parsing, including strict no-skips policy. If full RTL still fails, log concrete compiler error, do not call it a passing RTL baseline.
 
 No chip/FPGA, clock, physical memory traffic, power, quality-matched GPU results, or superiority are verified here.
+
+## Successful replacement run
+
+[GitHub Actions run 45282595649](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45282595649), job 138070641636, **SUCCEEDED**, using unmodified openTPU source at the original pinned SHA and **Verilator 5.054** built at pinned release commit `bbb60a403932a9f695cb6ff001ceb73de6ad9234`. It passed 48 external ISA/dataflow/compiler cases, one actual RTL-versus-ISA MM replay case, and our 9+7 local reference tests. No compatibility source patches were applied.
+
+**Interpretation:** The prior failed compiler messages were observed under the older 5.020 toolchain and are not evidence of an algorithmic error in openTPU at the tested newer toolchain. The 5.020 patch script remains as history only; it was NOT invoked in the successful experiment. Raw JUnit reports and captured toolchain metadata were independently inspected. See [CI evidence](CI_EVIDENCE_2026-11-23.md).
