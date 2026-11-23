@@ -1,6 +1,6 @@
 # Reproduction gate R01 — openTPU ISA and RTL baseline
 
-Status: **48 external ISA/dataflow/compiler tests reproduced; external RTL differential still unverified.** Three historical Verilator 5.020 runs encountered tooling/parser failures, documented in [FAILURE_AND_COMPATIBILITY_LOG.md](FAILURE_AND_COMPATIBILITY_LOG.md). The next trial builds **Verilator 5.054 from pinned upstream commit** and tests **openTPU RTL unchanged**. Do not claim a passing RTL baseline until successful job logs and JUnit evidence are verified.
+**VERIFIED:** [GitHub Actions run 45282595649](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45282595649) succeeded: **48 upstream functional tests plus 1 actual Verilator-versus-ISA RTL differential**, zero skips/errors, using **unmodified openTPU** at the pinned commit and independently built Verilator 5.054. Our 9 validation unit tests and 7 existing v1.0 tests also passed. [Detailed completed-job evidence](CI_EVIDENCE_2026-11-23.md) · [three prior failed parser/guard attempts](FAILURE_AND_COMPATIBILITY_LOG.md). **No physical FPGA or GPU performance has been measured.**
 
 ## Why openTPU first
 
