@@ -1,0 +1,78 @@
+name: RTL v0.7 differential and synthesis checks
+
+on:
+  push:
+    paths:
+      - 'prototype_v0_7/**'
+      - 'prototype_v0_6/rtl/**'
+      - '.github/workflows/rtl-v07-verification.yml'
+  pull_request:
+    paths:
+      - 'prototype_v0_7/**'
+      - 'prototype_v0_6/rtl/**'
+      - '.github/workflows/rtl-v07-verification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install open-source HDL tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog yosys
+      - name: Install NumPy for read-only safetensors fixture verification
+        run: python -m pip install 'numpy==2.3.5'
+      - name: Run independent Python arithmetic regression
+        run: |
+          python -m unittest discover -s prototype_v0_6 -p 'test_*.py' -v
+          python -m unittest discover -s prototype_v0_7/tests -p 'test_*.py' -v
+      - name: Compile and run historical v0.6 differential RTL bench
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rtltest
+          iverilog -g2012 -Wall -s tb_v06_differential -o /tmp/rtltest/v06 \
+            prototype_v0_7/rtl/block_sparse_pe_v06_compat.v prototype_v0_7/rtl/tb_v06_differential.sv
+          vvp /tmp/rtltest/v06 | tee /tmp/rtltest/v06.log
+          grep -F 'PASS v0.6 differential randomized RTL' /tmp/rtltest/v06.log
+      - name: Compile and run 10 multi-lane/accumulator-width HDL configurations
+        run: |
+          set -euo pipefail
+          for lanes in 1 2 4 8 16; do
+            for acc in 16 32; do
+              iverilog -g2012 -Wall -s tb_block_sparse_pe_v07 \
+                -Ptb_block_sparse_pe_v07.LANES_TB="$lanes" \
+                -Ptb_block_sparse_pe_v07.ACC_W_TB="$acc" \
+                -o /tmp/rtltest/v07 \
+                prototype_v0_7/rtl/block_sparse_pe_v07.v \
+                prototype_v0_7/rtl/tb_block_sparse_pe_v07.sv
+              vvp /tmp/rtltest/v07 | tee /tmp/rtltest/v07.log
+              grep -F "PASS v0.7 RTL randomized verification LANES=$lanes ACC_W=$acc" /tmp/rtltest/v07.log
+            done
+          done
+      - name: Compare generic cell counts across multiplier lane configurations
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rtltest
+          echo 'CELL_SWEEP_BEGIN'
+          for lanes in 1 2 4 8 16; do
+            for acc in 16 32; do
+              log="/tmp/rtltest/yosys_l${lanes}_a${acc}.log"
+              yosys -Q -T -p "read_verilog -DSYNTHESIS prototype_v0_7/rtl/block_sparse_pe_v07.v; chparam -set LANES $lanes -set ACC_W $acc block_sparse_pe_v07; hierarchy -check -top block_sparse_pe_v07; synth -top block_sparse_pe_v07; stat" > "$log"
+              count="$(grep 'Number of cells:' "$log" | tail -n 1 | awk '{print $4}')"
+              test -n "$count"
+              echo "CELL_SWEEP lanes=$lanes acc=$acc cells=$count"
+            done
+          done
+          echo 'CELL_SWEEP_END'
+      - name: Generic logic synthesis sanity (not ASIC PPA)
+        run: |
+          yosys -Q -T -p 'read_verilog -DSYNTHESIS prototype_v0_7/rtl/block_sparse_pe_v07.v; hierarchy -check -top block_sparse_pe_v07; synth -top block_sparse_pe_v07; stat'
