@@ -1,6 +1,6 @@
 # Reproduction gate R01 — openTPU ISA and RTL baseline
 
-Status: **upstream ISA/dataflow/compiler tests passed (48 tests), but initial raw RTL compile FAILED on Verilator 5.020**. GitHub run [45281228948](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45281228948) reported a parser error on function-call result bit selection in a simulation-only assertion at `rtl/mxu/otpu_mxu.sv:2778`. The upstream source has not been altered in our repository. A separate fail-closed compatibility experiment is prepared; **RTL differential is pending** until a new successful run is actually verified.
+Status: **48 external ISA/dataflow/compiler tests reproduced; external RTL differential still unverified.** Three historical Verilator 5.020 runs encountered tooling/parser failures, documented in [FAILURE_AND_COMPATIBILITY_LOG.md](FAILURE_AND_COMPATIBILITY_LOG.md). The next trial builds **Verilator 5.054 from pinned upstream commit** and tests **openTPU RTL unchanged**. Do not claim a passing RTL baseline until successful job logs and JUnit evidence are verified.
 
 ## Why openTPU first
 
