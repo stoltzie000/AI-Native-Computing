@@ -34,3 +34,9 @@ v0.4 adds explicit point-to-point physical link limits, route-dependent latency,
 **Algorithmic experiment:** Lossless skipping of three of four exact-zero blocks in a constructed 16x16 matrix passed independent numerical checks and stored toy weight data plus metadata in 261B vs 1024B (74.51% reduction); **this does not establish real AI model sparsity, equal model quality or superior hardware performance**.
 
 The package passed **70/70 local tests**, and the complete historical v0.2–v0.5 suites passed **158/158 tests** after clean ZIP extraction. GitHub v0.5 source and results were fetched back and matched exact local Git blob hashes. No silicon, custom PCB, physical power measurement, or complete AI model performance test has been completed.
+
+## Hardware-executable sparse PE candidate — v0.6 (2026-11-23)
+
+[RTL candidate and testbench](prototype_v0_6/README.md) · [Verilog source](prototype_v0_6/rtl/block_sparse_pe.v) · [Verification plan](prototype_v0_6/docs/VERIFICATION.md) · [GitHub Actions RTL workflow](.github/workflows/sparse-rtl-tests.yml).
+
+A minimal 4×4 signed INT8 matrix-vector processing element is authored in Verilog. It can skip externally certified all-zero weight blocks and counts multiplication cycles. An independent Python reference passed **11/11 tests**, bringing the historical v0.2–v0.6 Python suite to **169/169 locally passed tests**. The full package was also extracted into a clean directory and all Python tests passed there. **Actual Verilog compilation/simulation and FPGA/ASIC implementation have NOT been verified** in this session because no local HDL simulator was installed and no successful remote Actions run was observed. This kernel is not a complete AI processor or a proven GPU competitor.
