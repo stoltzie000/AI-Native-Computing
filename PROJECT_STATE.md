@@ -78,3 +78,12 @@ G0 partially completed: published model/GPU memory specifications verified, no m
 
 ### Task sequencing
 No Codex/GPT executable task number assigned by this checkpoint; number continuity remains unresolved.
+
+## 2026-11-23 checkpoint — v0.2.1 physical feasibility correction
+Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_physical_limits.py`, and `docs/PHYSICAL_FEASIBILITY_SCREEN.md`. Current local suite: **21/21 unit tests passed**. The five changed/new files were re-fetched from GitHub and matched their local Git blob SHA exactly (5/5). Prior v0.2 result estimates retained as **unmeasured**, conditional arithmetic tests.
+
+**Evidence:** TSMC published high-density SRAM macro density 38.1 Mb/mm². A 12 GB SRAM store needs >= 2,520 mm² of SRAM macro at that density, or ~2.94 conventional 858 mm² reticle footprints **without compute/routing/PHY overhead**. Four such stores need >= 10,079 mm² aggregate. Therefore the interpretation “one 12 GB SRAM node equals one ordinary reticle-size silicon die” is **rejected**. Candidate must be reworked as stitched-wafer or multi-chiplet logical modules with realistic interconnect, thermal and energy costs. No revised physically validated design is available.
+
+**Gate status:** E1 calculations validated for selected assumptions; G0 benchmarking incomplete; G1 capacity constraints modeled, real physical feasibility remains OPEN; G2-G5 NOT PASSED. No physical superiority claim.
+
+**Next implementation priority:** event-level trace simulator with attention/weight transfers, bank-level routing/latency and topology; examine wafer-scale/stacked/hybrid alternatives with physical data and compare to measured optimized GPU benchmarks. Preserve failed architectures and hypotheses.
