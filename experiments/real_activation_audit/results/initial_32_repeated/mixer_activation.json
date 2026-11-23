@@ -1,0 +1,1918 @@
+{
+  "checkpoint_file_bytes": 4022572,
+  "checkpoint_repo": "llaa33219/MicroMixer-4-1M-TinyStories",
+  "checkpoint_sha256": "f2d97561d43a1588e2a6b44a0c71fdd0069d03dc7e169a17c3a5f0082c15186e",
+  "device": "CPU",
+  "kind": "mixer",
+  "known_limitations": [
+    "Only nn.Linear/nn.Conv1d module inputs are hooked, not functional F.linear/F.conv1d calls.",
+    "Conv1d input zeros are not directly interchangeable with per-column linear weight gating.",
+    "Values zero due to masking/padding or layers with other operators may affect generalizability.",
+    "These are activation element statistics, NOT physical memory read savings or GPU timings.",
+    "Short byte-level TinyStories models are not representative of state-of-the-art LLMs."
+  ],
+  "measurement": "exact zeros in pre-weight module inputs, no model training or parameter mutation",
+  "model": "MicroMixer V87 attention-free 1M",
+  "output_token_id_digest_sha256": [
+    "e714f0d53d00637b53dd1887db89df202b827b6eade9a23411ff2087dcad3afd",
+    "32d62d5d1d09558f5f9fb057a38786323f326697d1504f097f915df24af7edd7",
+    "4d8507d85a7037296b8e239c81a430d5b676102d5ad81ada234ac5cad7b8576e",
+    "0fb0a253bd1ca3a240201c71abb98159b865d399c0541c7a5c1c097e1987708c",
+    "8ecfcbed23e10036a3e53a11c73977ca5772fa538af3427b61125971403d95cc",
+    "99eb5a5f628f9d4c8f332a5686ce8cde3121976d20849f582569491f201af78b",
+    "4c6c94116641c547d7533f0211d1a5b7c8dda1239f10c3a06e81aa196b18adf5",
+    "5cd0ab6e3ba5bb6dbec162228cdc03af719caef1b358c9bc9f58f2e9b8b60db7",
+    "e714f0d53d00637b53dd1887db89df202b827b6eade9a23411ff2087dcad3afd",
+    "32d62d5d1d09558f5f9fb057a38786323f326697d1504f097f915df24af7edd7",
+    "4d8507d85a7037296b8e239c81a430d5b676102d5ad81ada234ac5cad7b8576e",
+    "0fb0a253bd1ca3a240201c71abb98159b865d399c0541c7a5c1c097e1987708c",
+    "8ecfcbed23e10036a3e53a11c73977ca5772fa538af3427b61125971403d95cc",
+    "99eb5a5f628f9d4c8f332a5686ce8cde3121976d20849f582569491f201af78b",
+    "4c6c94116641c547d7533f0211d1a5b7c8dda1239f10c3a06e81aa196b18adf5",
+    "5cd0ab6e3ba5bb6dbec162228cdc03af719caef1b358c9bc9f58f2e9b8b60db7",
+    "e714f0d53d00637b53dd1887db89df202b827b6eade9a23411ff2087dcad3afd",
+    "32d62d5d1d09558f5f9fb057a38786323f326697d1504f097f915df24af7edd7",
+    "4d8507d85a7037296b8e239c81a430d5b676102d5ad81ada234ac5cad7b8576e",
+    "0fb0a253bd1ca3a240201c71abb98159b865d399c0541c7a5c1c097e1987708c",
+    "8ecfcbed23e10036a3e53a11c73977ca5772fa538af3427b61125971403d95cc",
+    "99eb5a5f628f9d4c8f332a5686ce8cde3121976d20849f582569491f201af78b",
+    "4c6c94116641c547d7533f0211d1a5b7c8dda1239f10c3a06e81aa196b18adf5",
+    "5cd0ab6e3ba5bb6dbec162228cdc03af719caef1b358c9bc9f58f2e9b8b60db7",
+    "e714f0d53d00637b53dd1887db89df202b827b6eade9a23411ff2087dcad3afd",
+    "32d62d5d1d09558f5f9fb057a38786323f326697d1504f097f915df24af7edd7",
+    "4d8507d85a7037296b8e239c81a430d5b676102d5ad81ada234ac5cad7b8576e",
+    "0fb0a253bd1ca3a240201c71abb98159b865d399c0541c7a5c1c097e1987708c",
+    "8ecfcbed23e10036a3e53a11c73977ca5772fa538af3427b61125971403d95cc",
+    "99eb5a5f628f9d4c8f332a5686ce8cde3121976d20849f582569491f201af78b",
+    "4c6c94116641c547d7533f0211d1a5b7c8dda1239f10c3a06e81aa196b18adf5",
+    "5cd0ab6e3ba5bb6dbec162228cdc03af719caef1b358c9bc9f58f2e9b8b60db7"
+  ],
+  "per_operator": {
+    "Linear:blocks.0.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.0.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.05390625,
+      "exact_zeros": 1104,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 141312,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.0.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.0.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.1.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.0775390625,
+      "exact_zeros": 1588,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 203264,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.1.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.1.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.2.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.03359375,
+      "exact_zeros": 688,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 88064,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.2.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.2.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.3.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.18671875,
+      "exact_zeros": 3824,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 489472,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.3.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.3.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.4.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.0701171875,
+      "exact_zeros": 1436,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 183808,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.4.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.4.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.5.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.125,
+      "exact_zeros": 2560,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 327680,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.5.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.5.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.channel_mix.down_proj": {
+      "calls": 32,
+      "elements": 217600,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          170
+        ],
+        [
+          1,
+          32,
+          170
+        ],
+        [
+          1,
+          48,
+          170
+        ]
+      ]
+    },
+    "Linear:blocks.6.channel_mix.gate_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.channel_mix.up_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 27852800,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.remixer.pool_down": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.remixer.pool_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.remixer.pool_up": {
+      "calls": 32,
+      "elements": 20480,
+      "exact_zero_fraction": 0.0498046875,
+      "exact_zeros": 1020,
+      "logical_total_weight_macs": 2621440,
+      "logical_zero_weight_macs": 130560,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          16
+        ],
+        [
+          1,
+          32,
+          16
+        ],
+        [
+          1,
+          48,
+          16
+        ]
+      ]
+    },
+    "Linear:blocks.6.remixer.saliency_proj": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 163840,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.token_mix.W_o": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 20971520,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.token_mix.dil_gate": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 655360,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    },
+    "Linear:blocks.6.token_mix.proj_in": {
+      "calls": 32,
+      "elements": 163840,
+      "exact_zero_fraction": 0.0,
+      "exact_zeros": 0,
+      "logical_total_weight_macs": 41943040,
+      "logical_zero_weight_macs": 0,
+      "nonfinite": 0,
+      "shape_examples": [
+        [
+          1,
+          16,
+          128
+        ],
+        [
+          1,
+          32,
+          128
+        ],
+        [
+          1,
+          48,
+          128
+        ]
+      ]
+    }
+  },
+  "prompt_byte_lengths": [
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64,
+    16,
+    32,
+    48,
+    64
+  ],
+  "prompts": 32,
+  "quantization": "none; pretrained torch float inference",
+  "summary_by_operator": {
+    "Linear": {
+      "elements": 10841600,
+      "exact_zero_fraction": 0.0011271399055489966,
+      "exact_zeros": 12220,
+      "logical_total_weight_macs": 1072332800,
+      "logical_zero_weight_macs": 1564160
+    }
+  },
+  "upstream_source_commit": "8300d64843dd9e0baa9270600632c25e5aa15dc5"
+}
