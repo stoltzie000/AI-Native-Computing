@@ -1,0 +1,12 @@
+test_burst_comparison_same_useful_data (test_reference.ReferenceTests.test_burst_comparison_same_useful_data) ... ok
+test_data_width_16_memory (test_reference.ReferenceTests.test_data_width_16_memory) ... ok
+test_full_workload (test_reference.ReferenceTests.test_full_workload) ... ok
+test_invalid_geometry (test_reference.ReferenceTests.test_invalid_geometry) ... ok
+test_no_activations_and_undefined_utilization (test_reference.ReferenceTests.test_no_activations_and_undefined_utilization) ... ok
+test_randomized_independent_dense_oracle (test_reference.ReferenceTests.test_randomized_independent_dense_oracle) ... ok
+test_two_lane (test_reference.ReferenceTests.test_two_lane) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.165s
+
+OK
