@@ -57,6 +57,19 @@ class AuditTests(unittest.TestCase):
             f=Path(td)/'rank1.safetensors'
             build_file(f,{'bias':('F32',(4,),np.zeros((4,),dtype='<f4').tobytes())})
             self.assertEqual(sparse.audit(f)['tensors']['bias']['status'],'skipped_nonmatrix')
+    def test_aggregate_is_weighted_by_blocks_not_tensor_mean(self):
+        with tempfile.TemporaryDirectory() as td:
+            f=Path(td)/'aggregate.safetensors'
+            a=np.zeros((8,8),dtype=np.int8);a[0,0]=1
+            b=np.zeros((4,4),dtype=np.int8)
+            build_file(f,{'a':('I8',a.shape,a.tobytes()),'b':('I8',b.shape,b.tobytes())})
+            x=sparse.audit(f,blocks=(4,))['aggregate']
+            self.assertEqual(x['measured_matrix_tensors'],2)
+            self.assertEqual(x['elements'],80)
+            self.assertEqual(x['zero_elements'],79)
+            self.assertEqual(x['blocks']['4']['eligible_blocks'],5)
+            self.assertEqual(x['blocks']['4']['zero_blocks'],4)
+            self.assertAlmostEqual(x['blocks']['4']['zero_block_fraction'],0.8)
     def test_reject_bad_block_shapes(self):
         for sizes in ((0,4),(3,4),(3,4,6),()):
             with self.subTest(sizes=sizes),self.assertRaises(ValueError):sparse.audit('absent',sizes)
