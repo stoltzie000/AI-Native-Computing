@@ -20,3 +20,6 @@ Investigate **memory-on-package or wafer-scale state residence**, minimizing chi
 2. Estimate total die area/technology feasibility for 48 GB SRAM, I/O bandwidth, power, cooling and signal integrity using documented component data, not guesses.
 3. Build a timed memory/interconnect transaction simulator; quantify bank conflicts, placement, network load, setup overhead and failure modes.
 4. Reject or revise after each gate. Build RTL/FPGA sub-blocks only when model survives falsification.
+
+## A5: Twelve GB SRAM per *single conventional die*
+**Rejected by SRAM density constraint.** At 38.1 Mb/mm² the SRAM macros alone require >= 2,520 mm², ~2.94 times the 858 mm² exposure field; logic/routing make it larger. Revised architecture is a logical SRAM node built from a stitched wafer or multiple dies, not a single conventional die. See `PHYSICAL_FEASIBILITY_SCREEN.md` and `physical_limits.py`. No updated physical bandwidth/power estimate exists.
