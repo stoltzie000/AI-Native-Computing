@@ -18,6 +18,7 @@ class TilingTests(unittest.TestCase):
         x=estimate(Tiling(active_columns=0))
         self.assertEqual(x["requests"],0)
         self.assertEqual(x["transferred_bytes"],0)
+        self.assertIsNone(x["burst_utilization"])
     def test_same_burst_larger_row_tiles(self):
         for rows in (4,8,16,32,64):
             x=estimate(Tiling(row_tile=rows))
