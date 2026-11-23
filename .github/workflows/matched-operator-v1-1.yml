@@ -1,0 +1,118 @@
+name: Matched operator v1.1 — exact INT8 math in both hardware paths
+
+on:
+  push:
+    branches:
+      - research/matched-matvec-v1-1
+    paths:
+      - '.github/workflows/matched-operator-v1-1.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-shared-math:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - name: Checkout our project (read-only)
+        uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+      - name: Checkout pinned openTPU source (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - name: Checkout pinned Verilator 5.054 source
+        uses: actions/checkout@v4
+        with:
+          repository: verilator/verilator
+          ref: bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          path: tools/verilator-src
+          persist-credentials: false
+      - name: Install Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Verilog/Verilator prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog autoconf automake bison flex libfl-dev help2man make g++ perl
+      - name: Build previously verified pinned Verilator toolchain
+        working-directory: tools/verilator-src
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          autoconf
+          ./configure --prefix="$RUNNER_TEMP/verilator-v5.054"
+          make -j 2
+          make install
+          echo "$RUNNER_TEMP/verilator-v5.054/bin" >> "$GITHUB_PATH"
+      - name: Install upstream package and freeze tool identities
+        working-directory: upstream
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python -m pip install 'numpy==2.2.6' 'pytest==8.4.2'
+          python -m pip install -e .
+          verilator --version | grep -F 'Verilator 5.054'
+          iverilog -V | head -2 || true
+          mkdir -p ../project/experiments/matched_operator_v1_1/results
+          python -m pip freeze > ../project/experiments/matched_operator_v1_1/results/pip_freeze.txt
+          verilator --version > ../project/experiments/matched_operator_v1_1/results/verilator_version.txt
+          git rev-parse HEAD > ../project/experiments/matched_operator_v1_1/results/upstream_sha.txt
+      - name: Verify independent oracle, immutable fixtures and original v1.0 regression
+        working-directory: project
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s experiments/matched_operator_v1_1/tests -p 'test_*.py' -v
+          python -m unittest discover -s prototype_v1_0/tests -p 'test_*.py' -v
+          python experiments/matched_operator_v1_1/fixture.py --out experiments/matched_operator_v1_1/results/generated
+          printf '%s  %s\n' '6cacaf38065f50773531c84408572d930988a0c51d01608212db152cde474d38' 'experiments/matched_operator_v1_1/results/generated/fixtures.json' | sha256sum -c -
+      - name: Run actual openTPU ISA for all eleven identical mathematical fixtures
+        working-directory: project
+        run: |
+          set -euo pipefail
+          python experiments/matched_operator_v1_1/opentpu_adapter.py \
+            --fixtures experiments/matched_operator_v1_1/results/generated/fixtures.json \
+            --backend isa --out experiments/matched_operator_v1_1/results/openTPU_ISA.json
+      - name: Run unmodified project RTL with exactly the same fixtures (2/4 lanes)
+        working-directory: project
+        run: |
+          set -euo pipefail
+          mkdir -p experiments/matched_operator_v1_1/results/rtl
+          for lanes in 2 4; do
+            iverilog -g2012 -Wall -s tb_shared_fixture -Ptb_shared_fixture.LANES_TB="$lanes" \
+              -o "$RUNNER_TEMP/ours_v11_$lanes" \
+              prototype_v1_0/rtl/column_buffered_pe.v \
+              experiments/matched_operator_v1_1/rtl/tb_shared_fixture.sv
+            python -c 'import json; print("\n".join(c["name"] for c in json.load(open("experiments/matched_operator_v1_1/results/generated/fixtures.json"))["cases"]))' | while read -r name; do
+              b="experiments/matched_operator_v1_1/results/generated/memh/$name"
+              vvp "$RUNNER_TEMP/ours_v11_$lanes" \
+                "+WFILE=${b}_weights.hex" "+XFILE=${b}_vector.hex" "+GFILE=${b}_expected.hex" \
+                | tee -a "experiments/matched_operator_v1_1/results/rtl/lane_${lanes}.log"
+            done
+            test "$(grep -c "PASS_SHARED_INT8_RTL LANES=$lanes" "experiments/matched_operator_v1_1/results/rtl/lane_${lanes}.log")" = 11
+          done
+      - name: Run actual openTPU Verilator RTL on three same-input control fixtures
+        working-directory: project
+        run: |
+          set -euo pipefail
+          python experiments/matched_operator_v1_1/opentpu_adapter.py \
+            --fixtures experiments/matched_operator_v1_1/results/generated/fixtures.json \
+            --backend rtl --rtl-cases dense_random,half_active,all_zero_vector \
+            --out experiments/matched_operator_v1_1/results/openTPU_RTL.json
+          test -z "$(git -C ../upstream diff --name-only)"
+      - name: Preserve complete trace, inputs and outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matched-int8-matvec-v1-1-evidence
+          path: project/experiments/matched_operator_v1_1/results/
+          if-no-files-found: warn
+          retention-days: 30
