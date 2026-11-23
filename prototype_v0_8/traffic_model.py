@@ -28,7 +28,8 @@ class TrafficScenario:
 
     @property
     def best_case_bandwidth_speedup(self):
-        return self.original_gb/self.gated_gb
+        # Zero total traffic is an unbounded memory-only bound, not realizable speed.
+        return float("inf") if self.gated_gb == 0 else self.original_gb/self.gated_gb
 
     def required_zero_fraction(self,target_speedup):
         if target_speedup<=0 or not isfinite(target_speedup):
