@@ -1,0 +1,29 @@
+test_deterministic_demonstration (test_functional_collectives.Correctness.test_deterministic_demonstration) ... ok
+test_exact_integer_known_vector (test_functional_collectives.Correctness.test_exact_integer_known_vector) ... ok
+test_random_sizes_against_independent_sum (test_functional_collectives.Correctness.test_random_sizes_against_independent_sum) ... ok
+test_reject_unsupported_layout (test_functional_collectives.Correctness.test_reject_unsupported_layout) ... ok
+test_energy_unknown_unless_assumed (test_network.CollectiveArithmetic.test_energy_unknown_unless_assumed) ... ok
+test_integration_module_mismatch (test_network.CollectiveArithmetic.test_integration_module_mismatch) ... ok
+test_integration_slower_with_slower_links (test_network.CollectiveArithmetic.test_integration_slower_with_slower_links) ... ok
+test_mesh_optimized_ring_has_unit_hops (test_network.CollectiveArithmetic.test_mesh_optimized_ring_has_unit_hops) ... ok
+test_more_data_not_faster (test_network.CollectiveArithmetic.test_more_data_not_faster) ... ok
+test_more_hop_delay_increases_latency (test_network.CollectiveArithmetic.test_more_hop_delay_increases_latency) ... ok
+test_more_link_budget_faster_or_equal (test_network.CollectiveArithmetic.test_more_link_budget_faster_or_equal) ... ok
+test_not_power_of_two_recursive_rejected (test_network.CollectiveArithmetic.test_not_power_of_two_recursive_rejected) ... ok
+test_recursive_doubling_three_stages (test_network.CollectiveArithmetic.test_recursive_doubling_three_stages) ... ok
+test_ring_volume_independent_of_topology (test_network.CollectiveArithmetic.test_ring_volume_independent_of_topology) ... ok
+test_smaller_efficiency_slower (test_network.CollectiveArithmetic.test_smaller_efficiency_slower) ... ok
+test_trace_doesnt_change_timing (test_network.CollectiveArithmetic.test_trace_doesnt_change_timing) ... ok
+test_two_node_recursive_doubling_closed_form (test_network.CollectiveArithmetic.test_two_node_recursive_doubling_closed_form) ... ok
+test_two_node_ring_closed_form (test_network.CollectiveArithmetic.test_two_node_ring_closed_form) ... ok
+test_complete_graph_divides_fixed_wiring_budget (test_network.PhysicalBounds.test_complete_graph_divides_fixed_wiring_budget) ... ok
+test_complete_graph_rejected_at_four_ports (test_network.PhysicalBounds.test_complete_graph_rejected_at_four_ports) ... ok
+test_mesh_edge_count (test_network.PhysicalBounds.test_mesh_edge_count) ... ok
+test_mesh_routing (test_network.PhysicalBounds.test_mesh_routing) ... ok
+test_reject_invalid_parameter (test_network.PhysicalBounds.test_reject_invalid_parameter) ... ok
+test_ring_ports_and_links (test_network.PhysicalBounds.test_ring_ports_and_links) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.096s
+
+OK
