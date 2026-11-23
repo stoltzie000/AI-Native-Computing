@@ -1,0 +1,38 @@
+name: Block-sparse PE RTL and Python reference
+
+on:
+  push:
+    paths:
+      - 'prototype_v0_6/**'
+      - '.github/workflows/sparse-rtl-tests.yml'
+  pull_request:
+    paths:
+      - 'prototype_v0_6/**'
+      - '.github/workflows/sparse-rtl-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rtl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+      - name: Python arithmetic and skip metadata reference
+        run: python -m unittest discover -s prototype_v0_6 -p 'test_*.py' -v
+      - name: Compile synthesizable candidate and testbench
+        run: |
+          mkdir -p prototype_v0_6/build
+          iverilog -g2012 -Wall -s tb_block_sparse_pe -o prototype_v0_6/build/pe_tb prototype_v0_6/rtl/block_sparse_pe.v prototype_v0_6/rtl/tb_block_sparse_pe.v
+      - name: Execute signed arithmetic and skip RTL simulations
+        run: vvp prototype_v0_6/build/pe_tb | tee prototype_v0_6/build/pe_log.txt
+      - name: Reject missing PASS evidence
+        run: grep -F 'PASS block_sparse_pe RTL functional tests' prototype_v0_6/build/pe_log.txt
