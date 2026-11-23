@@ -2,7 +2,7 @@
 Last updated: 2026-11-23
 
 ## Current phase
-Project baseline established; first-principles architecture research and experiment design. No competitive processor has yet been demonstrated.
+E1 transaction/dependency modeling and CPU functional dataflow proof-of-concept complete (v0.3); calibration, real hardware, E2+ and competitive validation pending. No competitive processor has yet been demonstrated.
 
 ## Decisions
 - Design a complete AI-native computer, not merely a GPU replacement card.
@@ -87,3 +87,28 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Gate status:** E1 calculations validated for selected assumptions; G0 benchmarking incomplete; G1 capacity constraints modeled, real physical feasibility remains OPEN; G2-G5 NOT PASSED. No physical superiority claim.
 
 **Next implementation priority:** event-level trace simulator with attention/weight transfers, bank-level routing/latency and topology; examine wafer-scale/stacked/hybrid alternatives with physical data and compare to measured optimized GPU benchmarks. Preserve failed architectures and hypotheses.
+
+## 2026-11-23 checkpoint — v0.3 transaction/dependency simulator and functional reference
+**Completed/verified:** `simulator_v0_3/` was built in an isolated Python 3.13 runtime with only the standard library. **43/43 automated tests passed**, including independent single-tile closed-form timing reference, storage/traffic conservation, GQA head-layout rejection, bandwidth/interconnect/bank stress tests, and a randomized CPU-only sharded matrix-vector + ring-all-reduce functional demonstration. Deterministic JSON results reproduced byte-identically. All 11 simulator project files were individually created on GitHub, fetched back, and verified by exact matching Git blob SHA to the tested local files. Existing README, archived v0.1 and v0.2.1 were preserved.
+
+**Results (32K context, batch 1; all E1 conditional calculations, no measured throughput):**
+- RTX 5090 peak-memory proxy: 66.736 output steps/s.
+- H200 peak-memory proxy: 174.5358.
+- MI355X peak-memory proxy: 283.7645.
+- 4-node hypothetical HBM fabric: 433.1111.
+- 8-node hypothetical HBM fabric: 460.7876.
+- 8-node hybrid HBM+small SRAM hypothetical: 448.7078.
+- 4-node 48GB wafer/multi-die SRAM hypothesis: 814.4617; **not a validated physically realizable node**.
+- 8-node hot-bank stress case: 45.546 (fails comparator).
+- 8-node HBM with 40% useful bulk bandwidth: 240.6689 (fails uncalibrated MI355X proxy).
+- 8-node HBM with fabric latency increased to 20 microseconds: 110.1055 (fails comparator).
+- 16-node head-sharding case: rejected by this simulator's strict divisibility constraint, not necessarily impossible hardware.
+- Toy 8×12 matrix-vector across 4 nodes: zero absolute error vs independent serial reference, 24 logical ring messages; not a full neural network.
+
+**Decision:** Prioritize the 8-module HBM fabric as the next **falsifiable research candidate**, not an accepted processor/motherboard design. Existing SRAM-only hypothesis remains high-risk. Small-SRAM hybrid did not win under current asymmetric HBM assumptions, so redo with controlled equal bulk HBM settings. The report's baseline GPU rates are synthetic service-time calculations based on vendor memory-peak specs, not optimized/measured GPU performance. No claim of superiority is warranted.
+
+**Files:** `simulator_v0_3/{engine.py,scenarios.py,run_experiments.py,functional_microkernel.py,test_engine.py,test_microkernel.py,README.md}`; `simulator_v0_3/docs/{ARCHITECTURE_REVIEW.md,RESEARCH_SOURCES.md}`; `simulator_v0_3/results/{summary.json,test_run.txt}`. New regression workflow: `.github/workflows/simulator-v0-3-tests.yml`; configured, its remote execution has NOT been verified.
+
+**Next gate (pending):** implement per-link network topology and arbitration with finite issue queues, physically grounded memory/bank timings, power and area; obtain matched optimized GPU traces and a task-quality suite before any superiority comparison. Design and electrically test an initial prototype module only after its constraints survive falsification. No real motherboard, ASIC or FPGA has been built, ordered or modified.
+
+**Task numbering:** No executable AI-assistant handoff task is assigned; do not silently reset task sequencing.
