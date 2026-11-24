@@ -33,6 +33,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y iverilog
       - working-directory: project
         run: |
+          set -euo pipefail
           python experiments/quantized_pipeline_g13/verify_pipeline.py
           python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_memory_model.py' -v
           python experiments/quantized_pipeline_g13/memory_model.py | tee g13-memory-results.json
@@ -61,6 +62,8 @@ jobs:
           test "$(grep -c '^PASS_RESET' g13-protocol.log)" -eq 12
           test "$(grep -c '^PASS_PROTOCOL_STRESS' g13-protocol.log)" -eq 8
           test "$(grep -c '^PASS_PROTOCOL_SUITE' g13-protocol.log)" -eq 4
+          G13_FIXTURE_ROOT=g13-fixtures python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_burst_reference.py' -v | tee g13-burst-reference.log
+          test "$(grep -c '^PASS_SYNTHETIC_COMPARATOR' g13-burst-reference.log)" -eq 1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -71,4 +74,5 @@ jobs:
             project/g13-memory-pipeline.json
             project/g13-rtl.log
             project/g13-protocol.log
+            project/g13-burst-reference.log
           if-no-files-found: warn
