@@ -1,0 +1,55 @@
+name: G1.3 independent original FP32 add/sub FTZ differential
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-fp32-addsub-original.yml'
+      - 'experiments/g13_qact_offset/fp32_addsub_oracle.py'
+      - 'experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v'
+      - 'experiments/g13_qact_offset/rtl/tb_fp32_addsub_ftz.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arithmetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Cross-check independent arithmetic oracles
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/fp32_addsub_oracle.py --upstream upstream --out fp32-addsub-fixtures | tee fp32-addsub-oracle.log
+          grep -q '^PASS_FP32_ADDSUB_ORACLE vectors=8192' fp32-addsub-oracle.log
+      - name: Run original FP32 add/sub RTL differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          iverilog -g2012 -Wall -s tb_fp32_addsub_ftz -o /tmp/fp32-addsub.vvp experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v experiments/g13_qact_offset/rtl/tb_fp32_addsub_ftz.sv
+          vvp /tmp/fp32-addsub.vvp +folder=fp32-addsub-fixtures | tee fp32-addsub-rtl.log
+          grep -q '^PASS_FP32_ADDSUB_RTL vectors=8192 add=4096 sub=4096' fp32-addsub-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-fp32-addsub-differential
+          path: |
+            fp32-addsub-oracle.log
+            fp32-addsub-rtl.log
+            fp32-addsub-fixtures/manifest.json
+          if-no-files-found: warn
