@@ -33,6 +33,9 @@ jobs:
           timeout 300s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS $src/qact_group_offset.v; synth -top qact_group_offset; stat" | tee qact-offset-generic-synthesis.log
           grep -q 'Number of cells:' qact-offset-generic-synthesis.log
           echo PASS_QACT_OFFSET_GENERIC_SYNTH
+          timeout 300s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS $src/qact_group_offset_hier.v; synth -top qact_group_offset_hier; stat" | tee qact-offset-hier-generic-synthesis.log
+          grep -q 'Number of cells:' qact-offset-hier-generic-synthesis.log
+          echo PASS_QACT_OFFSET_HIER_GENERIC_SYNTH
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -41,4 +44,5 @@ jobs:
             qact-yosys-version.log
             q8-generic-synthesis.log
             qact-offset-generic-synthesis.log
+            qact-offset-hier-generic-synthesis.log
           if-no-files-found: warn

@@ -9,6 +9,8 @@ on:
       - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv'
       - 'experiments/g13_qact_offset/test_q8_reference.py'
+      - 'experiments/g13_qact_offset/rtl/qact_group_offset_hier.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_group_offset_hier.sv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,6 +44,13 @@ jobs:
           done
           test "$(grep -c '^PASS_QACT_OFFSET_RTL' qact-offset-rtl.log)" -eq 32
           echo PASS_QACT_OFFSET_SUITE cases=32 groups=256
+          iverilog -g2012 -Wall -s tb_qact_group_offset_hier -o /tmp/qact-offset-hier.vvp experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/tb_qact_group_offset_hier.sv
+          : > qact-offset-hier-rtl.log
+          for directory in qact-offset-fixtures/case_*; do
+            vvp /tmp/qact-offset-hier.vvp "+case=$directory" | tee -a qact-offset-hier-rtl.log
+          done
+          test "$(grep -c '^PASS_QACT_OFFSET_HIER_RTL' qact-offset-hier-rtl.log)" -eq 32
+          echo PASS_QACT_OFFSET_HIER_SUITE cases=32 groups=256
       - name: Independent RNE INT8 Q8 differential
         shell: bash
         run: |
@@ -70,5 +79,6 @@ jobs:
             q8-fixtures/manifest.json
             qact-offset-ref.log
             qact-offset-rtl.log
+            qact-offset-hier-rtl.log
             qact-offset-fixtures/manifest.json
           if-no-files-found: warn
