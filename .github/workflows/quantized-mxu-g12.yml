@@ -42,6 +42,11 @@ jobs:
           python -m pip freeze > project/experiments/quantized_mxu_g12/results/python_dependencies.txt
           iverilog -V > project/experiments/quantized_mxu_g12/results/iverilog_version.txt 2>&1
           test "$(git -C upstream rev-parse HEAD)" = 'd84db55712aba0d40811d7762cb052f05d55b7e5'
+      - name: Verify exact source payload before executing anything
+        working-directory: project
+        run: |
+          set -euo pipefail
+          printf 'edd1cb8ff9f0193900f670c13aa8427a2550c5204ce1ca280c0ff8ef765176d7  experiments/quantized_mxu_g12/exact_core.py\n' | sha256sum -c -
       - name: Run our independent integer oracle tests
         working-directory: project
         run: |
