@@ -1,0 +1,42 @@
+name: G1.3 standalone QACT offset correctness
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-offset.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  qact-offset:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Independent reference and RTL fixture differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m unittest discover -s experiments/g13_qact_offset -p 'test_*.py' -v
+          python experiments/g13_qact_offset/qact_offset_reference.py --output qact-offset-fixtures | tee qact-offset-ref.log
+          grep -q '^PASS_QACT_OFFSET_REFERENCE cases=32 groups=256 sha256=5ccf3dbe8a445c3808abcb39adc96076197a6e6b9f8d65a7e6d51d729684afea' qact-offset-ref.log
+          iverilog -g2012 -Wall -s tb_qact_group_offset -o /tmp/qact-offset.vvp experiments/g13_qact_offset/rtl/qact_group_offset.v experiments/g13_qact_offset/rtl/tb_qact_group_offset.sv
+          : > qact-offset-rtl.log
+          for directory in qact-offset-fixtures/case_*; do
+            vvp /tmp/qact-offset.vvp "+case=$directory" | tee -a qact-offset-rtl.log
+          done
+          test "$(grep -c '^PASS_QACT_OFFSET_RTL' qact-offset-rtl.log)" -eq 32
+          echo PASS_QACT_OFFSET_SUITE cases=32 groups=256
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-offset-verification
+          path: |
+            qact-offset-ref.log
+            qact-offset-rtl.log
+            qact-offset-fixtures/manifest.json
+          if-no-files-found: warn
