@@ -53,6 +53,22 @@ jobs:
           done
           test "$(grep -c '^PASS_FP32_EPILOGUE_ISA' g13-fp32-isa.log)" -eq 24
           grep -q '^PASS_EPILOGUE_REFERENCE' g13-epilogue-reference.log
+          # Integrated 426-byte prequantized operand+FP32 scale loader, seven 64B bursts.
+          iverilog -g2012 -Wall -s tb_mxu_tagged_fp32_pipeline -o /tmp/g13-fp32-pipeline.vvp \
+            $rtl experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            experiments/g13_fp32_epilogue/rtl/mxu_tagged_fp32_pipeline.v \
+            experiments/g13_fp32_epilogue/rtl/tb_mxu_tagged_fp32_pipeline.sv
+          mapfile -t cases < <(find g13-fixtures -maxdepth 1 -type d -name 'case_*' | sort)
+          test "${#cases[@]}" -eq 24
+          : > g13-fp32-pipeline.log
+          for idx in $(seq 0 23); do
+            other=$(((idx+11)%24))
+            vvp /tmp/g13-fp32-pipeline.vvp "+case_a=${cases[idx]}" \
+              "+case_b=${cases[other]}" "+seed=$((20261124+idx))" | tee -a g13-fp32-pipeline.log
+          done
+          test "$(grep -c '^PASS_TAGGED_FP32_PIPELINE' g13-fp32-pipeline.log)" -eq 48
+          test "$(grep -c '^PASS_TAGGED_FP32_FLUSH' g13-fp32-pipeline.log)" -eq 24
+          test "$(grep -c '^PASS_TAGGED_FP32_SUITE' g13-fp32-pipeline.log)" -eq 24
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,5 +77,6 @@ jobs:
             project/g13-epilogue-reference.log
             project/g13-fp32-random.log
             project/g13-fp32-isa.log
+            project/g13-fp32-pipeline.log
             project/g13-fp32-random/summary.json
           if-no-files-found: warn
