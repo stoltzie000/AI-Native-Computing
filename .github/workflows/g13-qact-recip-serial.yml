@@ -1,0 +1,73 @@
+name: G1.3 serial pinned-arithmetic reciprocal RTL
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-recip-serial.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_recip_serial_pinned.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_recip_serial.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reciprocal-serial:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: verilator/verilator
+          ref: bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          path: verilator-src
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build pinned Verilator
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake bison flex libfl-dev help2man make g++ perl
+          test "$(git -C verilator-src rev-parse HEAD)" = bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          (cd verilator-src && autoconf && ./configure --prefix="$RUNNER_TEMP/verilator-pinned" && make -j 2 && make install)
+          echo "$RUNNER_TEMP/verilator-pinned/bin" >> "$GITHUB_PATH"
+      - name: Freeze independent reference
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python project/experiments/g13_qact_offset/recip_software_differential.py --upstream upstream --out recip-fixtures | tee recip-software-reference.log
+          grep -q '^PASS_RECIP_SOFTWARE_DIFFERENTIAL vectors=2048 sha256=059fa351cff407825f45a812204144220dde208a123f632a0c07f3c7e9f891a8' recip-software-reference.log
+      - name: Verify clocked reciprocal controller and bit-exact outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          verilator --version | tee verilator-version.log
+          verilator --binary --timing -j 2 -Wno-fatal --top-module tb_qact_recip_serial --Mdir "$RUNNER_TEMP/obj-qact-recip-serial" \
+            upstream/rtl/vpu/otpu_fp.sv \
+            project/experiments/g13_qact_offset/rtl/qact_recip_serial_pinned.sv \
+            project/experiments/g13_qact_offset/rtl/tb_qact_recip_serial.sv
+          "$RUNNER_TEMP/obj-qact-recip-serial/Vtb_qact_recip_serial" +folder=recip-fixtures | tee recip-serial-rtl.log
+          grep -q '^PASS_RECIP_SERIAL_RTL vectors=2048' recip-serial-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pinned-reciprocal-serial-rtl
+          path: |
+            recip-software-reference.log
+            recip-serial-rtl.log
+            verilator-version.log
+            recip-fixtures/recip-manifest.json
+          if-no-files-found: warn
