@@ -1,0 +1,39 @@
+name: G1.3 independent quantized pipeline
+on:
+  push:
+    branches: [research/quantized-pipeline-g13]
+    paths: ['.github/workflows/quantized-pipeline-g13.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  differential:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install 'numpy==2.2.6' 'pytest==8.4.2'
+          python -m pip install -e upstream
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+      - working-directory: project
+        run: |
+          python experiments/quantized_pipeline_g13/verify_pipeline.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g13-evidence
+          path: project/g13-results.json
+          if-no-files-found: warn
