@@ -25,6 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m unittest discover -s . -p 'test_envelope.py' -v 2>&1 | tee tests.log
+          python -m unittest discover -s . -p 'test_interface_pairing.py' -v 2>&1 | tee interface-tests.log
           python envelope.py > scenario.json
           python - <<'PY'
           import json
@@ -43,5 +44,6 @@ jobs:
           name: g14-analytic-evidence
           path: |
             experiments/g1_hbm4_envelope/tests.log
+            experiments/g1_hbm4_envelope/interface-tests.log
             experiments/g1_hbm4_envelope/scenario.json
           if-no-files-found: warn
