@@ -3,7 +3,10 @@ on:
   push:
     branches: [research/g1-hbm4-controller-envelope]
     paths:
-      - 'experiments/g1_hbm4_envelope/**'
+      - 'experiments/g1_hbm4_envelope/envelope.py'
+      - 'experiments/g1_hbm4_envelope/test_envelope.py'
+      - 'experiments/g1_hbm4_envelope/interface_pairing.py'
+      - 'experiments/g1_hbm4_envelope/test_interface_pairing.py'
       - '.github/workflows/g1-hbm4-envelope.yml'
   workflow_dispatch:
 permissions:
