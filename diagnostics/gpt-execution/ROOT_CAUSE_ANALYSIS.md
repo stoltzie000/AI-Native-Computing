@@ -39,3 +39,14 @@ WORKFLOW MITIGATION: avoid unnecessary final messages while work remains, persis
 
 ## Updated falsification boundary G
 Observed active execution persisted approximately seven minutes with external CI and repeated GitHub checkpoint operations. A universal forced 180-second **total-turn** timeout is inconsistent with this single session. A **180-second inactivity** timeout remains UNTESTED because messages/calls occurred during the period and client reception was not instrumented. Prior GPT-6 status incident is not proof of a causal link. Deliberate assistant final replies and client delivery errors must not be conflated.
+
+## Provisional answers to requested eight questions — checkpoint H
+1. WHY: For prior explicitly authored assistant final messages with outstanding work, the observable mechanism is an assistant-generated response boundary. The hidden reason it was selected is UNKNOWN. For the client text "Message delivery timed out", root cause UNKNOWN (user-reported, no transport trace).
+2. WHEN: Prior final responses occurred at engineering checkpoints while pending work remained; exact interruption timestamps UNKNOWN. Controlled current response sustained approximately 14m13s.
+3. TRIGGER: No verified trigger. A checkpoint may coincide with a final response but causation unproved. No evidence of universal 180-second total-duration cap. Inactivity threshold untested.
+4. HOW: Distinct outcomes: (a) assistant emits a final response with text; (b) client reports a delivery timeout. GitHub Actions continues independently in either case. No transport-level mechanism available.
+5. REPRODUCIBILITY: 12/12 arithmetic, 1000/1000 JS byte reference, 10x1000 CI independent processes, 5/5 calculator tests, multiple checkpoints pass. Earlier response termination examples exist; a controlled message-delivery timeout was not reproduced.
+6. VOLUNTARY OR EXTERNAL: Assistant-generated final messages are observable. Whether hidden orchestrator instructed/limited the model cannot be determined. Client timeout may be external, but insufficient evidence.
+7. WORKFLOW CORRECTION: Bounded operations, substantive updates, idempotent GitHub writes, remote-state reconciliation, durable checkpoints and hourly scheduled independent check were implemented/verified. None can modify OpenAI transport or force infinite turn duration.
+8. OPENAI INTERVENTION: Necessary only to identify server-side root causes when client transport traces/request IDs indicate platform failures. No causal evidence now allows a definite attribution; user-facing support investigation is appropriate if errors recur with exact timestamps.
+Statistical BEFORE/AFTER timeout frequency: UNKNOWN in both periods; never assign a numeric rate with no observed client outcome denominator.

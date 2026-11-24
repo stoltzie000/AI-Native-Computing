@@ -56,3 +56,12 @@
 - During checkpoint creation, diagnostic authoring initially raised a local template SyntaxError before mutation; corrected and retried. Do not classify this as a transport failure.
 - T4 actual client receipt comparison and T7 fresh-thread comparison remain UNTESTED; no client error timestamp/request trace available.
 - NEXT_ACTION: collect client telemetry in a controlled future/new chat if accessible; continue independent G1 engineering and preserve any additional evidence.
+
+## Checkpoint H — 14-minute active execution and multiple engineering gates
+- Initial JS timestamp 2026-11-24T17:14:40.194Z. Separate container clock read 2026-11-24T17:28:53Z, approximately 14m13s of active execution. Time sources not independently synchronized. Model continued invoking tools and authoring updates; no in-band explicit client delivery timeout observed, but actual client ACK remains unavailable.
+- Multiple isolated GitHub commits were made, each using non-force expected-parent updates and re-fetch checks. Independent diagnostic CI 45447254098 PASS (5 analyzer tests; 10x software reference).
+- Parallel G1 validation: run 45447601577 PASS (writeback reset), 45448043366 PASS (75,373 generic parallel FP32 epilogue cells), 45448575985 PASS (48 exact serial FP32 jobs, 10,660 cells), 45448838412 PASS (32 independent QACT offset fixtures, 256 outputs). Evidence preserved in original branches with separate PROJECT_STATE.md checkpoints. Failures including serial fixture dependency 45448499448 retained and corrected.
+- Built-in hourly GitHub check successfully created to continue independent research and check CI after conversation termination. It operates at most hourly, not continuously; it cannot collect client transport telemetry or guarantee delivery.
+- Last successful authored user-visible update: progress reporting about shared epilogue and QACT results. Exact client display time UNKNOWN.
+- T4 30s/60s/120s/normal actual receipt experiment NOT RUN; T7 fresh-versus-heavy conversation NOT RUN. Need authorized client-side observation environment and repeated controlled threads to measure them. Do not treat lack of observed failure as zero timeout frequency.
+- Remaining exact next diagnostic action: collect private, redacted client send/receive timestamps and matching visible error from a future failure, then run randomized counterbalanced T4/T7 trials. Do not expose private HAR in public GitHub.
