@@ -1,0 +1,11 @@
+run,concurrency,system_tps,interactivity_tps_per_user,ttft_p90_ms,qps,provisioned_power_kw,power_kind,accuracy_score,submission_uuid,source_url
+1,16,3741.6,233.9,112.8,4.0704,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+2,24,5266.2,219.4,114.9,5.8007,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+3,32,6643.8,207.6,118.8,7.3865,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+4,64,12000.3,187.5,100.9,12.9448,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+5,128,20302.7,158.6,145.2,22.3441,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+6,256,33555.1,131.1,196.6,36.5167,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+7,512,53781.8,105,327.7,58.504,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+8,1024,75011.7,73.3,2561.7,80.6855,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+9,2048,93065.5,45.4,2424.8,98.8827,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51
+10,3072,103537,33.7,7085.1,107.5036,12.61,PROVISIONED_DECLARED,UNKNOWN,618254e9-a8b8-47e6-8851-d21dd6b4af51,https://results.mlcommons.org/endpoints/report?source=phase2&submission=618254e9-a8b8-47e6-8851-d21dd6b4af51

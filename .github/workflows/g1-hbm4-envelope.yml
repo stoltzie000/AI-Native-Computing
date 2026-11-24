@@ -1,0 +1,52 @@
+name: G1.4 physical HBM4 interface analytic falsification
+on:
+  push:
+    branches: [research/g1-hbm4-controller-envelope]
+    paths:
+      - 'experiments/g1_hbm4_envelope/envelope.py'
+      - 'experiments/g1_hbm4_envelope/test_envelope.py'
+      - 'experiments/g1_hbm4_envelope/interface_pairing.py'
+      - 'experiments/g1_hbm4_envelope/test_interface_pairing.py'
+      - '.github/workflows/g1-hbm4-envelope.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analytical:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run independent constraints and unit-conservation tests
+        working-directory: experiments/g1_hbm4_envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s . -p 'test_envelope.py' -v 2>&1 | tee tests.log
+          python -m unittest discover -s . -p 'test_interface_pairing.py' -v 2>&1 | tee interface-tests.log
+          python envelope.py > scenario.json
+          python - <<'PY'
+          import json
+          x=json.load(open("scenario.json"))
+          p=x["controller_spec_envelope"]
+          assert p["nominal_capacity_gb"] == 288
+          assert p["controller_peak_tb_s"] == 20.48
+          assert p["hbm_data_pins_at_package_boundary"] == 16384
+          assert p["physical_gate"] == "OPEN_PDK_PHY_PACKAGE_IO_POWER_THERMAL_UNMEASURED"
+          assert x["rubin_peak_comparator_only"]["gpu_measured_tokens_per_second"] is None
+          print("PASS_G14_ANALYTIC_SCREEN")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g14-analytic-evidence
+          path: |
+            experiments/g1_hbm4_envelope/tests.log
+            experiments/g1_hbm4_envelope/interface-tests.log
+            experiments/g1_hbm4_envelope/scenario.json
+          if-no-files-found: warn

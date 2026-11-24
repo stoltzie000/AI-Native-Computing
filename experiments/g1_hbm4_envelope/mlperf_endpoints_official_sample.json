@@ -1,0 +1,51 @@
+{
+  "evidence": "PUBLISHED_OFFICIAL_EXTERNAL_NOT_REPRODUCED",
+  "retrieved_date": "2026-11-24",
+  "benchmark": "MLPerf Endpoints v1.0",
+  "source": "https://results.mlcommons.org/endpoints",
+  "model": "deepseek-v4_1-flash",
+  "records": [
+    {
+      "result_id": "1.0.0.deepseek-v4_1-flash.agentic_combined.1",
+      "submitter": "Krai Ltd",
+      "system": "HPE Cray XD670 8x H200-SXM-141GB vLLM",
+      "gpu_count": 8,
+      "division": "Standardized",
+      "publication_status": "Official",
+      "availability": "Available",
+      "published_date": "2026-11-18",
+      "provisioned_power_kw": 9.73,
+      "power_kind": "PROVISIONED_MLC_ESTIMATED",
+      "actual_wall_power_kw": null,
+      "task_throughput": null
+    },
+    {
+      "result_id": "1.0.0.deepseek-v4_1-flash.mlperf_agentic_inference_dataset.3",
+      "submitter": "NVIDIA Corporation",
+      "system": "NVIDIA Vera Rubin NVL72 4-GPU SUT",
+      "gpu_count": 4,
+      "division": "Standardized",
+      "publication_status": "Official",
+      "availability": "Available",
+      "published_date": "2026-11-18",
+      "provisioned_power_kw": 12.61,
+      "power_kind": "PROVISIONED_DECLARED",
+      "actual_wall_power_kw": null,
+      "task_throughput": null
+    },
+    {
+      "result_id": "1.0.0.deepseek-v4_1-flash.mlperf_agentic_inference_dataset.1",
+      "submitter": "NVIDIA Corporation",
+      "system": "NVIDIA GB300 NVL72 4-GPU SUT",
+      "gpu_count": 4,
+      "division": "Standardized",
+      "publication_status": "Official",
+      "availability": "Available",
+      "published_date": "2026-11-04",
+      "provisioned_power_kw": 7.5,
+      "power_kind": "PROVISIONED_DECLARED",
+      "actual_wall_power_kw": null,
+      "task_throughput": null
+    }
+  ]
+}
