@@ -6,6 +6,7 @@ on:
       - '.github/workflows/g13-qact-stream.yml'
       - 'experiments/g13_qact_offset/rtl/qact_row_stream_wrapper.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_row_stream.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_stream_reset.sv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -48,6 +49,18 @@ jobs:
             $src/tb_qact_row_stream.sv
           vvp /tmp/qact-stream.vvp +folder=qact-stream-fixtures | tee qact-stream.log
           grep -q '^PASS_QACT_STREAM rows=32 inputs=2048 outputs=2304 stalls=' qact-stream.log
+      - name: Three-phase reset and replay regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          iverilog -g2012 -Wall -s tb_qact_stream_reset -o /tmp/qact-stream-reset.vvp \
+            experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            $src/qact_group_offset_hier.v $src/qact_q8_rne.v \
+            $src/qact_row_scaled_serial.v $src/qact_row_stream_wrapper.v \
+            $src/tb_qact_stream_reset.sv
+          vvp /tmp/qact-stream-reset.vvp +folder=qact-stream-fixtures | tee qact-stream-reset.log
+          grep -q '^PASS_QACT_STREAM_RESET aborted=3 recovered=3 outputs=216' qact-stream-reset.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -56,4 +69,5 @@ jobs:
             qact-stream-reference.log
             qact-stream-fixtures/manifest.json
             qact-stream.log
+            qact-stream-reset.log
           if-no-files-found: warn
