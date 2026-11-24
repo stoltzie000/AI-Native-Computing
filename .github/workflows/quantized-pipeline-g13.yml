@@ -45,6 +45,22 @@ jobs:
             done
           done
           test "$(grep -c '^PASS_MEMORY_RTL' g13-rtl.log)" -eq 48
+          # Keep the 48-case baseline and add independent protocol stress.
+          iverilog -g2012 -Wall -s tb_mxu_memory_protocol -o /tmp/g13-protocol.vvp \
+            experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            experiments/quantized_pipeline_g13/rtl/mxu_memory_wrapper.v \
+            experiments/quantized_pipeline_g13/rtl/tb_mxu_memory_protocol.sv
+          mapfile -t cases < <(find g13-fixtures -maxdepth 1 -type d -name 'case_*' | sort)
+          test "${#cases[@]}" -eq 24
+          : > g13-protocol.log
+          for idx in 0 6 12 18; do
+            other=$(((idx+11)%24))
+            vvp /tmp/g13-protocol.vvp "+case_a=${cases[idx]}" \
+              "+case_b=${cases[other]}" "+seed=$((20261124+idx))" | tee -a g13-protocol.log
+          done
+          test "$(grep -c '^PASS_RESET' g13-protocol.log)" -eq 12
+          test "$(grep -c '^PASS_PROTOCOL_STRESS' g13-protocol.log)" -eq 8
+          test "$(grep -c '^PASS_PROTOCOL_SUITE' g13-protocol.log)" -eq 4
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -54,4 +70,5 @@ jobs:
             project/g13-memory-results.json
             project/g13-memory-pipeline.json
             project/g13-rtl.log
+            project/g13-protocol.log
           if-no-files-found: warn
