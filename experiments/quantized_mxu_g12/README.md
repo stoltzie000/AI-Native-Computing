@@ -1,6 +1,6 @@
 # G1.2 — Real openTPU quantized MM numerical contract
 
-**Status: experiment drafted; do not claim external RTL or actual ISA result until GitHub CI succeeds.**
+**Status: VERIFIED.** GitHub Actions [run 45296366906](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45296366906) passed 11/11 independent Python tests, 1/1 upstream actual QACT/MM directed test, 24/24 same-input quantized ISA comparisons and 24/24 independently implemented integer-core RTL cases. [Completed evidence and limitations](CI_EVIDENCE_AND_DECISION_2026-11-23.md).
 
 This experiment corrects a limitation of G1.1: the earlier independent openTPU comparison used FP32 VPU MUL/RSUM instead of its real quantized matrix multiply engine. The pinned source of truth is [openTPU](https://github.com/FeSens/openTPU) at commit `d84db55712aba0d40811d7762cb052f05d55b7e5` (Apache-2.0). No external source is incorporated into this repository.
 
