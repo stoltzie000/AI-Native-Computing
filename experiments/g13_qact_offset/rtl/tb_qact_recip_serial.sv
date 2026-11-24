@@ -3,13 +3,13 @@ module tb_qact_recip_serial;
  reg clk=0;always #5 clk=~clk;
  reg rst_n=0,start=0;reg [31:0] x='x;
  wire ready,done;wire [31:0] result;
- reg [31:0] xvec[0:2047],expect[0:2047];
+ reg [31:0] xvec[0:2047],expected_words[0:2047];
  integer i,cycles,special,normal;string folder;
  qact_recip_serial_pinned dut(.*);
  initial begin
   if(!$value$plusargs("folder=%s",folder))$fatal(1,"fixtures");
   $readmemh({folder,"/recip-input.hex"},xvec);
-  $readmemh({folder,"/recip-expected.hex"},expect);
+  $readmemh({folder,"/recip-expected.hex"},expected_words);
   repeat(3)@(negedge clk);#1;rst_n=1;
   special=0;normal=0;
   for(i=0;i<2048;i=i+1)begin
@@ -21,13 +21,13 @@ module tb_qact_recip_serial;
    cycles=0;
    if(xvec[i][30:23]==0 || xvec[i][30:0]>=32'h7e800000)begin
     special=special+1;
-    if(!done || result!==expect[i])$fatal(1,"special mismatch i=%0d",i);
+    if(!done || result!==expected_words[i])$fatal(1,"special mismatch i=%0d",i);
    end else begin
     normal=normal+1;
     while(!done && cycles<20)begin @(posedge clk);#1;cycles=cycles+1;end
-    if(!done || cycles!=11 || result!==expect[i])
+    if(!done || cycles!=11 || result!==expected_words[i])
      $fatal(1,"recip mismatch i=%0d x=%h got=%h expected=%h cycles=%0d",
-        i,xvec[i],result,expect[i],cycles);
+        i,xvec[i],result,expected_words[i],cycles);
    end
    @(posedge clk);#1;
    if(done || !ready)$fatal(1,"duplicate done or stuck i=%0d",i);
