@@ -14,3 +14,7 @@
 
 ## Next verification
 Add fault injection for unknown/duplicate tags and blocked flush-ack with stale responses. Attempt same-flow Yosys generic synthesis of byte and tagged wrappers including identical integer core to measure generic resource sensitivity, not physical PPA. Then perform controlled same-service-model comparisons and expand full-system G1 feasibility. No final architecture or physical advantage established. PR #11 stays draft and main is preserved.
+
+
+## Static byte-enable RTL synthesis and equivalence — verified
+At commit c78897d234c2f7f4d42a93bdca514041802c4bfd, GitHub Actions [run 45423639794](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45423639794) passed the independent 8-job *original vs static* tagged RTL log equality and all fault cases. Separate Yosys 0.33 `synth -top` generic netlist included 16,320 cells for the full exact INT8 core + static tagged loader hierarchy (per-module 12,767 exact core and 3,554 wrapper reported). CI artifact 14936352849 metadata SHA256 3fbe3be09d79dc0af7e902a2b2f45729abed60ca0ca75d6cb2e94745e1e42ec8. This is a generic cell-level synthesis estimate, not mapped FPGA/ASIC timing, area or power. The original variable-index design and byte wrapper were **not** part of that successful static-only synthesis run; no area/performance ratio established. An earlier separately running comparative synthesis 45421862810 awaits its actual outcome.
