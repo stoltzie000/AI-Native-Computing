@@ -458,3 +458,6 @@ OpenTPU Apache-2.0, pinned upstream d84db55712aba0d40811d7762cb052f05d55b7e5, un
 
 ## G1.3 512-case hierarchical offset stress experiment
 Added deterministic 512×64 FP32 raw word patterns, 4096 expected group offsets using audited independent qact_offset_reference, compare original and optimized hierarchical RTL with same 2048-bit stimuli. Prior 32-case coverage and 36.2% generic cell reduction preserved. Acceptance 512 cases/4096 offsets for BOTH implementations, Python fixture digest saved and CI logs. Pinned external reciprocal RTL test independently executing. NEXT_ACTION verify exact CI run and correct failures; retain original hardware. G1 OPEN.
+
+## QACT hierarchical offset expanded stress verified
+GitHub Actions 45455581360 attempt1 job 138664019736 SUCCESS: 512 deterministic independent 64-word vectors and 4096 exact group offsets matched BOTH original and hierarchical RTL, with no deviations. Existing scaled-Q8 512/512 and reciprocal software 2048/2048 passed again. Original generic cell estimates 26459 vs hier 16876; 36.2% generic cell saving still not physical timing/area/energy. Evidence class RTL_RESULT. Pinned external reciprocal RTL run 45455322411 still executing. NEXT_ACTION inspect pinned external RTL, continue resource-shared custom implementation and physical package feasibility. G1 OPEN.
