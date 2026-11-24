@@ -27,7 +27,7 @@ module tb_qact_row_scaled_serial;
     $fatal(1,"serial QACT mismatch row=%0d elem=%0d got=%h want=%h",row,i,q_flat[i*8+:8],qexpect[row*64+i]);
    for(i=0;i<8;i=i+1)if(offset_flat[i*5+:5]!==dexpect[row*8+i])
     $fatal(1,"serial offset mismatch row=%0d group=%0d",row,i);
-   @(negedge clk);#1;
+   @(posedge clk);#1;
    if(done)$fatal(1,"duplicate done pulse");
   end
   @(negedge clk);#1;rst_n=0;#1;

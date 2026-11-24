@@ -473,3 +473,6 @@ New independent 64-activation QACT module uses hierarchical eight-group offsets,
 
 ## Pinned external openTPU reciprocal RTL reference PASS
 Run 45455322411 attempt1 job 138663074242 SUCCESS: reproducibly built pinned Verilator 5.054 (source bbb60a403932a9f695cb6ff001ceb73de6ad9234) and checked unmodified upstream otpu_fp::fp_recip function, pinned source d84db55712aba0d40811d7762cb052f05d55b7e5. 2048/2048 32-bit output words exact against independent scalar reference, oracle SHA256 059fa351cff407825f45a812204144220dde208a123f632a0c07f3c7e9f891a8. Artifact 14950196876. EVIDENCE EXTERNAL_RTL_REFERENCE, not our original reciprocal, synth area/Fmax/power, nor complete QACT. NEXT_ACTION compare custom resource-shared implementation to pinned reference; serial QACT row candidate CI 45456698600 pending. G1 OPEN.
+
+## Serial QACT first CI fault classification
+Run 45456698600/job 138667957573 failed at TB duplicate-done check following first numerically and cycle-correct output. Original TB sampled before following posedge so one-cycle done pulse was still legitimately high. Correct TB sampling to next posedge after nonblocking updates; do not modify DUT or acceptance criteria. Root cause provisional until rerun. Retain failure evidence and no success claim. NEXT_ACTION inspect corrected CI for all 32 rows and exact 73 active cycles; G1 OPEN.
