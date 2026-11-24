@@ -1,0 +1,35 @@
+name: G0 official benchmark eligibility safeguards
+on:
+  push:
+    branches: [research/g1-hbm4-controller-envelope]
+    paths:
+      - '.github/workflows/g0-benchmark-eligibility.yml'
+      - 'experiments/g1_hbm4_envelope/baseline_eligibility.py'
+      - 'experiments/g1_hbm4_envelope/test_baseline_eligibility.py'
+      - 'experiments/g1_hbm4_envelope/mlperf_endpoints_official_sample.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify non-comparability and power boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s experiments/g1_hbm4_envelope -p test_baseline_eligibility.py -v 2>&1 | tee g0-eligibility-tests.log
+          python experiments/g1_hbm4_envelope/baseline_eligibility.py | tee g0-baseline-status.log
+          grep -q '^PASS_OFFICIAL_ENDPOINTS_LEDGER entries=3' g0-baseline-status.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-baseline-sanity
+          path: |
+            g0-eligibility-tests.log
+            g0-baseline-status.log
+          if-no-files-found: warn
