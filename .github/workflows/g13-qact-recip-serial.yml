@@ -6,6 +6,8 @@ on:
       - '.github/workflows/g13-qact-recip-serial.yml'
       - 'experiments/g13_qact_offset/rtl/qact_recip_serial_pinned.sv'
       - 'experiments/g13_qact_offset/rtl/tb_qact_recip_serial.sv'
+      - 'experiments/g13_qact_offset/rtl/qact_row_clocked_pinned.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_row_clocked_pinned.sv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -61,6 +63,20 @@ jobs:
             project/experiments/g13_qact_offset/rtl/tb_qact_recip_serial.sv
           "$RUNNER_TEMP/obj-qact-recip-serial/Vtb_qact_recip_serial" +folder=recip-fixtures | tee recip-serial-rtl.log
           grep -q '^PASS_RECIP_SERIAL_RTL vectors=2048' recip-serial-rtl.log
+      - name: End-to-end clocked reciprocal and serial QACT row
+        shell: bash
+        run: |
+          set -euo pipefail
+          python project/experiments/g13_qact_offset/qact_full_reference.py --upstream upstream --out clocked-qact-fixtures | tee clocked-qact-reference.log
+          grep -q '^PASS_QACT_FULL_REFERENCE rows=32 q=2048 offsets=256 scales=32' clocked-qact-reference.log
+          src=project/experiments/g13_qact_offset/rtl
+          verilator --binary --timing -j 2 -Wno-fatal --top-module tb_qact_row_clocked_pinned --Mdir "$RUNNER_TEMP/obj-qact-clocked" \
+            upstream/rtl/vpu/otpu_fp.sv project/experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            "$src/qact_q8_rne.v" "$src/qact_group_offset_hier.v" \
+            "$src/qact_row_scaled_serial.v" "$src/qact_recip_serial_pinned.sv" \
+            "$src/qact_row_clocked_pinned.sv" "$src/tb_qact_row_clocked_pinned.sv"
+          "$RUNNER_TEMP/obj-qact-clocked/Vtb_qact_row_clocked_pinned" +folder=clocked-qact-fixtures | tee clocked-qact-rtl.log
+          grep -q '^PASS_QACT_CLOCKED_FULL rows=32 q=2048 offsets=256' clocked-qact-rtl.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -68,6 +84,9 @@ jobs:
           path: |
             recip-software-reference.log
             recip-serial-rtl.log
+            clocked-qact-reference.log
+            clocked-qact-rtl.log
+            clocked-qact-fixtures/full-manifest.json
             verilator-version.log
             recip-fixtures/recip-manifest.json
           if-no-files-found: warn
