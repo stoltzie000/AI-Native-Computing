@@ -422,3 +422,6 @@ Run 45448838412 attempt1 job 138639995299 SUCCESS; 6/6 Python tests, 32/32 indep
 
 ## Q8 RNE research candidate (pending CI)
 Independent FPGA-synthesizable FP32-to-signed-INT8 stage with IEEE RNE, FTZ, NaN->zero, saturation. 2049 frozen values from independent pure-Python integer reference. Acceptance: 6 Python unit tests and 2049 exact RTL output comparisons with archived hash. No existing G1 RTL changed. NEXT_ACTION inspect triggered workflow, preserve failure/results, then continue reciprocal/scale stage; G1 open. LAST_TASK_NUMBER unknown.
+
+## Q8 RNE verified and pinned upstream differential pending
+CI 45453544560 attempt1 job 138656790829 SUCCESS: Python 6/6, 2049/2049 independent RTL Q8 conversions; existing offset 32/32. Oracle frozen SHA256 2aebb2086d9e7488a1388187151d1dfef69d7e01c45fd1cdda44dadc29f3341e. Artifact 14948967583. EVIDENCE CLASS RTL_RESULT for standalone converter. Pinned FeSens/openTPU d84db55712aba0d40811d7762cb052f05d55b7e5 actual q8 differential added to CI, result pending. NEXT_ACTION check 2049/2049 upstream and preserved RTL regressions; diagnose any exceptions before QACT reciprocal/scale integration. G1 OPEN; no physical performance or task-quality evidence.

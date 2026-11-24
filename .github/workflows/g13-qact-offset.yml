@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/g13-qact-offset.yml'
       - 'experiments/g13_qact_offset/q8_reference.py'
+      - 'experiments/g13_qact_offset/q8_upstream_adapter.py'
       - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv'
       - 'experiments/g13_qact_offset/test_q8_reference.py'
@@ -18,6 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
           persist-credentials: false
       - name: Independent reference and RTL fixture differential
         shell: bash
@@ -44,11 +51,20 @@ jobs:
           iverilog -g2012 -Wall -s tb_qact_q8_rne -o /tmp/q8.vvp experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv
           vvp /tmp/q8.vvp +folder=q8-fixtures | tee q8-rtl.log
           grep -q '^PASS_Q8_RTL cases=2049' q8-rtl.log
+      - name: Pinned upstream actual Q8 differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/q8_upstream_adapter.py --fixtures q8-fixtures --upstream upstream | tee q8-upstream.log
+          grep -q '^PASS_Q8_UPSTREAM cases=2049 matched=2049' q8-upstream.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qact-offset-verification
           path: |
+            q8-upstream.log
             q8-oracle.log
             q8-rtl.log
             q8-fixtures/manifest.json
