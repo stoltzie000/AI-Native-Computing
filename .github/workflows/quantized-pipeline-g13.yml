@@ -1,8 +1,10 @@
 name: G1.3 independent quantized pipeline
 on:
-  push:
-    branches: [research/quantized-pipeline-g13]
-    paths: ['.github/workflows/quantized-pipeline-g13.yml']
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/quantized_pipeline_g13/**'
+      - '.github/workflows/quantized-pipeline-g13.yml'
   workflow_dispatch:
 permissions:
   contents: read
