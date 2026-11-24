@@ -30,7 +30,7 @@ module tb_mxu_tagged_fp32_pipeline;
   reg [TAG_W-1:0] held_tag=0;
   string case_a,case_b;
 
-  mxu_tagged_fp32_pipeline #.BURST_BYTES(B),.MAX_OUTSTANDING(4),
+  mxu_tagged_fp32_pipeline #(.BURST_BYTES(B),.MAX_OUTSTANDING(4),
                               .TAG_W(TAG_W)) dut(
     .clk(clk),.rst_n(rst_n),.start(start),.ready(ready),.done(done),
     .protocol_error(protocol_error),.flush_req(flush_req),

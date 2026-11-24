@@ -1,9 +1,9 @@
 `timescale 1ns/1ps
 // Tagged 426-byte prequantized operand+scale loader with bit-exact FP32 epilogue. NOT a DRAM controller.
-// Seven 64-byte transactions fetch 402 useful bytes (tail mask 18 bytes).
+// Seven 64-byte transactions fetch 426 useful bytes (tail mask 42 bytes).
 // A reset forces a flush request; start is blocked until the external
 // responder acknowledges all pre-reset transactions are cancelled.
-module mxu_tagged_fp32_pipeline #
+module mxu_tagged_fp32_pipeline #(
   parameter BURST_BYTES=64,
   parameter MAX_OUTSTANDING=4,
   parameter TAG_W=4
