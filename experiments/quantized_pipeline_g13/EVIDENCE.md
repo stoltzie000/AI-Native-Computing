@@ -1,0 +1,3 @@
+# G1.3 numerical checkpoint
+
+2026-11-24. Run [45409060642](https://github.com/stoltzie000/AI-Native-Computing/actions/runs/45409060642), job 138497606280, completed success. Verified job logs: 512 quantizer rows, 32768 activation values, 24 actual ISA rows, 120 scalar outputs; independent_fp32=true. Artifact 14925184366, SHA256 600d6b87ed05ba71cd687a66c71dcd27c977bb6d31cfb94681366a1d1ad9985f (archive metadata, not independently downloaded). Tested commit b4f8bfec24c6b03cb4dfb302571e5178d806ba60. No memory controller, full pipeline RTL, physical timing or power validation. The earlier G1.2 integer RTL is preserved. Next: bounded memory transaction model with independent conservation and stall tests.
