@@ -1,0 +1,3 @@
+# Memory transaction checkpoint
+
+2026-11-24: GitHub Actions run 45409498946, job 138499129039, completed success; job logs inspected. Seven tests passed, including 500 randomized workloads. Numerical regression: 512 rows, 32768 codes, 24 ISA rows, 120 output words. Workload: 1188 useful bytes, 1216 transferred, 19 bursts (18 reads, one write). Depths 1/2/4/8: 153/81/43/27 synthetic cycles; blocked issue cycles 126/54/16/0. Assumed 64-byte bursts, eight-cycle response latency. This ordered scheduler does not carry data, enforce compute dependencies, model DRAM banks or PHY, or implement RTL. Full G1 feasibility remains open under docs/VALIDATION_PLAN.md. Do not infer actual bandwidth, clock, power, or thermal viability.
