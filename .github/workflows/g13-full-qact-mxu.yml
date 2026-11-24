@@ -1,0 +1,85 @@
+name: G1.3 end-to-end QACT MXU FP32 ISA differential
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-full-qact-mxu.yml'
+      - 'experiments/g13_qact_offset/full_qact_mxu_cases.py'
+      - 'experiments/g13_qact_offset/rtl/qact_mxu_full_pinned.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_full_qact_mxu.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  full-math-differential:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: verilator/verilator
+          ref: bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          path: verilator-src
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Pin and build RTL reference toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y autoconf automake bison flex libfl-dev help2man make g++ perl
+          test "$(git -C verilator-src rev-parse HEAD)" = bbb60a403932a9f695cb6ff001ceb73de6ad9234
+          (cd verilator-src && autoconf && ./configure --prefix="$RUNNER_TEMP/verilator-pinned" && make -j 2 && make install)
+          echo "$RUNNER_TEMP/verilator-pinned/bin" >> "$GITHUB_PATH"
+      - name: Independently regenerate actual pinned ISA QACT/MM fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.2.6'
+          python -m pip install -e upstream
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python project/experiments/g13_qact_offset/full_qact_mxu_cases.py --out qact-mxu-fixtures | tee qact-mxu-reference.log
+          grep -q '^PASS_FULL_QACT_MXU_FIXTURES rows=24 fp32_outputs=120' qact-mxu-reference.log
+      - name: Compile and execute full original QACT-to-MXU operator with pinned reciprocal
+        shell: bash
+        run: |
+          set -euo pipefail
+          verilator --version | tee verilator-version.log
+          base=project/experiments/g13_qact_offset/rtl
+          ep=project/experiments/g13_fp32_epilogue/rtl
+          verilator --binary --timing -j 2 -Wno-fatal --top-module tb_full_qact_mxu --Mdir "$RUNNER_TEMP/obj-full-mxu" \
+            upstream/rtl/vpu/otpu_fp.sv \
+            "$ep/fp32_mul_ftz.v" "$ep/int48_to_fp32_rne.v" "$ep/mxu_integer_epilogue.v" \
+            project/experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            "$base/qact_q8_rne.v" "$base/qact_group_offset_hier.v" \
+            "$base/qact_row_scaled_parallel.v" "$base/qact_row_full_pinned.sv" \
+            "$base/qact_mxu_full_pinned.sv" "$base/tb_full_qact_mxu.sv"
+          : > full-qact-mxu-rtl.log
+          for path in qact-mxu-fixtures/case_*_activation_*; do
+            "$RUNNER_TEMP/obj-full-mxu/Vtb_full_qact_mxu" "+case=$path" | tee -a full-qact-mxu-rtl.log
+          done
+          test "$(grep -c '^PASS_FULL_QACT_MXU ' full-qact-mxu-rtl.log)" -eq 24
+          echo PASS_G13_FULL_QACT_MXU_DIFFERENTIAL executions=24 outputs=120
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: full-qact-mxu-math-evidence
+          path: |
+            qact-mxu-reference.log
+            qact-mxu-fixtures/summary.json
+            qact-mxu-fixtures/arithmetic/summary.json
+            full-qact-mxu-rtl.log
+            verilator-version.log
+          if-no-files-found: warn
