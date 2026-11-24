@@ -72,6 +72,15 @@ jobs:
           test "$(grep -c '^PASS_TAGGED_FP32_PIPELINE' g13-fp32-pipeline.log)" -eq 48
           test "$(grep -c '^PASS_TAGGED_FP32_FLUSH' g13-fp32-pipeline.log)" -eq 24
           test "$(grep -c '^PASS_TAGGED_FP32_SUITE' g13-fp32-pipeline.log)" -eq 24
+          iverilog -g2012 -Wall -s tb_mxu_tagged_fp32_write_pipeline -o /tmp/g13-write-pipeline.vvp $rtl experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v "$base/fp32_result_writeback.v" "$base/mxu_tagged_fp32_write_pipeline.v" "$base/tb_mxu_tagged_fp32_write_pipeline.sv"
+          : > g13-write-pipeline.log
+          for idx in $(seq 0 23); do
+            other=$(((idx+11)%24))
+            vvp /tmp/g13-write-pipeline.vvp "+case_a=${cases[idx]}" "+case_b=${cases[other]}" "+seed=$((20261124+idx))" | tee -a g13-write-pipeline.log
+          done
+          test "$(grep -c '^PASS_TAGGED_FP32_WRITE_PIPELINE' g13-write-pipeline.log)" -eq 48
+          test "$(grep -c '^PASS_TAGGED_FP32_WRITE_FLUSH' g13-write-pipeline.log)" -eq 24
+          test "$(grep -c '^PASS_TAGGED_FP32_WRITE_SUITE' g13-write-pipeline.log)" -eq 24
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -82,5 +91,6 @@ jobs:
             project/g13-fp32-isa.log
             project/g13-fp32-pipeline.log
             project/g13-writeback.log
+            project/g13-write-pipeline.log
             project/g13-fp32-random/summary.json
           if-no-files-found: warn
