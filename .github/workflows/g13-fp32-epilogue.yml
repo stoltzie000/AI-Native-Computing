@@ -56,6 +56,9 @@ jobs:
           iverilog -g2012 -Wall -s tb_fp32_result_writeback -o /tmp/writeback.vvp "$base/fp32_result_writeback.v" "$base/tb_fp32_result_writeback.sv"
           vvp /tmp/writeback.vvp | tee g13-writeback.log
           grep -q '^PASS_WRITEBACK jobs=64 useful_bytes=1280 reset_abort=1' g13-writeback.log
+          iverilog -g2012 -Wall -s tb_fp32_result_writeback_reset -o /tmp/writeback-reset.vvp "$base/fp32_result_writeback.v" "$base/tb_fp32_result_writeback_reset.sv"
+          vvp /tmp/writeback-reset.vvp | tee g13-writeback-reset.log
+          grep -q '^PASS_WRITEBACK_RESET cancelled=1 accepted=2 stale=0' g13-writeback-reset.log
           # Integrated 426-byte prequantized operand+FP32 scale loader, seven 64B bursts.
           iverilog -g2012 -Wall -s tb_mxu_tagged_fp32_pipeline -o /tmp/g13-fp32-pipeline.vvp \
             $rtl experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
@@ -91,6 +94,7 @@ jobs:
             project/g13-fp32-isa.log
             project/g13-fp32-pipeline.log
             project/g13-writeback.log
+            project/g13-writeback-reset.log
             project/g13-write-pipeline.log
             project/g13-fp32-random/summary.json
           if-no-files-found: warn
