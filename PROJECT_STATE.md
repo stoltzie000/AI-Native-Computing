@@ -482,3 +482,6 @@ Run 45456888952 attempt1 job 138668648032 SUCCESS: 32/32 rows, 2048 exact signed
 
 ## G1.3 serial versus parallel QACT generic synthesis — pending
 Same source arithmetic, hierarchy, Yosys generic synthesis on Ubuntu 24.04 matrix two isolated jobs, serial vs parallel. Bounded to 540 seconds each; archive tool version, full generic cell stat and failures. Acceptance both complete within timeout and report cell counts, otherwise preserve failure and redesign. Numerical RTL gates already separately passed 32×64 exact for each. 73 active serial cycles, parallel combinational has no measured clock or throughput; compare cell hierarchy, not performance/watt or physical area. NEXT_ACTION inspect CI logs/versions and quantify serial vs parallel generic cells; proceed physical/timing characterization. G1 OPEN.
+
+## QACT serial reset/overlapping start stress pending
+Standalone adversarial Icarus bench resets DUT at DATA index 16 after group factors, checks 512-bit quantized output and 40-bit offsets clear, no stale completion. It subsequently runs two ISA-backed jobs exact, injecting start while busy at DATA index 10 to ensure ignored. Existing 32-row/73-cycle validated regression retained. Acceptance 1 abort, 2 complete, 0 stale, exact 2×(64Q8+8 offsets). CI pending; failures must be preserved. G1 OPEN.

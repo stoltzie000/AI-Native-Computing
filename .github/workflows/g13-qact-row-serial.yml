@@ -6,6 +6,7 @@ on:
       - '.github/workflows/g13-qact-row-serial.yml'
       - 'experiments/g13_qact_offset/rtl/qact_row_scaled_serial.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_row_scaled_serial.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_serial_abort.sv'
   workflow_dispatch:
 permissions:
   contents: read
@@ -41,6 +42,13 @@ jobs:
           iverilog -g2012 -Wall -s tb_qact_row_scaled_serial -o /tmp/qact-serial.vvp experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/qact_row_scaled_serial.v experiments/g13_qact_offset/rtl/tb_qact_row_scaled_serial.sv
           vvp /tmp/qact-serial.vvp +folder=qact-row-fixtures | tee qact-serial.log
           grep -q '^PASS_QACT_SERIAL rows=32 q=2048 offsets=256 cycles=73' qact-serial.log
+      - name: Reset abort and busy-start adversarial regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          iverilog -g2012 -Wall -s tb_qact_serial_abort -o /tmp/qact-abort.vvp experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/qact_row_scaled_serial.v experiments/g13_qact_offset/rtl/tb_qact_serial_abort.sv
+          vvp /tmp/qact-abort.vvp +folder=qact-row-fixtures | tee qact-serial-abort.log
+          grep -q '^PASS_QACT_SERIAL_RESET aborted=1 completed=2 stale=0' qact-serial-abort.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -49,4 +57,5 @@ jobs:
             qact-row-reference.log
             qact-row-fixtures/manifest.json
             qact-serial.log
+            qact-serial-abort.log
           if-no-files-found: warn
