@@ -1,0 +1,54 @@
+name: G1.3 64-value QACT external-inverse RTL differential
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-row-parallel.yml'
+      - 'experiments/g13_qact_offset/qact_row_reference.py'
+      - 'experiments/g13_qact_offset/rtl/qact_row_scaled_parallel.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_row_scaled_parallel.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  numerical:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install simulator and pinned numpy
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+      - name: Compare independent QACT reference and RTL
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/g13_qact_offset/qact_row_reference.py --upstream upstream --out qact-row-fixtures | tee qact-row-reference.log
+          grep -q '^PASS_QACT_ROW_REFERENCE rows=32 q=2048 offsets=256' qact-row-reference.log
+          iverilog -g2012 -Wall -s tb_qact_row_scaled_parallel -o /tmp/qact-row.vvp experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/qact_row_scaled_parallel.v experiments/g13_qact_offset/rtl/tb_qact_row_scaled_parallel.sv
+          vvp /tmp/qact-row.vvp +folder=qact-row-fixtures | tee qact-row-rtl.log
+          grep -q '^PASS_QACT_ROW_SCALED_RTL rows=32 q=2048 offsets=256' qact-row-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-row-numeric
+          path: |
+            qact-row-fixtures/manifest.json
+            qact-row-reference.log
+            qact-row-rtl.log
+          if-no-files-found: warn
