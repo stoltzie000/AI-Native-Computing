@@ -1,0 +1,82 @@
+name: G1.3 independent RTL FP32 epilogue differential
+on:
+  push:
+    branches: [research/g13-fp32-epilogue]
+    paths:
+      - 'experiments/g13_fp32_epilogue/**'
+      - '.github/workflows/g13-fp32-epilogue.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  rtl-differential:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: project
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare pinned upstream and Icarus
+        run: |
+          set -euo pipefail
+          python -m pip install 'numpy==2.2.6'
+          python -m pip install -e upstream
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+      - name: Generate independent ISA and arithmetic fixtures and run RTL
+        working-directory: project
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/quantized_mxu_g12/adapter.py --output g13-fixtures
+          python experiments/g13_fp32_epilogue/generate_cases.py --fixtures g13-fixtures --output g13-fp32-random | tee g13-epilogue-reference.log
+          base=experiments/g13_fp32_epilogue/rtl
+          rtl="$base/fp32_mul_ftz.v $base/int48_to_fp32_rne.v $base/mxu_integer_epilogue.v"
+          iverilog -g2012 -Wall -s tb_fp32_arithmetic -o /tmp/fp32-random.vvp $rtl "$base/tb_fp32_arithmetic.sv"
+          vvp /tmp/fp32-random.vvp +random=g13-fp32-random | tee g13-fp32-random.log
+          grep -q '^PASS_FP32_ARITHMETIC mul=2048 int48=2048' g13-fp32-random.log
+          iverilog -g2012 -Wall -s tb_mxu_integer_epilogue -o /tmp/fp32-epilogue.vvp $rtl "$base/tb_mxu_integer_epilogue.sv"
+          : > g13-fp32-isa.log
+          for dir in g13-fixtures/case_*; do
+            vvp /tmp/fp32-epilogue.vvp "+case=$dir" | tee -a g13-fp32-isa.log
+          done
+          test "$(grep -c '^PASS_FP32_EPILOGUE_ISA' g13-fp32-isa.log)" -eq 24
+          grep -q '^PASS_EPILOGUE_REFERENCE' g13-epilogue-reference.log
+          # Integrated 426-byte prequantized operand+FP32 scale loader, seven 64B bursts.
+          iverilog -g2012 -Wall -s tb_mxu_tagged_fp32_pipeline -o /tmp/g13-fp32-pipeline.vvp \
+            $rtl experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            experiments/g13_fp32_epilogue/rtl/mxu_tagged_fp32_pipeline.v \
+            experiments/g13_fp32_epilogue/rtl/tb_mxu_tagged_fp32_pipeline.sv
+          mapfile -t cases < <(find g13-fixtures -maxdepth 1 -type d -name 'case_*' | sort)
+          test "${#cases[@]}" -eq 24
+          : > g13-fp32-pipeline.log
+          for idx in $(seq 0 23); do
+            other=$(((idx+11)%24))
+            vvp /tmp/g13-fp32-pipeline.vvp "+case_a=${cases[idx]}" \
+              "+case_b=${cases[other]}" "+seed=$((20261124+idx))" | tee -a g13-fp32-pipeline.log
+          done
+          test "$(grep -c '^PASS_TAGGED_FP32_PIPELINE' g13-fp32-pipeline.log)" -eq 48
+          test "$(grep -c '^PASS_TAGGED_FP32_FLUSH' g13-fp32-pipeline.log)" -eq 24
+          test "$(grep -c '^PASS_TAGGED_FP32_SUITE' g13-fp32-pipeline.log)" -eq 24
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g13-fp32-epilogue-evidence
+          path: |
+            project/g13-epilogue-reference.log
+            project/g13-fp32-random.log
+            project/g13-fp32-isa.log
+            project/g13-fp32-pipeline.log
+            project/g13-fp32-random/summary.json
+          if-no-files-found: warn
