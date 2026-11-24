@@ -413,3 +413,6 @@ Hypothesis: time-multiplexing five FP32 outputs through one signed-INT48 convert
 
 ## Serial fixture dependency correction
 Pre-execution audit found adapter.py does not emit ascale.hex/wscale.hex/expected_fp32.hex; generate_cases.py must run on same ISA fixture directory. Added deterministic generation before Icarus. Previous queued CI 45448499448 may fail due missing fixture files; do not relabel as arithmetic failure, no RTL code changed. NEXT_ACTION inspect both runs, verify new output 48/48 and Yosys synthesis, retain any failed attempts.
+
+## G1.3 shared epilogue verified result 2026-11-24
+Run 45448575985 job 138639047568 SUCCESS: 48 pinned ISA jobs exact five outputs, 11 modeled serial cycles/job. Yosys 0.33 10,660 generic hierarchy cells vs 75,373 parallel, ~85.86% cell reduction; not equal throughput, FPGA/ASIC area, Fmax, timing, power or energy. Initial run 45448499448 failed missing oracle scale fixtures, corrected by generate_cases.py. Evidence experiments/g13_fp32_epilogue/SHARED_EPILOGUE_EVIDENCE.md and artifact 14946203478. NEXT_ACTION integrate serial with full pipeline/control and verify device timing/resource against equal workload; G1 OPEN.
