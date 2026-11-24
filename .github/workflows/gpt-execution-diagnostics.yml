@@ -4,6 +4,8 @@ on:
     branches: [research/gpt-execution-diagnostics-20261124]
     paths:
       - "diagnostics/gpt-execution/burst_reference.js"
+      - "diagnostics/gpt-execution/analyze_delivery.py"
+      - "diagnostics/gpt-execution/test_analyze_delivery.py"
       - ".github/workflows/gpt-execution-diagnostics.yml"
   workflow_dispatch:
 permissions:
@@ -14,6 +16,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Validate diagnostic rate calculator
+        run: python -m unittest discover -s diagnostics/gpt-execution -p 'test_analyze_delivery.py' -v
       - name: Reproduce ten independent deterministic processes
         shell: bash
         run: |

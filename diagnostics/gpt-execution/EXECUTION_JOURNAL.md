@@ -30,3 +30,9 @@
 - Attempt to generate new workflow failed with ReferenceError: i is not defined due to Bash interpolation in a JavaScript template. No mutation occurred during failed attempt. Corrected by escaping template placeholder.
 - Added CI workflow to execute 10 fresh process invocations of the conceptual burst test. CI evidence PENDING. No real client-stream frequency test performed.
 - NEXT_ACTION: inspect exact new CI run and logs, preserve outcome. T4/T7 require independent delivery/receipt instrumentation; do not invent results.
+
+## Checkpoint D — independent CI validated and rate estimator built
+- GitHub Actions run 45446985000, attempt 1, job 138633341093: SUCCESS. Exact log showed RUN_1..RUN_10 success and PASS_DIAGNOSTIC_REFERENCE repeats=10 cases=10000 bytes=2515920. GitHub execution timestamps: START 2026-11-24T17:18:02Z END 17:18:07Z (second-resolution log, not ChatGPT latency).
+- External-source research: OpenAI status currently reports operational (https://status.openai.com/). Prior resolved incident https://status.openai.com/incidents/01M6P50GPP1V98EF8MJ9SH393R impacted Work on Nov 5; unrelated without matching failure times. No published universal 180-second delivery limit verified.
+- Built standard-library Python session analyzer and five tests; locally executed five tests PASS in isolated container. Analyzer never counts UNKNOWN as delivery success and rejects duplicate session IDs/time errors. Client session data not available; live 30/60/120/normal timeout-frequency conclusions remain UNKNOWN.
+- NEXT_ACTION: verify CI tests of calculator, collect independently observed client delivery records in controlled new and existing threads when available; preserve missing evidence explicitly, avoid claiming a causal root cause.

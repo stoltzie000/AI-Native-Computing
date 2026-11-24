@@ -22,3 +22,10 @@ The second observed multi-call wrapper problem strengthens the **harness issue**
 
 ## Corrected interpretation C
 Earlier local parser errors do not justify request-level GitHub failure counts. Third three-call loop succeeded. A 40-second GitHub CI job is an external job duration, not a connector latency measurement. Test T4/T7 require external client receipt telemetry and separate comparable sessions. No measured platform timeout mechanism.
+
+## Checkpoint D — separation of evidence
+- **GitHub external execution:** 10/10 independent process test runs passed on actual GitHub runner, 2,515,920 bytes checked. This supports independent engineering continuity but does not exercise ChatGPT conversation lifecycle.
+- **OpenAI public status:** Current aggregate page reports operational. A resolved 2026-11-05 Work incident exists, but no evidence aligns it with this user's observed errors. No published 180-second idle cutoff verified. No causal attribution.
+- **Session-level analysis:** analytics script calculates Wilson 95% confidence interval for observed timeout proportions; unknown outcomes excluded rather than imputed. Empty template yields no denominator; no before/after claim.
+- **Test 4 design:** counterbalance 30s, 60s, 120s and normal conditions across comparable tasks and clients; require actual message send and receive timestamps, durations, explicit error strings, and at least repeated sessions per group. 120s progress updates may violate user's <=60s mitigation directive: test only in a controlled diagnostic session if knowingly authorized, never inside production G1 work.
+- **Test 7 design:** exact same workload/configuration in established and fresh conversation. This execution cannot start and observe a fresh ChatGPT client thread; marked NOT RUN, not evidence of failure.
