@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 module tb_fp32_arithmetic;
-  reg [31:0] a=0,b=0;
+  reg [31:0] a='x,b='x;
   wire [31:0] result;
-  reg [47:0] n=0;
+  reg [47:0] n='x;
   wire [31:0] conv;
   reg [31:0] aa[0:2047],bb[0:2047],mm[0:2047],ii_want[0:2047];
   reg [47:0] ii[0:2047];

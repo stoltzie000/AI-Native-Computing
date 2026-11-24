@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 module tb_mxu_integer_epilogue;
-  reg [239:0] acc_flat=0;
-  reg [159:0] weight_scale_flat=0;
-  reg [31:0] activation_scale=0;
+  reg [239:0] acc_flat='x;
+  reg [159:0] weight_scale_flat='x;
+  reg [31:0] activation_scale='x;
   wire [159:0] result_flat;
   reg [47:0] input_acc[0:4];
   reg [31:0] weight_scale[0:4], expected[0:4], scale[0:0];
