@@ -64,6 +64,20 @@ jobs:
           test "$(grep -c '^PASS_PROTOCOL_SUITE' g13-protocol.log)" -eq 4
           G13_FIXTURE_ROOT=g13-fixtures python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_burst_reference.py' -v | tee g13-burst-reference.log
           test "$(grep -c '^PASS_SYNTHETIC_COMPARATOR' g13-burst-reference.log)" -eq 1
+          # Tagged burst RTL: independent out-of-order responder and flush.
+          iverilog -g2012 -Wall -s tb_mxu_tagged_burst -o /tmp/g13-tagged.vvp \
+            experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            experiments/quantized_pipeline_g13/rtl/mxu_tagged_burst_wrapper.v \
+            experiments/quantized_pipeline_g13/rtl/tb_mxu_tagged_burst.sv
+          : > g13-tagged-rtl.log
+          for idx in 0 6 12 18; do
+            other=$(((idx+11)%24))
+            vvp /tmp/g13-tagged.vvp "+case_a=${cases[idx]}" \
+              "+case_b=${cases[other]}" "+seed=$((20261124+idx))" | tee -a g13-tagged-rtl.log
+          done
+          test "$(grep -c '^PASS_TAGGED_FLUSH' g13-tagged-rtl.log)" -eq 4
+          test "$(grep -c '^PASS_TAGGED_BURST_RTL' g13-tagged-rtl.log)" -eq 8
+          test "$(grep -c '^PASS_TAGGED_SUITE' g13-tagged-rtl.log)" -eq 4
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -75,4 +89,5 @@ jobs:
             project/g13-rtl.log
             project/g13-protocol.log
             project/g13-burst-reference.log
+            project/g13-tagged-rtl.log
           if-no-files-found: warn

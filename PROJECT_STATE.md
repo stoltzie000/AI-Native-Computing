@@ -350,3 +350,11 @@ Active branch research/quantized-pipeline-g13; PR #11 remains open/draft, PR #6 
 **Open protocol limitation:** Untagged byte RTL demands shared reset and outstanding-response flush by external responder; unflushed stale responses are unsafe. G1 remains OPEN; G0 optimized quality-matched GPU benchmarks and physical memory, interconnect, thermal/power/PHY gates also OPEN. No physical implementation claimed.
 
 **NEXT_ACTION:** Verify new burst-reference CI, then implement tagged bounded-outstanding burst-interface synthesizable RTL with independent out-of-order responder and reset/epoch safety, mask 402-byte tails, consecutive mixed fixtures, and compare exact integer outputs/cycle accounting to the original byte wrapper. Archive failures and iterate. Continue G1 physical feasibility research, GPU baseline collection and independent non-transformer model exploration. No task number assigned; LAST_TASK_NUMBER still unverified, do not reset.
+
+## 2026-11-24 checkpoint — tagged-burst G1.3 RTL candidate pending
+
+Run 45420453258, job 138538226520: **success**. Actual GitHub Actions log inspected: the six Python tagged-burst reference tests passed, including all 24 pinned generated fixture payloads (no skipped tests), 300 randomized unaligned reads, and synthetic comparator 3217/57/19 cycles for byte/64-byte depth1/64-byte depth4 under stated fixed latency. Existing 48-case RTL and 4 protocol suites passed again. This is simulation, not physical bandwidth.
+
+**Implementation in progress:** New isolated experiments/quantized_pipeline_g13/rtl/mxu_tagged_burst_wrapper.v and tb_mxu_tagged_burst.sv, with finite credit, tagged out-of-order response reassembly, tail byte masks, deliberate reset flush handshake and consecutive ISA-backed jobs. Remote RTL compilation and simulation pending at this checkpoint. Existing untagged byte RTL unchanged. Details in TAGGED_RTL_CANDIDATE.md.
+
+**Next action:** Inspect next CI result, diagnose/retest until synthesizable RTL and exact numerical oracle validation pass. Then characterize speed/area/queue sensitivity and pursue physical G1 memory/link/power/thermal feasibility and quality-matched GPU baselines. PR #11 remains draft, no merge, no fabrication authorized. LAST_TASK_NUMBER remains unknown; no numbered handoff issued.
