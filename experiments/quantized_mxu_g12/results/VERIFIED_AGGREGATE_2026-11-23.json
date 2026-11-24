@@ -1,0 +1,25 @@
+{
+  "actual_QACT_MM_FP32_comparison_cases": 24,
+  "compared_output_values": 120,
+  "evidence": "actual CI run and independently inspected artifact; not physical hardware",
+  "experiment": "G1.2 exact INT8 WF0 QACT/MM versus separate integer core RTL",
+  "first_failed_run_id": 45295964951,
+  "first_failure_reason": "transfer-placeholder text committed as exact_core.py, not an arithmetic failure",
+  "git_actions_job_id": 138117665388,
+  "git_actions_run_id": 45296366906,
+  "github_artifact_id": 14877016582,
+  "largest_abs_accumulator": 16945514496,
+  "limitations": [
+    "quantizer and FP32 epilogue not independently implemented in RTL",
+    "synthetic input distribution; not real-model zero-activation statistics",
+    "no actual memory controller, PHY, physical power, FPGA frequency or GPU baseline"
+  ],
+  "python_tests": 11,
+  "separate_RTL_exact_integer_cases": 24,
+  "summary_sha256": "6ec0e20114e0ad153d9dd4701c93b45b4092446644812e9cc596127dd365a9b7",
+  "synthetic_dropped_group_fraction": 0.159375,
+  "synthetic_negative_shift_groups": 153,
+  "total_group_windows": 960,
+  "upstream_MXU_directed_tests": 1,
+  "upstream_commit": "d84db55712aba0d40811d7762cb052f05d55b7e5"
+}
