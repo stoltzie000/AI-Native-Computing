@@ -1,0 +1,44 @@
+name: G1.3 QACT offset and Q8 generic synthesis
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-generic-synth.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-synthesis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Yosys
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V | tee qact-yosys-version.log
+      - name: Map two standalone QACT sub-blocks
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          timeout 300s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS $src/qact_q8_rne.v; synth -top qact_q8_rne; stat" | tee q8-generic-synthesis.log
+          grep -q 'Number of cells:' q8-generic-synthesis.log
+          echo PASS_QACT_Q8_GENERIC_SYNTH
+          timeout 300s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS $src/qact_group_offset.v; synth -top qact_group_offset; stat" | tee qact-offset-generic-synthesis.log
+          grep -q 'Number of cells:' qact-offset-generic-synthesis.log
+          echo PASS_QACT_OFFSET_GENERIC_SYNTH
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-generic-synthesis
+          path: |
+            qact-yosys-version.log
+            q8-generic-synthesis.log
+            qact-offset-generic-synthesis.log
+          if-no-files-found: warn

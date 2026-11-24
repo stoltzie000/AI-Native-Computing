@@ -425,3 +425,6 @@ Independent FPGA-synthesizable FP32-to-signed-INT8 stage with IEEE RNE, FTZ, NaN
 
 ## Q8 RNE verified and pinned upstream differential pending
 CI 45453544560 attempt1 job 138656790829 SUCCESS: Python 6/6, 2049/2049 independent RTL Q8 conversions; existing offset 32/32. Oracle frozen SHA256 2aebb2086d9e7488a1388187151d1dfef69d7e01c45fd1cdda44dadc29f3341e. Artifact 14948967583. EVIDENCE CLASS RTL_RESULT for standalone converter. Pinned FeSens/openTPU d84db55712aba0d40811d7762cb052f05d55b7e5 actual q8 differential added to CI, result pending. NEXT_ACTION check 2049/2049 upstream and preserved RTL regressions; diagnose any exceptions before QACT reciprocal/scale integration. G1 OPEN; no physical performance or task-quality evidence.
+
+## Parallel G1.3 generic sub-block synthesis experiment
+Separate workflow .github/workflows/g13-qact-generic-synth.yml on self-change only, no double-trigger with correctness workflow. Test standalone Q8 and 64-word exponent-offset modules with same generic Yosys toolchain, bounded 300s each, record hierarchy cells and tool version. Acceptance: successful synthesis with cell summary and preserved log; not area, Fmax, FPGA resource, watts or physical acceptance. NEXT_ACTION inspect both correctness and independent synthesis CI, archive results/errors and continue full QACT reciprocal/scale integration. G1 OPEN.
