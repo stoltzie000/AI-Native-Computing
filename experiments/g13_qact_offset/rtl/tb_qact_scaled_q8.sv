@@ -1,5 +1,5 @@
 module tb_qact_scaled_q8;
-reg [31:0] x=0,inv_group=0;wire [31:0] scaled;wire signed [7:0] q;
+reg [31:0] x=32'hffffffff,inv_group=32'hffffffff;wire [31:0] scaled;wire signed [7:0] q;
 reg [31:0] xcase[0:511],invcase[0:511],expected_product[0:511];reg [7:0] expected_q[0:511];
 integer i;string folder;
 qact_scaled_q8 dut(.x(x),.inv_group(inv_group),.scaled(scaled),.q(q));
