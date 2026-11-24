@@ -11,6 +11,8 @@ on:
       - 'experiments/g13_qact_offset/test_q8_reference.py'
       - 'experiments/g13_qact_offset/scaled_q8_upstream.py'
       - 'experiments/g13_qact_offset/recip_software_differential.py'
+      - 'experiments/g13_qact_offset/qact_offset_stress.py'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_offset_stress.sv'
       - 'experiments/g13_qact_offset/rtl/qact_scaled_q8.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_scaled_q8.sv'
       - 'experiments/g13_qact_offset/rtl/qact_group_offset_hier.v'
@@ -55,6 +57,14 @@ jobs:
           done
           test "$(grep -c '^PASS_QACT_OFFSET_HIER_RTL' qact-offset-hier-rtl.log)" -eq 32
           echo PASS_QACT_OFFSET_HIER_SUITE cases=32 groups=256
+      - name: Hierarchical QACT offset extended stress differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/g13_qact_offset/qact_offset_stress.py --out qact-offset-stress | tee qact-offset-stress-reference.log
+          iverilog -g2012 -Wall -s tb_qact_offset_stress -o /tmp/qact-offset-stress.vvp experiments/g13_qact_offset/rtl/qact_group_offset.v experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/tb_qact_offset_stress.sv
+          vvp /tmp/qact-offset-stress.vvp +folder=qact-offset-stress | tee qact-offset-stress-rtl.log
+          grep -q '^PASS_QACT_OFFSET_STRESS cases=512 offsets=4096' qact-offset-stress-rtl.log
       - name: Independent RNE INT8 Q8 differential
         shell: bash
         run: |
@@ -97,6 +107,9 @@ jobs:
             q8-scaled-reference.log
             q8-scaled-rtl.log
             q8-scaled-fixtures/manifest.json
+            qact-offset-stress-reference.log
+            qact-offset-stress-rtl.log
+            qact-offset-stress/manifest.json
             q8-upstream.log
             q8-oracle.log
             q8-rtl.log
