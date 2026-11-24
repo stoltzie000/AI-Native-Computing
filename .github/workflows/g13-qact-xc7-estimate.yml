@@ -1,0 +1,41 @@
+name: G1.3 XC7 mapped serial QACT feasibility estimate
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-xc7-estimate.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  xc7-serial-estimate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Yosys
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V | tee xc7-yosys-version.log
+      - name: Map validated serial QACT to Xilinx 7-series primitives
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          timeout 600s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v $src/qact_q8_rne.v $src/qact_group_offset_hier.v $src/qact_row_scaled_serial.v; synth_xilinx -family xc7 -top qact_row_scaled_serial; stat" | tee qact-xc7-mapped.log
+          grep -q 'LUT' qact-xc7-mapped.log
+          grep -q 'Number of cells:' qact-xc7-mapped.log
+          echo PASS_QACT_XC7_TECH_MAPPING
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xc7-serial-qact-mapping
+          path: |
+            xc7-yosys-version.log
+            qact-xc7-mapped.log
+          if-no-files-found: warn
