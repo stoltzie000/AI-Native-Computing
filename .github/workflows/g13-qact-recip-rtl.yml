@@ -6,6 +6,9 @@ on:
       - '.github/workflows/g13-qact-recip-rtl.yml'
       - 'experiments/g13_qact_offset/rtl/qact_recip_pinned_ref.sv'
       - 'experiments/g13_qact_offset/rtl/tb_qact_recip_ref.sv'
+      - 'experiments/g13_qact_offset/rtl/qact_row_full_pinned.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_row_full_pinned.sv'
+      - 'experiments/g13_qact_offset/qact_full_reference.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -58,11 +61,30 @@ jobs:
           verilator --binary --timing -j 2 -Wno-fatal --top-module tb_qact_recip_ref --Mdir "$RUNNER_TEMP/obj-recip" upstream/rtl/vpu/otpu_fp.sv project/experiments/g13_qact_offset/rtl/qact_recip_pinned_ref.sv project/experiments/g13_qact_offset/rtl/tb_qact_recip_ref.sv
           "$RUNNER_TEMP/obj-recip/Vtb_qact_recip_ref" +folder=recip-fixtures | tee recip-rtl-reference.log
           grep -q '^PASS_PINNED_RECIP_RTL vectors=2048' recip-rtl-reference.log
+      - name: Full QACT mathematical RTL using pinned reciprocal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python project/experiments/g13_qact_offset/qact_full_reference.py --upstream upstream --out qact-full-fixtures | tee qact-full-reference.log
+          grep -q '^PASS_QACT_FULL_REFERENCE rows=32 q=2048 offsets=256 scales=32' qact-full-reference.log
+          verilator --binary --timing -j 2 -Wno-fatal --top-module tb_qact_row_full_pinned --Mdir "$RUNNER_TEMP/obj-qact-full" \
+            upstream/rtl/vpu/otpu_fp.sv \
+            project/experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            project/experiments/g13_qact_offset/rtl/qact_q8_rne.v \
+            project/experiments/g13_qact_offset/rtl/qact_group_offset_hier.v \
+            project/experiments/g13_qact_offset/rtl/qact_row_scaled_parallel.v \
+            project/experiments/g13_qact_offset/rtl/qact_row_full_pinned.sv \
+            project/experiments/g13_qact_offset/rtl/tb_qact_row_full_pinned.sv
+          "$RUNNER_TEMP/obj-qact-full/Vtb_qact_row_full_pinned" +folder=qact-full-fixtures | tee qact-full-rtl.log
+          grep -q '^PASS_FULL_QACT_PINNED_RTL rows=32 q=2048 offsets=256 scales=32 inverses=32' qact-full-rtl.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: pinned-reciprocal-rtl-evidence
           path: |
+            qact-full-reference.log
+            qact-full-rtl.log
+            qact-full-fixtures/full-manifest.json
             recip-software-reference.log
             recip-rtl-reference.log
             verilator-version.log
