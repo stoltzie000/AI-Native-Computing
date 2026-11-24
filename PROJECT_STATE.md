@@ -386,3 +386,6 @@ STATUS: G1 OPEN; prequantized integrated pipeline RTL_RESULT passed. ACTIVE_BRAN
 
 ## Writeback candidate checkpoint
 Standalone 20-byte masked 64-byte output beat, aligned-address contract, one outstanding result, completion means write accepted (not durable DRAM acknowledgment). Acceptance: 64 exact outputs with stalls, 1280 useful bytes, stable address/data/mask, one completion each and reset abort. CI pending. NEXT_ACTION: reconcile CI by branch head, inspect writeback log, then integrate with pipeline and check actual ISA output writes. No physical result claimed.
+
+## Writeback CI failure recovery
+Run 45429493690 job 138570516221 failed at tb_fp32_result_writeback.sv:16 input not ready immediately after reset deassertion. Hypothesis: testbench samples combinational ready before delta-cycle propagation; add #1 settling time after reset release, preserve RTL and acceptance criteria. Failure not yet proven to be testbench-only until retest. NEXT_ACTION: verify corrective commit CI and inspect logs; integrate only after PASS.

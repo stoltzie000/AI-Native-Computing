@@ -9,7 +9,7 @@ module tb_fp32_result_writeback;
  integer j,k,accepted=0;reg [159:0] expected;
  always @(posedge clk) if(write_valid && write_ready) accepted=accepted+1;
  initial begin
-  repeat(2) @(negedge clk);rst_n=1;
+  repeat(2) @(negedge clk);rst_n=1; #1; // allow continuous ready assignment to settle
   for(j=0;j<64;j=j+1) begin
    expected={32'h12345678+j,32'habcdef01-j,32'h80000000+j,32'h7fc00000,32'h3f800000+j};
    result_data=expected;result_addr=64'h1000+64*j;result_valid=1;
