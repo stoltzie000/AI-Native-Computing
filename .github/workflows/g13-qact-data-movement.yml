@@ -1,0 +1,36 @@
+name: G1.3 QACT burst-level data movement falsification
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-data-movement.yml'
+      - 'experiments/g13_qact_offset/qact_data_movement.py'
+      - 'experiments/g13_qact_offset/test_qact_data_movement.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analytic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Exact byte accounting and falsification tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s experiments/g13_qact_offset -p 'test_qact_data_movement.py' -v 2>&1 | tee qact-movement-tests.log
+          python experiments/g13_qact_offset/qact_data_movement.py | tee qact-movement-results.log
+          grep -q 'external_raw_load=True reads=3 raw=768 quant=768 saved=0' qact-movement-results.log
+          grep -q 'external_raw_load=True reads=4 raw=1024 quant=896 saved=128' qact-movement-results.log
+          echo PASS_QACT_MOVEMENT_E1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-movement-e1
+          path: |
+            qact-movement-tests.log
+            qact-movement-results.log
+          if-no-files-found: warn
