@@ -78,6 +78,15 @@ jobs:
           test "$(grep -c '^PASS_TAGGED_FLUSH' g13-tagged-rtl.log)" -eq 4
           test "$(grep -c '^PASS_TAGGED_BURST_RTL' g13-tagged-rtl.log)" -eq 8
           test "$(grep -c '^PASS_TAGGED_SUITE' g13-tagged-rtl.log)" -eq 4
+          # Adversarial response-tag and reset-domain fault protocol.
+          iverilog -g2012 -Wall -s tb_mxu_tagged_burst_fault -o /tmp/g13-fault.vvp \
+            experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            experiments/quantized_pipeline_g13/rtl/mxu_tagged_burst_wrapper.v \
+            experiments/quantized_pipeline_g13/rtl/tb_mxu_tagged_burst_fault.sv
+          vvp /tmp/g13-fault.vvp | tee g13-tagged-fault.log
+          test "$(grep -c '^PASS_TAGGED_INVALID_TAG' g13-tagged-fault.log)" -eq 1
+          test "$(grep -c '^PASS_TAGGED_DUPLICATE_TAG' g13-tagged-fault.log)" -eq 1
+          test "$(grep -c '^PASS_TAGGED_FAULT_SUITE' g13-tagged-fault.log)" -eq 1
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -90,4 +99,34 @@ jobs:
             project/g13-protocol.log
             project/g13-burst-reference.log
             project/g13-tagged-rtl.log
+            project/g13-tagged-fault.log
+          if-no-files-found: warn
+
+  synthesis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install generic open-source synthesis toolchain
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V
+      - name: Run same-flow generic Yosys synthesis for both loader variants
+        run: |
+          set -euo pipefail
+          yosys -Q -T -p 'read_verilog -sv -DSYNTHESIS experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v experiments/quantized_pipeline_g13/rtl/mxu_memory_wrapper.v; synth -top mxu_memory_wrapper; stat' | tee g13-yosys-byte.log
+          yosys -Q -T -p 'read_verilog -sv -DSYNTHESIS experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v experiments/quantized_pipeline_g13/rtl/mxu_tagged_burst_wrapper.v; synth -top mxu_tagged_burst_wrapper; stat' | tee g13-yosys-tagged.log
+          grep -q 'Number of cells:' g13-yosys-byte.log
+          grep -q 'Number of cells:' g13-yosys-tagged.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g13-generic-synthesis
+          path: |
+            g13-yosys-byte.log
+            g13-yosys-tagged.log
           if-no-files-found: warn
