@@ -1,0 +1,48 @@
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_00_activation_0 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_00_activation_1 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_00_activation_2 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_01_activation_0 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_01_activation_1 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_01_activation_2 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_02_activation_0 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_02_activation_1 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_02_activation_2 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_03_activation_0 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_03_activation_1 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_03_activation_2 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_04_activation_0 groups=40 dropped=25
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_04_activation_1 groups=40 dropped=25
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_04_activation_2 groups=40 dropped=25
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_05_activation_0 groups=40 dropped=5
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_05_activation_1 groups=40 dropped=4
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_05_activation_2 groups=40 dropped=8
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_06_activation_0 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_06_activation_1 groups=40 dropped=16
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_06_activation_2 groups=40 dropped=8
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_07_activation_0 groups=40 dropped=16
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_07_activation_1 groups=40 dropped=0
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
+PASS_QMM_CORE path=experiments/quantized_mxu_g12/results/generated/case_07_activation_2 groups=40 dropped=21
+experiments/quantized_mxu_g12/rtl/tb_exact_mxu_int8_core.sv:54: $finish called at 470000 (1ps)
