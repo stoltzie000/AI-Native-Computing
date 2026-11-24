@@ -1,0 +1,52 @@
+name: G1.3 serial QACT single-multiplier correctness
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-row-serial.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_row_scaled_serial.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_row_scaled_serial.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  differential:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate pinned independently checked QACT fixture
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/qact_row_reference.py --upstream upstream --out qact-row-fixtures | tee qact-row-reference.log
+          grep -q '^PASS_QACT_ROW_REFERENCE rows=32 q=2048 offsets=256 sha256=063c8a796f98083a68d875a588491dcf39166f0d2dca665e63a2f5cde65ecba9' qact-row-reference.log
+      - name: Execute shared-multiplier RTL
+        run: |
+          set -euo pipefail
+          iverilog -g2012 -Wall -s tb_qact_row_scaled_serial -o /tmp/qact-serial.vvp experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v experiments/g13_qact_offset/rtl/qact_group_offset_hier.v experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/qact_row_scaled_serial.v experiments/g13_qact_offset/rtl/tb_qact_row_scaled_serial.sv
+          vvp /tmp/qact-serial.vvp +folder=qact-row-fixtures | tee qact-serial.log
+          grep -q '^PASS_QACT_SERIAL rows=32 q=2048 offsets=256 cycles=73' qact-serial.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-serial-rtl
+          path: |
+            qact-row-reference.log
+            qact-row-fixtures/manifest.json
+            qact-serial.log
+          if-no-files-found: warn
