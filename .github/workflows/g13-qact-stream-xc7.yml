@@ -1,0 +1,42 @@
+name: G1.3 XC7 mapped QACT narrow streaming module
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-stream-xc7.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mapped-narrow-interface:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Freeze synthesis tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V | tee stream-xc7-version.log
+      - name: Xilinx 7-series mapped wrapper resource accounting
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          timeout 600s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v $src/qact_q8_rne.v $src/qact_group_offset_hier.v $src/qact_row_scaled_serial.v $src/qact_row_stream_wrapper.v; synth_xilinx -family xc7 -top qact_row_stream_wrapper; stat" | tee stream-xc7-mapped.log
+          grep -q 'Number of cells:' stream-xc7-mapped.log
+          grep -q 'IBUF' stream-xc7-mapped.log
+          grep -q 'OBUF' stream-xc7-mapped.log
+          echo PASS_QACT_STREAM_XC7_MAPPING
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-stream-xc7-resource
+          path: |
+            stream-xc7-version.log
+            stream-xc7-mapped.log
+          if-no-files-found: warn
