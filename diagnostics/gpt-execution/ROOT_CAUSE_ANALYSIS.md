@@ -19,3 +19,6 @@ Why/when/trigger/how? UNKNOWN for message delivery; parser errors identified. Re
 
 ## Update following checkpoint B
 The second observed multi-call wrapper problem strengthens the **harness issue** hypothesis but cannot distinguish connector dispatch from response adaptation; a standalone read succeeded. Separate the results into transport delivery, tool response, parsing and engineering oracle outcomes. The deterministic burst-reference 1000/1000 result validates only software byte accounting, not ChatGPT runtime continuity. This session has not terminated as of this checkpoint. T4 and T7 require client observation or separate controlled conversations. No pre/post interruption-rate inference justified.
+
+## Corrected interpretation C
+Earlier local parser errors do not justify request-level GitHub failure counts. Third three-call loop succeeded. A 40-second GitHub CI job is an external job duration, not a connector latency measurement. Test T4/T7 require external client receipt telemetry and separate comparable sessions. No measured platform timeout mechanism.

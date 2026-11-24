@@ -22,3 +22,11 @@
 - T5 checkpoint #1 committed and re-read; continued to perform additional read tests and engineering work instead of terminating at checkpoint.
 - T6 the clock returned implausible zero durations for multiple connector calls, so per-operation connector latency remains UNKNOWN; do not assert those are zero-cost.
 - NEXT_ACTION: commit this checkpoint with source and explicit raw parsing failure record; verify branch content and SHA, repeat independent isolated GitHub reads; design controlled client-side cross-session T4/T7 experiments.
+
+## Checkpoint C — corrected interpretation
+- Three GitHub operations in one loop returned 3/3 valid raw response envelopes. Earlier missing-field parsing exceptions were NOT consistently reproduced. Underlying cause UNKNOWN.
+- Historical CI job 138572547746 ran from 15:50:02Z through 15:50:42Z, a GitHub server-recorded 40-second interval. This is NOT connector or ChatGPT communication latency.
+- T2C timestamp 17:15:00Z was not directly observed and is corrected to UNKNOWN. Initial parser exceptions are not counted as proven failed GitHub requests.
+- Attempt to generate new workflow failed with ReferenceError: i is not defined due to Bash interpolation in a JavaScript template. No mutation occurred during failed attempt. Corrected by escaping template placeholder.
+- Added CI workflow to execute 10 fresh process invocations of the conceptual burst test. CI evidence PENDING. No real client-stream frequency test performed.
+- NEXT_ACTION: inspect exact new CI run and logs, preserve outcome. T4/T7 require independent delivery/receipt instrumentation; do not invent results.

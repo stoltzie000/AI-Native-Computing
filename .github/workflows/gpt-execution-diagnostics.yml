@@ -1,0 +1,28 @@
+name: Controlled GPT diagnostic software reference
+on:
+  push:
+    branches: [research/gpt-execution-diagnostics-20261124]
+    paths:
+      - "diagnostics/gpt-execution/burst_reference.js"
+      - ".github/workflows/gpt-execution-diagnostics.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  software-reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reproduce ten independent deterministic processes
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "CI_START_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for i in $(seq 1 10); do
+            actual="$(node diagnostics/gpt-execution/burst_reference.js)"
+            echo "RUN_${i}: $actual"
+            test "$actual" = '{"pass":1000,"fail":0,"checked":251592,"classification":"CONCEPTUAL_SOFTWARE_REFERENCE"}'
+          done
+          echo "PASS_DIAGNOSTIC_REFERENCE repeats=10 cases=10000 bytes=2515920"
+          echo "CI_END_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
