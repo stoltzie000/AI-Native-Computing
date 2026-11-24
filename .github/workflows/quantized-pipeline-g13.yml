@@ -30,12 +30,21 @@ jobs:
           python -m pip install 'numpy==2.2.6' 'pytest==8.4.2'
           python -m pip install -e upstream
           test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+      - run: sudo apt-get update && sudo apt-get install -y iverilog
       - working-directory: project
         run: |
           python experiments/quantized_pipeline_g13/verify_pipeline.py
           python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_memory_model.py' -v
           python experiments/quantized_pipeline_g13/memory_model.py | tee g13-memory-results.json
           python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_memory_pipeline.py' -v
+          python experiments/quantized_mxu_g12/adapter.py --output g13-fixtures
+          iverilog -g2012 -Wall -s tb_mxu_memory_wrapper -o /tmp/g13.vvp experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v experiments/quantized_pipeline_g13/rtl/mxu_memory_wrapper.v experiments/quantized_pipeline_g13/rtl/tb_mxu_memory_wrapper.sv
+          for dir in g13-fixtures/case_*; do
+            for mode in 0 1; do
+              vvp /tmp/g13.vvp "+case=$dir" "+mode=$mode" | tee -a g13-rtl.log
+            done
+          done
+          test "$(grep -c '^PASS_MEMORY_RTL' g13-rtl.log)" -eq 48
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -44,4 +53,5 @@ jobs:
             project/g13-results.json
             project/g13-memory-results.json
             project/g13-memory-pipeline.json
+            project/g13-rtl.log
           if-no-files-found: warn
