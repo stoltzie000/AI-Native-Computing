@@ -308,3 +308,6 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 
 ## Alternative dataflow research checkpoint
 E1 state traffic sensitivity and primary literature review preserved in experiments/g1_hbm4_envelope/ALTERNATIVE_DATAFLOW_RESEARCH.md. Perfect state traffic elimination alone cannot reach 2x under existing proxy; prioritize combined weight and state movement reduction, hybrid SSM/attention quality controls. NEXT_ACTION: pinned actual model configurations and recurrent reference kernel. G1 OPEN; PR #12 remains draft. No new task number.
+
+## G1 updated physical interface literature checkpoint 2026-11-24
+New sourced evidence in experiments/g1_hbm4_envelope/HBM4_UCIE4_PHYSICAL_BOUNDARY_AUDIT.md. UCIe4 (announced Nov 12) is on-package; no board PHY proof. Rambus HBM4E 16Gbps/pin is a separate unimplemented high-speed envelope, not backward justification for HBM4 10Gbps controller assumptions. Physical package/PHY/power/thermal and G0 GPU measured baselines still absent. NEXT_ACTION prepare compatible controller+PHY+stack technology matrix, quantify physical power/area with vendor electrical data where available; continue G1 QACT hardware in separate branch. No merge.
