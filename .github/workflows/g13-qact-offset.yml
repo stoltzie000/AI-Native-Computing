@@ -9,6 +9,9 @@ on:
       - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv'
       - 'experiments/g13_qact_offset/test_q8_reference.py'
+      - 'experiments/g13_qact_offset/scaled_q8_upstream.py'
+      - 'experiments/g13_qact_offset/rtl/qact_scaled_q8.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_scaled_q8.sv'
       - 'experiments/g13_qact_offset/rtl/qact_group_offset_hier.v'
       - 'experiments/g13_qact_offset/rtl/tb_qact_group_offset_hier.sv'
   workflow_dispatch:
@@ -68,11 +71,22 @@ jobs:
           test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
           python experiments/g13_qact_offset/q8_upstream_adapter.py --fixtures q8-fixtures --upstream upstream | tee q8-upstream.log
           grep -q '^PASS_Q8_UPSTREAM cases=2049 matched=2049' q8-upstream.log
+      - name: Pinned upstream scaled Q8 composition
+        shell: bash
+        run: |
+          set -euo pipefail
+          python experiments/g13_qact_offset/scaled_q8_upstream.py --upstream upstream --output q8-scaled-fixtures | tee q8-scaled-reference.log
+          iverilog -g2012 -Wall -s tb_qact_scaled_q8 -o /tmp/q8-scaled.vvp experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/qact_scaled_q8.v experiments/g13_qact_offset/rtl/tb_qact_scaled_q8.sv
+          vvp /tmp/q8-scaled.vvp +folder=q8-scaled-fixtures | tee q8-scaled-rtl.log
+          grep -q '^PASS_SCALED_Q8_RTL pairs=512' q8-scaled-rtl.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qact-offset-verification
           path: |
+            q8-scaled-reference.log
+            q8-scaled-rtl.log
+            q8-scaled-fixtures/manifest.json
             q8-upstream.log
             q8-oracle.log
             q8-rtl.log

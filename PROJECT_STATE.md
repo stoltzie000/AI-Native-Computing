@@ -434,3 +434,6 @@ Run 45453750480 attempt1 job 138657520648 SUCCESS. Pinned external FeSens/openTP
 
 ## QACT hierarchical offset reuse experiment (pending)
 Prior Yosys 0.33 generic synthesis CI 45453818184/job 138657751493 SUCCESS: Q8 converter 827 generic cells, original 64-input QACT group offset 26459 generic cells. Not area, timing or energy. New independent hierarchical maximum reuse candidate preserves original RTL; acceptance 32 frozen groups fixture cases 256 exact outputs and same-tool Yosys cell count, no weakening oracle. Tests separate, not formal equivalence. NEXT_ACTION inspect remote differential and synth runs, accept only demonstrated resource improvement; proceed full reciprocal/scaling QACT. G1 OPEN.
+
+## QACT scaled-input Q8 combination candidate
+Added simple combinational FP32 FTZ multiply + independently verified signed Q8 RTL composition. New 512 case pinned upstream F.mul then F.q8 differential includes NaN/Inf/subnormal, zero, saturation and random words; compare both intermediate product bits and final quantized byte. No reciprocal, group-scale generation, output DMA or whole QACT. Acceptance 512/512 exact two-stage values in GitHub CI; pending. NEXT_ACTION inspect CI, correct issues; continue actual reciprocal, row scale and 64-lane aggregation. G1 OPEN.
