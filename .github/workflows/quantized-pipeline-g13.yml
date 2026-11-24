@@ -33,9 +33,13 @@ jobs:
       - working-directory: project
         run: |
           python experiments/quantized_pipeline_g13/verify_pipeline.py
+          python -m unittest discover -s experiments/quantized_pipeline_g13 -p 'test_memory_model.py' -v
+          python experiments/quantized_pipeline_g13/memory_model.py | tee g13-memory-results.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: g13-evidence
-          path: project/g13-results.json
+          path: |
+            project/g13-results.json
+            project/g13-memory-results.json
           if-no-files-found: warn
