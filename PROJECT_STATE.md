@@ -404,3 +404,6 @@ BRANCH research/gpt-execution-diagnostics-20261124. Second diagnostic checkpoint
 
 ## GPT execution diagnostics — CI reproduction and rate estimator 2026-11-24
 Verified GitHub run 45446985000, job 138633341093, SUCCESS, 10 processes x1000 deterministic software transactions; 2,515,920 useful bytes. Not evidence of ChatGPT transport delivery. Five standard-library rate-analysis unit tests passed locally; remote CI pending in next workflow commit. No observed client timeout denominator, no verified 180s threshold, no root-cause conclusion. Current status page operational at search time, unrelated resolved incidents not causal evidence. NEXT_ACTION verify remote diagnostic CI; preserve and independently re-fetch the canonical diagnostic records. No merge or changes to G1 engineering branch.
+
+## GPT diagnostic response-vs-delivery classification
+EXPLICIT model final with remaining work appears in conversation; exact hidden cause unknown. Reported UI Message delivery timed out has no direct transport trace; do not conflate these. Client-controlled T4/T7 protocol in diagnostics/gpt-execution/CLIENT_OBSERVATION_PROTOCOL.md; 120-second diagnostic cadence must not be imposed on production engineering. Current diagnostic CI run 45447254098 pending. NEXT_ACTION inspect result and preserve evidence; no speculative platform root cause.

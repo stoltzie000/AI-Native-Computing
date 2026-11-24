@@ -36,3 +36,9 @@
 - External-source research: OpenAI status currently reports operational (https://status.openai.com/). Prior resolved incident https://status.openai.com/incidents/01M6P50GPP1V98EF8MJ9SH393R impacted Work on Nov 5; unrelated without matching failure times. No published universal 180-second delivery limit verified.
 - Built standard-library Python session analyzer and five tests; locally executed five tests PASS in isolated container. Analyzer never counts UNKNOWN as delivery success and rejects duplicate session IDs/time errors. Client session data not available; live 30/60/120/normal timeout-frequency conclusions remain UNKNOWN.
 - NEXT_ACTION: verify CI tests of calculator, collect independently observed client delivery records in controlled new and existing threads when available; preserve missing evidence explicitly, avoid claiming a causal root cause.
+
+## Checkpoint E — response-vs-delivery classification
+- The conversation provides visible assistant-final examples with outstanding tasks, distinct from a client-delivery error. Hidden model/runtime root cause unobservable. User reports Message delivery timed out separately, with no exact timestamp or network record.
+- Added controlled client observation protocol covering T4/T6/T7, sample design, unknown handling, and privacy. Tests T4/T7 NOT RUN. No simulated pauses or invented received-message times.
+- Background diagnostic Actions run 45447254098 on commit 48288ab0e3f7fcb1a3342a926a41922dab303d26 was pending at the time of this checkpoint.
+- NEXT_ACTION: inspect diagnostic CI and log, ensure analyses reproduce, preserve final evidence; continue safe G1 engineering independently while client telemetry unavailable.
