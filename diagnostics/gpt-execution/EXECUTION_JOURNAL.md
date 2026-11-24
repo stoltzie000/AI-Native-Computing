@@ -42,3 +42,9 @@
 - Added controlled client observation protocol covering T4/T6/T7, sample design, unknown handling, and privacy. Tests T4/T7 NOT RUN. No simulated pauses or invented received-message times.
 - Background diagnostic Actions run 45447254098 on commit 48288ab0e3f7fcb1a3342a926a41922dab303d26 was pending at the time of this checkpoint.
 - NEXT_ACTION: inspect diagnostic CI and log, ensure analyses reproduce, preserve final evidence; continue safe G1 engineering independently while client telemetry unavailable.
+
+## Checkpoint F — diagnostic CI independently verified
+- Run 45447254098, attempt 1, job 138634316838, SUCCESS for commit 48288ab0e3f7fcb1a3342a926a41922dab303d26. Actual log showed 5 unit tests, OK, and 10/10 deterministic subprocess reference checks, 2,515,920 bytes in total. No manual rerun and no duplicate known.
+- This is external continuous engineering evidence, NOT proof of Work client receipt or why assistant emits final responses.
+- Diagnostic checkpoints #1 through #5 were submitted on isolated branch with independent content retrieval and follow-up operations. Remaining T4/T7 require unavailable client observations; no simulated conclusions.
+- NEXT_ACTION: independent G1 output-writeback reset regression on untouched active G1 research branch; preserve results; maintain diagnostic journal upon verified evidence.

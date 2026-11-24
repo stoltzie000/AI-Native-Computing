@@ -407,3 +407,6 @@ Verified GitHub run 45446985000, job 138633341093, SUCCESS, 10 processes x1000 d
 
 ## GPT diagnostic response-vs-delivery classification
 EXPLICIT model final with remaining work appears in conversation; exact hidden cause unknown. Reported UI Message delivery timed out has no direct transport trace; do not conflate these. Client-controlled T4/T7 protocol in diagnostics/gpt-execution/CLIENT_OBSERVATION_PROTOCOL.md; 120-second diagnostic cadence must not be imposed on production engineering. Current diagnostic CI run 45447254098 pending. NEXT_ACTION inspect result and preserve evidence; no speculative platform root cause.
+
+## Controlled execution diag CI verification checkpoint F
+CI 45447254098/job 138634316838 SUCCESS, five calculator tests and 10-process burst reference. No transport root cause established. Diagnostic branch preserved. NEXT_ACTION: independent G1 writeback reset test and subsequent cross-session client observations when available; no task number assigned.
