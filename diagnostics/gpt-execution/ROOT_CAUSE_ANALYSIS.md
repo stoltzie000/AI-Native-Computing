@@ -36,3 +36,6 @@ OBSERVED DELIVERY TIMEOUT: user report only. No matching request ID/client HAR/s
 GITHUB: validated external CI 45446985000 proves independent job continuity across 10 independent processes. It cannot implicate the message transport.
 OFFICIAL STATUS: https://status.openai.com/ indicated currently operational when searched; resolved incidents including https://status.openai.com/incidents/01M6P50GPP1V98EF8MJ9SH393R confirm historical Work failures, not a cause for this session.
 WORKFLOW MITIGATION: avoid unnecessary final messages while work remains, persist results at explicit checkpoints, prefer bounded tool calls, verify ambiguous external operations before retry. These reduce interruption cost; cannot override client/server termination and don't measure prevention success.
+
+## Updated falsification boundary G
+Observed active execution persisted approximately seven minutes with external CI and repeated GitHub checkpoint operations. A universal forced 180-second **total-turn** timeout is inconsistent with this single session. A **180-second inactivity** timeout remains UNTESTED because messages/calls occurred during the period and client reception was not instrumented. Prior GPT-6 status incident is not proof of a causal link. Deliberate assistant final replies and client delivery errors must not be conflated.

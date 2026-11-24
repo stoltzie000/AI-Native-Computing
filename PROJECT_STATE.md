@@ -410,3 +410,6 @@ EXPLICIT model final with remaining work appears in conversation; exact hidden c
 
 ## Controlled execution diag CI verification checkpoint F
 CI 45447254098/job 138634316838 SUCCESS, five calculator tests and 10-process burst reference. No transport root cause established. Diagnostic branch preserved. NEXT_ACTION: independent G1 writeback reset test and subsequent cross-session client observations when available; no task number assigned.
+
+## GPT controlled checkpoint G
+T3 sustained active work approximately 17:14:40Z–17:21:49Z, about seven minutes, NOT a measured silence threshold or client delivery outcome. G1 CI 45447601577 successful, separately saved in G1 state commit da87346. OpenAI Nov 23 paid GPT-6 conversation error incident is historical not proven causal. T4/T7 client comparison UNTESTED. NEXT_ACTION gather controlled client events when available; keep engineering G1 research moving. No task number assigned.

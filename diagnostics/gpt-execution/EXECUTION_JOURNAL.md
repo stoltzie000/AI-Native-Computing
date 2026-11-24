@@ -48,3 +48,11 @@
 - This is external continuous engineering evidence, NOT proof of Work client receipt or why assistant emits final responses.
 - Diagnostic checkpoints #1 through #5 were submitted on isolated branch with independent content retrieval and follow-up operations. Remaining T4/T7 require unavailable client observations; no simulated conclusions.
 - NEXT_ACTION: independent G1 output-writeback reset regression on untouched active G1 research branch; preserve results; maintain diagnostic journal upon verified evidence.
+
+## Checkpoint G — sustained execution and independent G1 test
+- T3 start 2026-11-24T17:14:40.194Z from JS wall clock. A separate container UTC date observation at 2026-11-24T17:21:49Z confirmed approximately 7m09s elapsed (two clocks, synchronization not independently established). Assistant continued operating during that interval. This argues against a universal 180-second total-execution cap for this session; does not test an inactivity threshold. Client receipt UNKNOWN.
+- T5 G1 parallel engineering: CI 45447601577/job 138635549959 SUCCESS, stalled output cancellation 1, later accepted writes 2, integrated jobs 48, flush tests 24. Preserved separately on branch research/g13-fp32-epilogue commit da87346bbeecdd237b8204aa3cd6729fd1ec0a45.
+- OpenAI official status incident https://status.openai.com/incidents/01M84HKHX73RF7HTVZQ2A9GFXP documents resolved intermittent GPT-6 paid ChatGPT conversation errors Nov 23, 2026. No evidence links it causally to the user's Nov 24 error.
+- During checkpoint creation, diagnostic authoring initially raised a local template SyntaxError before mutation; corrected and retried. Do not classify this as a transport failure.
+- T4 actual client receipt comparison and T7 fresh-thread comparison remain UNTESTED; no client error timestamp/request trace available.
+- NEXT_ACTION: collect client telemetry in a controlled future/new chat if accessible; continue independent G1 engineering and preserve any additional evidence.
