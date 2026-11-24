@@ -14,3 +14,11 @@
 - Suspected cause: varying tool-result envelopes and/or transient orchestration response normalization; LOW confidence until independently reproduced.
 - Key preservation rule: before any future GitHub mutation read branch head, compare content, use expected-parent non-force update; never blindly replay an ambiguous mutation.
 - NEXT_ACTION: persist baseline records; implement robust GitHub response validation; run multiple read-only operations and a second repository engineering checkpoint; verify actual files/commit, then analyze observed results.
+
+## Checkpoint B — 2026-11-24T17:16Z
+- First repository checkpoint `1b01e63aa74568b7f38a151d8a0bc87fc1a1e63f` independently re-fetched: 4/4 requested diagnostic files existed and had nonempty content; blob IDs observed.
+- T2 isolated vs multi-call: sequence of six logically read-only GitHub operations inside an iteration loop returned six missing expected .result fields (without actual HTTP error records); an independent standalone fetch of the same journal path immediately returned a valid GitHub object and SHA. The same discrepancy appeared earlier in the investigation. This is a repeatable harness/dispatch **symptom**, not proof of GitHub server errors. Exact underlying tool-response envelopes in the failed loop were not captured, so mechanism is UNKNOWN.
+- T3 independent engineering operation: 1000 deterministic JavaScript software-reference burst-read reassembly cases PASS (0 failures), 251592 useful bytes checked, random response permutation and variable 8/16/32/64 byte bursts. Start 2026-11-24T17:16:09.322Z; end 2026-11-24T17:16:09.384Z (JS clock). Conceptual byte-conservation reference only, not independent RTL timing/power or hardware.
+- T5 checkpoint #1 committed and re-read; continued to perform additional read tests and engineering work instead of terminating at checkpoint.
+- T6 the clock returned implausible zero durations for multiple connector calls, so per-operation connector latency remains UNKNOWN; do not assert those are zero-cost.
+- NEXT_ACTION: commit this checkpoint with source and explicit raw parsing failure record; verify branch content and SHA, repeat independent isolated GitHub reads; design controlled client-side cross-session T4/T7 experiments.
