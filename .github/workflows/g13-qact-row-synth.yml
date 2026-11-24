@@ -1,0 +1,44 @@
+name: G1.3 shared vs parallel QACT generic synthesis
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-row-synth.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  generic-synthesis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        implementation: [serial, parallel]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install generic synthesis tool
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V | tee "qact-yosys-${{ matrix.implementation }}-version.log"
+      - name: Bounded same-source generic synthesis
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          impl=${{ matrix.implementation }}
+          timeout 540s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v $src/qact_q8_rne.v $src/qact_group_offset_hier.v $src/qact_row_scaled_$impl.v; synth -top qact_row_scaled_$impl; stat" | tee "qact-$impl-generic-synthesis.log"
+          grep -q 'Number of cells:' "qact-$impl-generic-synthesis.log"
+          echo "PASS_QACT_GENERIC_SYNTH implementation=$impl"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qact-${{ matrix.implementation }}-generic-evidence
+          path: |
+            qact-${{ matrix.implementation }}-generic-synthesis.log
+            qact-yosys-${{ matrix.implementation }}-version.log
+          if-no-files-found: warn
