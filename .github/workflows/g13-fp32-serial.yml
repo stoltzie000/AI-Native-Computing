@@ -36,6 +36,7 @@ jobs:
           sudo apt-get install -y iverilog yosys
           test "$(git -C ../upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
           python experiments/quantized_mxu_g12/adapter.py --output serial-fixtures
+          python experiments/g13_fp32_epilogue/generate_cases.py --fixtures serial-fixtures --output serial-random
           base=experiments/g13_fp32_epilogue/rtl
           iverilog -g2012 -Wall -s tb_mxu_integer_epilogue_serial -o /tmp/serial.vvp "$base/fp32_mul_ftz.v" "$base/int48_to_fp32_rne.v" "$base/mxu_integer_epilogue_serial.v" "$base/tb_mxu_integer_epilogue_serial.sv"
           mapfile -t cases < <(find serial-fixtures -maxdepth 1 -type d -name 'case_*' | sort)
