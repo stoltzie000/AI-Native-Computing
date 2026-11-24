@@ -1,0 +1,39 @@
+name: G1.3 independent FP32 epilogue generic synthesis
+on:
+  push:
+    branches: [research/g13-fp32-epilogue]
+    paths:
+      - '.github/workflows/g13-fp32-synth.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  generic-synthesis:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Yosys
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y yosys
+          yosys -V | tee yosys-version.log
+      - name: Bounded technology-independent FP32 epilogue mapping
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=experiments/g13_fp32_epilogue/rtl
+          timeout 420s yosys -Q -T -p "read_verilog -sv -DSYNTHESIS $base/fp32_mul_ftz.v $base/int48_to_fp32_rne.v $base/mxu_integer_epilogue.v; synth -top mxu_integer_epilogue; stat" | tee g13-fp32-synth.log
+          grep -q 'Number of cells:' g13-fp32-synth.log
+          echo PASS_G13_FP32_EPILOGUE_GENERIC_SYNTH
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g13-fp32-generic-synthesis
+          path: |
+            yosys-version.log
+            g13-fp32-synth.log
+          if-no-files-found: warn
