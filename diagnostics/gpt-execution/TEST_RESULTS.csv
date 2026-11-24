@@ -1,0 +1,6 @@
+test_id,variant,start_utc,end_utc,elapsed_ms,operation_count,success_count,failure_count,tool,mode,last_success,exact_error,termination,remaining_work,user_intervention,confirmed_cause,suspected_cause,confidence,evidence
+T1,12 modular inverse operations,2026-11-24T17:14:40.194Z,2026-11-24T17:14:40.197Z,UNKNOWN,12,12,0,JS orchestration,GPT-6 client UNKNOWN,operation 12,,continued,YES,NO,none,none,HIGH for arithmetic outcome,tool return
+T2A,first six GitHub reads,2026-11-24T17:14:40.197Z,2026-11-24T17:14:40.198Z,UNKNOWN,6,0,6,GitHub connector,GPT-6 client UNKNOWN,UNKNOWN,TypeError missing result envelope,continued,YES,NO,harness response parsing failed,tool response shape,MEDIUM,tool return
+T2B,revised six GitHub reads,2026-11-24T17:14:48.732Z,2026-11-24T17:14:48.732Z,UNKNOWN,6,4,2,GitHub connector,GPT-6 client UNKNOWN,instructions read,SyntaxError undefined JSON content,continued,YES,NO,invalid decode assumption,alternate envelope,MEDIUM,tool return
+T4,30/60/120/normal,UNKNOWN,UNKNOWN,UNKNOWN,0,0,0,not run,GPT-6 client UNKNOWN,NONE,,not tested,YES,UNKNOWN,NONE,NONE,UNKNOWN,requires repeated comparable sessions
+T7,new versus established conversation,UNKNOWN,UNKNOWN,UNKNOWN,0,0,0,not run,GPT-6 client UNKNOWN,NONE,,not tested,YES,UNKNOWN,NONE,NONE,UNKNOWN,cannot create comparative session in this turn

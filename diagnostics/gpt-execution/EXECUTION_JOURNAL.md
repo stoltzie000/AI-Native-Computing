@@ -1,0 +1,16 @@
+# GPT autonomous execution investigation — execution journal
+## Session A — 2026-11-24 (active established conversation)
+- Objective: controlled test of response termination and delivery failures.
+- Baseline repo branch: research/g13-fp32-epilogue at 521e759c56011b2be8d0763b245c46d395d5d168.
+- Diagnostic branch: research/gpt-execution-diagnostics-20261124; isolated, no merge.
+- Environment: model identified as GPT-6; exact reasoning configuration UNKNOWN. Client UI/Work execution mode UNKNOWN. OS of GitHub runner is not the user's client OS.
+- Test start: 2026-11-24T17:14:40.194Z (JS wall-clock observation); client start and delivery timestamps UNKNOWN.
+- Test 1: 12 consecutive deterministic modular inverse calculations; 12 PASS (tool-orchestrated JS; not truly tool-free because instrumentation uses the orchestration function). Last success arithmetic operation 12; no unrequested termination between operations. All returned 0ms apparent duration, below clock resolution/not meaningful. Genuine assistant-only no-tool execution cannot be externally instrumented with timestamps in this tool environment.
+- Test 2 initial attempt: six apparently failed local response-parsing attempts (TypeError on missing .result) while testing GitHub; follow-up isolated GitHub call returned valid PR metadata. A subsequent test called six actions; four responses parsed as non-error objects, two JSON parse exceptions. Subsequent isolated fetch returned valid API JSON. This is a diagnostic HARNESS/RESPONSE-SHAPE failure, NOT proof of GitHub outage. Per-operation latency values 0 or 1ms recorded by in-isolate Date.now are unreliable, not evidence of true connector latency.
+- GitHub state verified: PR #13 research/g13-fp32-epilogue head 521e759c56011b2be8d0763b245c46d395d5d168; previously recorded successful CI run 45430054520 is historical evidence. Diagnostic branch created from that commit; branch creation acknowledged by connector. No PR merge, permissions change, workflow dispatch or destructive action.
+- Test 3 sustained operation series: IN PROGRESS. Test 4 progress interval groups (30/60/120/normal): NOT RUN, requires comparable sessions and independently measured client receipt. Test 5 multiple checkpoints: IN PROGRESS. Test 6 latency: attempted, measurement invalid. Test 7 new versus established conversation: NOT RUN, new conversation not available inside this execution.
+- Last successful user-visible message before journal checkpoint: assistant progress message explaining measurement issue. Exact client delivery status UNKNOWN.
+- Confirmed causes: no ChatGPT transport cause established. Confirmed harness exception in local result-decoding code.
+- Suspected cause: varying tool-result envelopes and/or transient orchestration response normalization; LOW confidence until independently reproduced.
+- Key preservation rule: before any future GitHub mutation read branch head, compare content, use expected-parent non-force update; never blindly replay an ambiguous mutation.
+- NEXT_ACTION: persist baseline records; implement robust GitHub response validation; run multiple read-only operations and a second repository engineering checkpoint; verify actual files/commit, then analyze observed results.
