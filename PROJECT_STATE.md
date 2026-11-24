@@ -419,3 +419,6 @@ Separate branch research/g13-qact-offset from 851395822c9f54bfc4b8b758f3f6c5a820
 
 ## QACT offset RTL verified checkpoint
 Run 45448838412 attempt1 job 138639995299 SUCCESS; 6/6 Python tests, 32/32 independent Icarus fixtures, 256 exact 5-bit offsets. Frozen fixture summary SHA256 5ccf3dbe8a445c3808abcb39adc96076197a6e6b9f8d65a7e6d51d729684afea. Evidence experiments/g13_qact_offset/QACT_OFFSET_EVIDENCE.md. EVIDENCE CLASS RTL_RESULT, not full quantizer, synthesis or hardware. NEXT_ACTION implement independent reciprocal/scale/INT8 RNE stages and then full QACT ISA-backed pipeline; G1 OPEN.
+
+## Q8 RNE research candidate (pending CI)
+Independent FPGA-synthesizable FP32-to-signed-INT8 stage with IEEE RNE, FTZ, NaN->zero, saturation. 2049 frozen values from independent pure-Python integer reference. Acceptance: 6 Python unit tests and 2049 exact RTL output comparisons with archived hash. No existing G1 RTL changed. NEXT_ACTION inspect triggered workflow, preserve failure/results, then continue reciprocal/scale stage; G1 open. LAST_TASK_NUMBER unknown.

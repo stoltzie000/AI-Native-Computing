@@ -4,6 +4,10 @@ on:
     branches: [research/g13-qact-offset]
     paths:
       - '.github/workflows/g13-qact-offset.yml'
+      - 'experiments/g13_qact_offset/q8_reference.py'
+      - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv'
+      - 'experiments/g13_qact_offset/test_q8_reference.py'
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,11 +35,23 @@ jobs:
           done
           test "$(grep -c '^PASS_QACT_OFFSET_RTL' qact-offset-rtl.log)" -eq 32
           echo PASS_QACT_OFFSET_SUITE cases=32 groups=256
+      - name: Independent RNE INT8 Q8 differential
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s experiments/g13_qact_offset -p 'test_q8_*.py' -v
+          python experiments/g13_qact_offset/q8_reference.py --output q8-fixtures | tee q8-oracle.log
+          iverilog -g2012 -Wall -s tb_qact_q8_rne -o /tmp/q8.vvp experiments/g13_qact_offset/rtl/qact_q8_rne.v experiments/g13_qact_offset/rtl/tb_qact_q8_rne.sv
+          vvp /tmp/q8.vvp +folder=q8-fixtures | tee q8-rtl.log
+          grep -q '^PASS_Q8_RTL cases=2049' q8-rtl.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: qact-offset-verification
           path: |
+            q8-oracle.log
+            q8-rtl.log
+            q8-fixtures/manifest.json
             qact-offset-ref.log
             qact-offset-rtl.log
             qact-offset-fixtures/manifest.json
