@@ -47,8 +47,12 @@ jobs:
             build/frames.hex
             build/results.hex
             build/stream/*manifest.json
-  routed-100mhz-target:
+  routed-clock-target:
     needs: numerical-and-memory
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [full, bringup]
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:
@@ -60,6 +64,7 @@ jobs:
           name: bram-validation
           path: build
       - name: Install verified openXC7 release and route the board self-test
+        id: route
         run: |
           set -euo pipefail
           sudo apt-get update -qq
@@ -70,12 +75,23 @@ jobs:
           echo "ef11527014cec4b2ebef4014461080c2d7f820f13595b280a0142c9d58e8f5dc  $archive" | sha256sum -c -
           tar -xzf "$archive" -C "$RUNNER_TEMP/openxc7"
           export PATH="$RUNNER_TEMP/openxc7/bin:$PATH"
-          python3 experiments/g13_qact_offset/fpga/route.py build
+          flags=()
+          if [[ "${{ matrix.profile }}" == 'bringup' ]]; then flags+=(--bitstream); fi
+          python3 experiments/g13_qact_offset/fpga/route.py build --profile "${{ matrix.profile }}" "${flags[@]}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: arty-route-evidence
+          name: arty-route-${{ matrix.profile }}
           path: |
             build/board-yosys.log
             build/board-route.log
             build/board-route.json
+            build/image-assembly.log
+      - uses: actions/upload-artifact@v4
+        if: matrix.profile == 'bringup' && steps.route.outcome == 'success'
+        with:
+          name: arty-a7-100t-bram-image
+          path: |
+            build/arty-bram-6m25.bit
+            build/image-manifest.json
+          if-no-files-found: error

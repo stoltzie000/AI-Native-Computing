@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
-module tb_fp32_addsub_ftz;
+module tb_fp32_addsub_ftz #(parameter BALANCED_NORMALIZE=0);
  reg [31:0] a='x,b='x;
  reg subtract='x;
  wire [31:0] y;
  reg [31:0] avec[0:8191],bvec[0:8191],expected[0:8191];
  reg [0:0] operations[0:8191];
  integer i;string folder;
- fp32_addsub_ftz dut(.a(a),.b(b),.subtract(subtract),.y(y));
+ fp32_addsub_ftz #(.BALANCED_NORMALIZE(BALANCED_NORMALIZE)) dut(.a(a),.b(b),.subtract(subtract),.y(y));
  initial begin
   if(!$value$plusargs("folder=%s",folder))$fatal(1,"missing fixture path");
   $readmemh({folder,"/a.hex"},avec);$readmemh({folder,"/b.hex"},bvec);

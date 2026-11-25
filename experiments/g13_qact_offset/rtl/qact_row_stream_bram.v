@@ -44,7 +44,7 @@ module qact_row_stream_bram(
 
     wire recip_ready, recip_done;
     wire [31:0] reciprocal;
-    qact_recip_serial_original_arith recip(
+    qact_recip_serial_original_arith #(.BALANCED_NORMALIZE(1)) recip(
         .clk(clk), .rst_n(rst_n), .start(state == START_RECIP),
         .x({1'b0,row_max}), .ready(recip_ready), .done(recip_done), .result(reciprocal)
     );

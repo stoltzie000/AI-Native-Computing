@@ -1,0 +1,11 @@
+# Compare both complete combinational binary32 implementations on all defined inputs.
+read_verilog experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v
+copy fp32_addsub_ftz baseline
+chparam -set BALANCED_NORMALIZE 1 fp32_addsub_ftz
+proc
+opt_clean
+miter -equiv -flatten -make_outputs baseline fp32_addsub_ftz compare
+prep -top compare
+# Sanity-check both exposed outputs on 1.0 + 1.0 before proving equivalence.
+sat -verify -set in_a 1065353216 -set in_b 1065353216 -set in_subtract 0 -prove gold_y 1073741824 -prove gate_y 1073741824
+sat -verify -prove trigger 0 -timeout 120

@@ -24,7 +24,11 @@ python3 experiments/g13_qact_offset/fpga/route.py /path/to/build
 
 The first command checks both reference generators, compares every result, exercises reset and stalls, and requires a RAMB18E1 on the activation array. The second command uses nextpnr-xilinx and its part database. It returns a failure on an incomplete route or a missed 100 MHz target and retains the routing log and timing report in the build directory. CI downloads the checksum-pinned openXC7 release.
 
-For AMD's timing analysis, use `vivado -mode batch -source experiments/g13_qact_offset/fpga/route_vivado.tcl -tclargs /path/to/build`. This creates timing, utilization, design-rule and route reports plus a routed checkpoint. Check setup, hold and unconstrained paths before physical testing.
+For a bench bring-up run, copy `frames.hex` and `results.hex` to a separate output directory and pass that directory to `route.py` with `--profile bringup`. The board's 100 MHz oscillator drives a PLLE2_BASE. Its 800 MHz VCO divided by 128 drives the complete data path at 6.25 MHz. The validator requires the routed report to name that derived constraint. The full profile retains the 100 MHz target. [AMD Artix-7 switching characteristics, DS181](https://docs.amd.com/v/u/en-US/ds181_Artix_7_Data_Sheet)
+
+Adding `--bitstream` to the bring-up command requests FPGA assembly, conversion to configuration frames, image generation and offline decoding. The tool checks every decoded set bit against its source frame and records the image SHA-256. The board test itself still needs a physical Arty A7-100T rev D/E.
+
+For AMD's timing analysis, use `vivado -mode batch -source experiments/g13_qact_offset/fpga/route_vivado.tcl -tclargs /path/to/build full` or select `bringup`. This creates timing, utilization, design-rule and route reports plus a routed checkpoint. Check setup, hold and unconstrained paths before physical testing.
 
 ## Reference board
 

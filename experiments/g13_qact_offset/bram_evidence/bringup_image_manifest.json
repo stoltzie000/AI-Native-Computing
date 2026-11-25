@@ -1,0 +1,9 @@
+{
+  "file": "arty-bram-6m25.bit",
+  "part": "xc7a100tcsg324-1",
+  "clock_mhz": 6.25,
+  "bytes": 3825892,
+  "sha256": "f2b11496121059fb8e2c629479b9d5d7efb84bd8299d178c7297295599383dbc",
+  "source_frames": 9012,
+  "verified_set_bits": 665452
+}

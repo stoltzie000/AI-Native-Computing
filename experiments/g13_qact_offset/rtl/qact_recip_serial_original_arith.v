@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 // Original reciprocal control plus original FP32 FTZ add/sub and multiplier.
-module qact_recip_serial_original_arith(
+module qact_recip_serial_original_arith #(parameter BALANCED_NORMALIZE=0)(
  input wire clk,rst_n,start,input wire [31:0] x,
  output wire ready,output reg done,output reg [31:0] result
 );
@@ -19,7 +19,7 @@ module qact_recip_serial_original_arith(
  wire [31:0] addsub_a=(state==ADD)?t:sub_a;
  wire [31:0] addsub_b=(state==ADD)?y:t;
  wire [31:0] addsub_result;
- fp32_addsub_ftz arithmetic(.a(addsub_a),.b(addsub_b),
+ fp32_addsub_ftz #(.BALANCED_NORMALIZE(BALANCED_NORMALIZE)) arithmetic(.a(addsub_a),.b(addsub_b),
    .subtract(state!=ADD),.y(addsub_result));
  assign ready=state==IDLE;
  always @(posedge clk or negedge rst_n)begin

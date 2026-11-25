@@ -1,0 +1,58 @@
+{
+  "baseline": {
+    "block_ram_cells": [],
+    "dsp48e1": 9,
+    "flip_flops": 7215,
+    "lut1_through_6": 22745,
+    "primitives": {
+      "$scopeinfo": 10,
+      "BUFG": 1,
+      "CARRY4": 1220,
+      "DSP48E1": 9,
+      "FDCE": 4910,
+      "FDPE": 1,
+      "FDRE": 2304,
+      "IBUF": 36,
+      "INV": 6409,
+      "LUT1": 1072,
+      "LUT2": 5823,
+      "LUT3": 4078,
+      "LUT4": 1834,
+      "LUT5": 2575,
+      "LUT6": 7363,
+      "MUXF7": 3318,
+      "MUXF8": 1271,
+      "OBUF": 14
+    }
+  },
+  "candidate": {
+    "block_ram_cells": [
+      "activation.0.0"
+    ],
+    "dsp48e1": 4,
+    "flip_flops": 275,
+    "lut1_through_6": 3453,
+    "primitives": {
+      "$scopeinfo": 5,
+      "BUFG": 1,
+      "CARRY4": 300,
+      "DSP48E1": 4,
+      "FDCE": 274,
+      "FDPE": 1,
+      "IBUF": 36,
+      "INV": 530,
+      "LUT1": 47,
+      "LUT2": 877,
+      "LUT3": 569,
+      "LUT4": 411,
+      "LUT5": 348,
+      "LUT6": 1201,
+      "MUXF7": 635,
+      "MUXF8": 183,
+      "OBUF": 14,
+      "RAM32M": 13,
+      "RAMB18E1": 1
+    }
+  },
+  "tool": "Yosys 0.52 (git sha1 fee39a3284c90249e1d9684cf6944ffbbcbb8f90)"
+}
