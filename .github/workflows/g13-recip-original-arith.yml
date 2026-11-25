@@ -1,0 +1,58 @@
+name: G1.3 original full FP32 arithmetic reciprocal RTL
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-recip-original-arith.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_recip_serial_original_arith.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_recip_original_arith.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  bit-exact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Reproduce independent and upstream reciprocal oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/recip_software_differential.py --upstream upstream --out recip-original-fixtures | tee recip-original-oracle.log
+          grep -q '^PASS_RECIP_SOFTWARE_DIFFERENTIAL vectors=2048 sha256=059fa351cff407825f45a812204144220dde208a123f632a0c07f3c7e9f891a8' recip-original-oracle.log
+      - name: Exact differential with original arithmetic and controller
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          iverilog -g2012 -Wall -s tb_qact_recip_original_arith -o /tmp/recip-original.vvp \
+            experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            "$src/fp32_addsub_ftz.v" "$src/qact_recip_serial_original_arith.v" \
+            "$src/tb_qact_recip_original_arith.sv"
+          vvp /tmp/recip-original.vvp +folder=recip-original-fixtures | tee recip-original-rtl.log
+          grep -q '^PASS_RECIP_ORIGINAL_ARITH_RTL vectors=2048 normal=1998 special=50 cycles_normal=11' recip-original-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-reciprocal-rtl-regression
+          path: |
+            recip-original-oracle.log
+            recip-original-rtl.log
+            recip-original-fixtures/recip-manifest.json
+          if-no-files-found: warn
