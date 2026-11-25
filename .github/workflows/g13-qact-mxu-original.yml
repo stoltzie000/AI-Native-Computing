@@ -1,0 +1,67 @@
+name: G1.3 fully original QACT MXU FP32 ISA differential
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-mxu-original.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_mxu_full_original.v'
+      - 'experiments/g13_qact_offset/rtl/tb_full_qact_mxu_original.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-pipeline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Regenerate 24 pinned ISA fixtures with independent epilogue
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          python -m pip install -e upstream
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/full_qact_mxu_cases.py --out full-original-fixtures | tee full-original-reference.log
+          grep -q '^PASS_FULL_QACT_MXU_FIXTURES rows=24 fp32_outputs=120 sha256=8a00dfbf8591ddb47af238780d2e8a48a93ac3e7c9c79881177e30826ff9a7e4' full-original-reference.log
+      - name: Simulate fully original arithmetic clocked QACT plus MXU and epilogue
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          ep=experiments/g13_fp32_epilogue/rtl
+          iverilog -g2012 -Wall -s tb_full_qact_mxu_original -o /tmp/full-original.vvp \
+            "$ep/fp32_mul_ftz.v" "$ep/int48_to_fp32_rne.v" "$ep/mxu_integer_epilogue.v" \
+            experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v \
+            "$src/fp32_addsub_ftz.v" "$src/qact_q8_rne.v" "$src/qact_group_offset_hier.v" \
+            "$src/qact_row_scaled_serial.v" "$src/qact_recip_serial_original_arith.v" \
+            "$src/qact_row_clocked_original.v" "$src/qact_mxu_full_original.v" \
+            "$src/tb_full_qact_mxu_original.sv"
+          : > full-original-rtl.log
+          for path in full-original-fixtures/case_*_activation_*; do
+            vvp /tmp/full-original.vvp "+case=$path" | tee -a full-original-rtl.log
+          done
+          test "$(grep -c '^PASS_FULL_QACT_MXU_ORIGINAL ' full-original-rtl.log)" -eq 24
+          echo PASS_G13_ORIGINAL_FULL_PIPELINE executions=24 outputs=120
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-qact-mxu-fp32-regression
+          path: |
+            full-original-reference.log
+            full-original-rtl.log
+            full-original-fixtures/summary.json
+          if-no-files-found: warn
