@@ -6,6 +6,8 @@ on:
       - '.github/workflows/g13-qact-recip-serial.yml'
       - 'experiments/g13_qact_offset/rtl/qact_recip_serial_pinned.sv'
       - 'experiments/g13_qact_offset/rtl/tb_qact_recip_serial.sv'
+      - 'experiments/g13_qact_offset/rtl/qact_recip_serial_original_addsub.sv'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_recip_original_addsub.sv'
       - 'experiments/g13_qact_offset/rtl/qact_row_clocked_pinned.sv'
       - 'experiments/g13_qact_offset/rtl/tb_qact_row_clocked_pinned.sv'
   workflow_dispatch:
@@ -77,6 +79,17 @@ jobs:
             "$src/qact_row_clocked_pinned.sv" "$src/tb_qact_row_clocked_pinned.sv"
           "$RUNNER_TEMP/obj-qact-clocked/Vtb_qact_row_clocked_pinned" +folder=clocked-qact-fixtures | tee clocked-qact-rtl.log
           grep -q '^PASS_QACT_CLOCKED_FULL rows=32 q=2048 offsets=256' clocked-qact-rtl.log
+      - name: Validate original FP32 add-sub substituted into reciprocal
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=project/experiments/g13_qact_offset/rtl
+          verilator --binary --timing -j 2 -Wno-fatal --top-module tb_qact_recip_original_addsub --Mdir "$RUNNER_TEMP/obj-original-addsub" \
+            upstream/rtl/vpu/otpu_fp.sv \
+            "$src/fp32_addsub_ftz.v" "$src/qact_recip_serial_original_addsub.sv" \
+            "$src/tb_qact_recip_original_addsub.sv"
+          "$RUNNER_TEMP/obj-original-addsub/Vtb_qact_recip_original_addsub" +folder=recip-fixtures | tee recip-original-addsub.log
+          grep -q '^PASS_RECIP_ORIGINAL_ADDSUB_RTL vectors=2048 normal=1998 special=50 cycles_normal=11' recip-original-addsub.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -84,6 +97,7 @@ jobs:
           path: |
             recip-software-reference.log
             recip-serial-rtl.log
+            recip-original-addsub.log
             clocked-qact-reference.log
             clocked-qact-rtl.log
             clocked-qact-fixtures/full-manifest.json
