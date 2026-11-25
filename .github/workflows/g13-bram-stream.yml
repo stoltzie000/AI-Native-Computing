@@ -1,0 +1,81 @@
+name: G1.3 BRAM streaming pipeline and Arty timing
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-bram-stream.yml'
+      - 'experiments/g13_qact_offset/fpga/**'
+      - 'experiments/g13_qact_offset/rtl/*bram*'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_stream_original.sv'
+      - 'experiments/g13_qact_offset/rtl/qact_recip_serial_original_arith.v'
+      - 'experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v'
+      - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
+      - 'experiments/g13_fp32_epilogue/rtl/*.v'
+      - 'experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  numerical-and-memory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y iverilog yosys
+          python -m pip install 'numpy==2.2.6'
+          python experiments/g13_qact_offset/fpga/validate.py upstream build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bram-validation
+          path: |
+            build/*.log
+            build/resource_map.json
+            build/frames.hex
+            build/results.hex
+            build/stream/*manifest.json
+  routed-100mhz-target:
+    needs: numerical-and-memory
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: bram-validation
+          path: build
+      - name: Install verified openXC7 release and route the board self-test
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y yosys
+          mkdir -p "$RUNNER_TEMP/openxc7"
+          archive="$RUNNER_TEMP/openxc7.tgz"
+          curl -fL --retry 3 https://github.com/cavearr/toolchain-openxc7-releases/releases/download/2026-11-19/openxc7-toolchain-linux-x86-64-20261119.tgz -o "$archive"
+          echo "ef11527014cec4b2ebef4014461080c2d7f820f13595b280a0142c9d58e8f5dc  $archive" | sha256sum -c -
+          tar -xzf "$archive" -C "$RUNNER_TEMP/openxc7"
+          export PATH="$RUNNER_TEMP/openxc7/bin:$PATH"
+          python3 experiments/g13_qact_offset/fpga/route.py build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arty-route-evidence
+          path: |
+            build/board-yosys.log
+            build/board-route.log
+            build/board-route.json

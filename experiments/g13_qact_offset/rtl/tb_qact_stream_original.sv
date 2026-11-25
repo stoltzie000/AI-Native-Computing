@@ -11,7 +11,11 @@ module tb_qact_stream_original;
  integer row,n,index,cycles=0,stalls=0;
  reg held=0;reg [7:0] held_byte;reg [1:0] held_kind;reg held_last;
  string folder;
+`ifdef QACT_BRAM
+ qact_row_stream_bram dut(.*);
+`else
  qact_row_stream_original dut(.*);
+`endif
  always @(posedge clk) begin
   cycles<=cycles+1;
   if(cycles>200000)$fatal(1,"stream watchdog");
@@ -91,7 +95,11 @@ module tb_qact_stream_original;
    read_row(row);
   end
   if(stalls==0)$fatal(1,"no injected backpressure");
+`ifdef QACT_BRAM
+  $display("PASS_QACT_STREAM_BRAM rows=32 inputs=2048 outputs=2432 stalls=%0d",stalls);
+`else
   $display("PASS_QACT_STREAM_ORIGINAL rows=32 inputs=2048 outputs=2432 stalls=%0d",stalls);
+`endif
   $finish;
  end
  initial begin #3000000;$fatal(1,"global timeout");end

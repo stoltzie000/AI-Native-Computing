@@ -1,0 +1,10 @@
+PASS_QACT_STREAM_BRAM rows=32 inputs=2048 outputs=2432 stalls=673
+PASS_BRAM_MXU frames=48 unique_rows=24 fp32=240 stalls=110 final_stalls=58 input_gaps=907 first_frame_cycles=300
+PASS_BRAM_RESET aborts=11 recovered=11 fp32=55
+PASS_ARTY_SELFTEST_SIM corrupt=0 pass_led=1 fail_led=0
+PASS_ARTY_SELFTEST_SIM corrupt=1 pass_led=0 fail_led=1
+PASS_QACT_ROW_REFERENCE rows=32 q=2048 offsets=256 sha256=063c8a796f98083a68d875a588491dcf39166f0d2dca665e63a2f5cde65ecba9
+PASS_QACT_FULL_REFERENCE rows=32 q=2048 offsets=256 scales=32
+PASS_QUANTIZED_MXU_ISA fixtures=8 activation_rows=24 sha256=6ec0e20114e0ad153d9dd4701c93b45b4092446644812e9cc596127dd365a9b7
+PASS_EPILOGUE_REFERENCE {"exact_isa_rows": 24, "fp32_outputs": 120, "int48_rne_vectors": 2048, "isa_outputs_bit_exact": true, "multiply_finite_nan_inf_ftz_vectors": 2048, "upstream": "FeSens/openTPU@d84db55712aba0d40811d7762cb052f05d55b7e5"}
+PASS_FULL_QACT_MXU_FIXTURES rows=24 fp32_outputs=120 sha256=8a00dfbf8591ddb47af238780d2e8a48a93ac3e7c9c79881177e30826ff9a7e4

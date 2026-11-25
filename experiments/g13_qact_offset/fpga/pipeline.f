@@ -1,0 +1,9 @@
+experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v
+experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v
+experiments/g13_qact_offset/rtl/qact_q8_rne.v
+experiments/g13_qact_offset/rtl/qact_recip_serial_original_arith.v
+experiments/g13_qact_offset/rtl/qact_row_stream_bram.v
+experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v
+experiments/g13_fp32_epilogue/rtl/int48_to_fp32_rne.v
+experiments/g13_fp32_epilogue/rtl/mxu_integer_epilogue_serial.v
+experiments/g13_qact_offset/rtl/qact_mxu_stream_bram.v
