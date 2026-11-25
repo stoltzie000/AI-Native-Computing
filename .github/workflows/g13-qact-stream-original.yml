@@ -1,0 +1,60 @@
+name: G1.3 fully original streaming QACT with scale metadata
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-stream-original.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_row_stream_original.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_stream_original.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  numerical-stream:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate pinned and independent exact QACT fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/qact_full_reference.py --upstream upstream --out stream-original-fixtures | tee stream-original-reference.log
+          grep -q '^PASS_QACT_FULL_REFERENCE rows=32 q=2048 offsets=256 scales=32' stream-original-reference.log
+      - name: Verify exact 76-byte stream and deterministic backpressure
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          iverilog -g2012 -Wall -s tb_qact_stream_original -o /tmp/stream-original.vvp \
+            experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            "$src/fp32_addsub_ftz.v" "$src/qact_q8_rne.v" "$src/qact_group_offset_hier.v" \
+            "$src/qact_recip_serial_original_arith.v" "$src/qact_row_scaled_serial.v" \
+            "$src/qact_row_clocked_original.v" "$src/qact_row_stream_original.v" \
+            "$src/tb_qact_stream_original.sv"
+          vvp /tmp/stream-original.vvp +folder=stream-original-fixtures | tee stream-original-rtl.log
+          grep -q '^PASS_QACT_STREAM_ORIGINAL rows=32 inputs=2048 outputs=2432 stalls=' stream-original-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-76-byte-qact-stream-rtl
+          path: |
+            stream-original-reference.log
+            stream-original-rtl.log
+            stream-original-fixtures/full-manifest.json
+          if-no-files-found: warn
