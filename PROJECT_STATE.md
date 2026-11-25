@@ -419,3 +419,9 @@ Observed continuous active response approximately 17:14:40Z–17:28:53Z (~14m13s
 
 ## New tool failure classification checkpoint
 F-008 GitHub create_tree HTTP 422 when multi-entry request submitted for QACT 512-case experiment. Remote branch head unchanged on failure; sequential one-entry tree updates succeeded and final commit 7d2fcce4 verified. No ChatGPT stream timeout or permission problem established. Exact request serialization cause UNKNOWN. NEXT_ACTION continue client-observed T4/T7 only when client telemetry available, preserve future tool errors separately from model termination. Original G1 research continues.
+
+## 2026-11-25 — Test D diagnostic commit retry
+
+The supplied run ended with Test B at 4/20 and Test C at 4/5 across two responses. Both missed the single-response criterion. C used no GitHub calls. The cause of the stops remains open. The [failure log](diagnostics/gpt-execution/FAILURE_LOG.md#continuity-tests-b-c-and-d) records the stopping points, the earlier D write-method obstacle and a corrected caller error during this retry.
+
+The commit containing this checkpoint uses `6266e5a1e0c5350ffaea0946d283b37cf3654eb9` as its sole parent. The raw Git commit object supplies base tree `d876057f0164bc1f69b0eabf4899089669381639`. The branch update is conditioned on the exact parent with `force=false`. The readback checks the parent, the two changed paths and the complete contents of both files. The expected Git blob for the failure log is `8da2635392d263ace363125733aa9ebf5c5858f5`.

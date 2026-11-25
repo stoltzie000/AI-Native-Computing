@@ -10,3 +10,14 @@
 | F-007 | 2026-11-24 time UNKNOWN | Template SyntaxError involving unescaped date token before mutation | Diagnostic authoring | Client-visible tool script failure; subsequent corrected commit succeeded | Backtick interpolation in JS template | HIGH | Corrected template; no remote mutation in failed attempt |
 
 | F-008 | 2026-11-24 exact time UNKNOWN | GitHub API 422 rejected multi-entry create_tree during 512-case offset stress submission | Connector API/request validation | Error `Must supply either tree.sha or tree.content... both present`; branch head verified unchanged; sequential one-entry trees accepted and resulting commit 7d2fcce4c35ce296395650824cd116b37c338da2 verified | Exact serialization/normalization cause UNKNOWN; request rejected | HIGH for HTTP rejection, LOW for payload cause | Split into validated atomic entries, then commit once; never blindly resubmit |
+
+## Continuity tests B, C and D
+
+The B and C observations and the first two D attempts come from the supplied conversation. Exact event times and client receipt data were unavailable.
+
+| Incident | Timestamp UTC | Observed failure | Class | Evidence | Cause | Confidence | Recovery |
+|---|---|---|---|---|---|---|---|
+| F-009 | Unknown | Test B ended with 4 of 20 operations passed and 16 remaining. | Early response termination | The run reported no tool error. It missed the one-response completion criterion. | Unknown | Reported counts and stopping point | Preserve 4/20 as the original outcome. |
+| F-010 | Unknown | Test C ended at 2/5 in its first response and 4/5 after its second. Stage 5 was still pending. | Early response termination | The run reported a sum of 92, mean of 23, squared deviations totaling 274, population variance of 68.5 and standard deviation of 8.2764726786. It used no GitHub calls and reported no tool error. | Unknown | Reported stage results and stopping points | Count the independent verification as outstanding for this run. |
+| F-011 | Unknown | The first D attempt ended after the summary commit response omitted the tree SHA. The second ended after identifying a file update that checked only the file SHA. Neither attempted a write. | GitHub commit method selection | The retry confirmed the original branch head and obtained its tree from the raw Git commit object. | The original methods lacked either the tree field or an expected branch-head check. | Verified against the Git data and connector interface | Create a direct child of the verified parent and update the branch with `expected_sha` and `force=false`. |
+| F-012 | 2026-11-25, time unrecorded | Four preliminary D retry reads returned `INVALID_ARGUMENT` at argument binding. | Diagnostic caller error | The caller passed repository metadata where the connector expected the `owner/name` string. All four reads succeeded with the corrected argument. | Incorrect argument type | Confirmed by corrected reads | Retry the reads before attempting a write. |
