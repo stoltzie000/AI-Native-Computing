@@ -1,0 +1,7 @@
+PASS_EPILOGUE_PREFETCH completed=523 outputs=2615 aborts=11 cycles_per_job=11 compared_cycles=6355
+PASS_BRAM_MXU frames=48 unique_rows=24 fp32=240 stalls=110 final_stalls=58 input_gaps=907 first_frame_cycles=300
+PASS_BRAM_RESET aborts=11 recovered=11 fp32=55
+PASS_QACT_STREAM_BRAM rows=32 inputs=2048 outputs=2432 stalls=673
+PASS_ARTY_SELFTEST_SIM corrupt=0 pass_led=1 fail_led=0
+PASS_ARTY_SELFTEST_SIM corrupt=1 pass_led=0 fail_led=1
+PASS_FP32_ADDSUB_RTL vectors=8192 add=4096 sub=4096

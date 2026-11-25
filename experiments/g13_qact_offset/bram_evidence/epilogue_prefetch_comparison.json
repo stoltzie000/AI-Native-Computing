@@ -1,0 +1,49 @@
+{
+  "part": "xc7a100tcsg324-1",
+  "board_top": "arty_bram_selftest",
+  "yosys": "0.52 fee39a3284c90249e1d9684cf6944ffbbcbb8f90",
+  "nextpnr_xilinx": "42d06c5f",
+  "epilogue_cycles": 11,
+  "comparisons": [
+    {
+      "version": "direct",
+      "seed": 1,
+      "constraint_mhz": 100,
+      "routed_estimate_mhz": 17.056697845458984,
+      "critical_period_ns": 58.62799973785877,
+      "route_json": "balanced_board-route.json.gz",
+      "route_sha256": "514065917731500191739a7018a71eaded5238f2d686f7ceb1c1dae9ac74f3ca",
+      "last_routing_iteration": "iter=30 wires=318609 overused=0 overuse=0 archfail=0"
+    },
+    {
+      "version": "direct",
+      "seed": 2,
+      "constraint_mhz": 100,
+      "routed_estimate_mhz": 17.051170349121094,
+      "critical_period_ns": 58.64700001105666,
+      "route_json": "epilogue_direct_seed2_route.json.gz",
+      "route_sha256": "fda78331f5caa34d8ac43681965c1c24b1f72429c542346e95e24790c7f9e8bb",
+      "last_routing_iteration": "iter=44 wires=319150 overused=0 overuse=0 archfail=0"
+    },
+    {
+      "version": "prefetch",
+      "seed": 1,
+      "constraint_mhz": 100,
+      "routed_estimate_mhz": 19.149749755859375,
+      "critical_period_ns": 52.22000006958842,
+      "route_json": "epilogue_prefetch_seed1_route.json.gz",
+      "route_sha256": "bcf2ebb58675bc0c3e706333887090a808259dc2c4bbace270309d7ae2bc5ec2",
+      "last_routing_iteration": "iter=36 wires=321751 overused=0 overuse=0 archfail=0"
+    },
+    {
+      "version": "prefetch",
+      "seed": 2,
+      "constraint_mhz": 100,
+      "routed_estimate_mhz": 20.119510650634766,
+      "critical_period_ns": 49.70299997553229,
+      "route_json": "epilogue_prefetch_seed2_route.json.gz",
+      "route_sha256": "ab122606a96dffa40620d71b052f8af6adb5c1f485c2b7253ed52d9cf57b7891",
+      "last_routing_iteration": "iter=33 wires=322657 overused=0 overuse=0 archfail=0"
+    }
+  ]
+}

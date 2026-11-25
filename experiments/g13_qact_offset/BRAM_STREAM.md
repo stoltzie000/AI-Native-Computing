@@ -13,6 +13,8 @@ The full pipeline accepts one frame of 152 little-endian 32-bit words and return
 
 The five output beats follow matrix row order. Only the fifth asserts `output_last`. The pipeline accepts the next frame after that beat transfers. Reset flushes input, compute and result state. The quantized codes and weights use local registers at the existing MXU interface. Activation replay uses block RAM. External DRAM and host DMA are separate work.
 
+The streaming pipeline precomputes each signed INT48-to-FP32 conversion while the shared multiplier handles a different operation. The first conversion overlaps activation-factor generation. Each later conversion overlaps the preceding lane's final multiplication. This puts a register between conversion and weight multiplication and preserves the serial epilogue's 11-cycle schedule. Other callers can select the original direct conversion.
+
 ## Reproduce
 
 With Icarus, Yosys/ABC, NumPy and the pinned openTPU checkout available, run from the repository root.

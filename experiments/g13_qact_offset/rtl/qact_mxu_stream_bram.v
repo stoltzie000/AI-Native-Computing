@@ -60,7 +60,7 @@ module qact_mxu_stream_bram(
         .ready(mxu_ready), .done(mxu_done), .acc_flat(accumulators),
         .dropped_groups(dropped_groups), .consumed_groups(consumed_groups)
     );
-    mxu_integer_epilogue_serial epilogue(
+    mxu_integer_epilogue_serial #(.PREFETCH_CONVERSION(1)) epilogue(
         .clk(clk), .rst_n(rst_n), .start(state == LAUNCH_EPILOGUE), .acc_flat(accumulators),
         .weight_scale_flat(weight_scales), .activation_scale(activation_scale),
         .ready(epilogue_ready), .done(epilogue_done), .result_flat(results)

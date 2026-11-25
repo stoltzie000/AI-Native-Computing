@@ -75,6 +75,12 @@ def main():
              {"addsub": [f"+folder={build / 'addsub'}"]}, ["-Ptb_fp32_addsub_ftz.BALANCED_NORMALIZE=1"])
     run(["yosys", "-Q", "-T", "-s", FPGA / "prove_addsub.ys"], build / "addsub-proof.log")
     print("PASS_BRAM_ADDSUB_EQUIVALENCE", flush=True)
+    epilogue_rtl = EXPERIMENT.parent / "g13_fp32_epilogue" / "rtl"
+    epilogue_sources = [epilogue_rtl / name for name in (
+        "fp32_mul_ftz.v", "int48_to_fp32_rne.v", "mxu_integer_epilogue.v",
+        "mxu_integer_epilogue_serial.v", "tb_mxu_epilogue_prefetch.sv"
+    )]
+    simulate("tb_mxu_epilogue_prefetch", epilogue_sources, build, {"epilogue-prefetch": []})
     simulate("tb_qact_stream_original", quant + [RTL / "tb_qact_stream_original.sv"], build,
              {"stream": [f"+folder={build / 'stream'}"]}, ["-DQACT_BRAM"])
     simulate("tb_qact_mxu_stream_bram", PIPELINE + [RTL / "tb_qact_mxu_stream_bram.sv"], build,

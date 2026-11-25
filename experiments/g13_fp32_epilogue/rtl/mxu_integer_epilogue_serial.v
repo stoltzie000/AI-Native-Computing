@@ -2,7 +2,7 @@
 // Time-multiplexed five-output signed-INT48 to FP32 RNE/FTZ epilogue.
 // One integer converter and one binary32 FTZ multiplier; 11 active cycles/job.
 // This is a research resource-sharing candidate, not a physical clock claim.
-module mxu_integer_epilogue_serial(
+module mxu_integer_epilogue_serial #(parameter PREFETCH_CONVERSION=0)(
  input wire clk,rst_n,start,
  input wire [239:0] acc_flat,input wire [159:0] weight_scale_flat,
  input wire [31:0] activation_scale,
@@ -26,12 +26,35 @@ module mxu_integer_epilogue_serial(
    default: begin selected_acc=0;selected_weight=0;end
   endcase
  end
- wire [31:0] integer_float,mul_result;
+ wire [31:0] integer_float,weight_operand,mul_result;
+ wire [47:0] conversion_input;
+ generate if(PREFETCH_CONVERSION)begin: PREFETCH
+  reg [47:0] following_acc;
+  reg [31:0] converted;
+  always @* begin
+   case(idx)
+    0: following_acc=acc_latched[95:48];
+    1: following_acc=acc_latched[143:96];
+    2: following_acc=acc_latched[191:144];
+    3: following_acc=acc_latched[239:192];
+    default: following_acc=0;
+   endcase
+  end
+  // FACTOR overlaps lane 0 conversion. Each ACTIVATE overlaps conversion
+  // of the following lane. WEIGHT always consumes a completed conversion.
+  assign conversion_input=(state==FACTOR)?acc_latched[47:0]:following_acc;
+  always @(posedge clk)
+   if(state==FACTOR || (state==ACTIVATE && idx<4)) converted<=integer_float;
+  assign weight_operand=converted;
+ end else begin: DIRECT
+  assign conversion_input=selected_acc;
+  assign weight_operand=integer_float;
+ end endgenerate
  wire [31:0] mul_a=(state==FACTOR)?activation_latched:
-                    (state==WEIGHT)?integer_float:intermediate;
+                    (state==WEIGHT)?weight_operand:intermediate;
  wire [31:0] mul_b=(state==FACTOR)?32'h37800000:
                     (state==WEIGHT)?selected_weight:factor;
- int48_to_fp32_rne convert(.integer_in(selected_acc),.y(integer_float));
+ int48_to_fp32_rne convert(.integer_in(conversion_input),.y(integer_float));
  fp32_mul_ftz multiplier(.a(mul_a),.b(mul_b),.y(mul_result));
  assign ready=(state==IDLE);
  always @(posedge clk or negedge rst_n) begin

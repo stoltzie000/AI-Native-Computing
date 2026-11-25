@@ -11,6 +11,7 @@ on:
       - 'experiments/g13_qact_offset/rtl/fp32_addsub_ftz.v'
       - 'experiments/g13_qact_offset/rtl/qact_q8_rne.v'
       - 'experiments/g13_fp32_epilogue/rtl/*.v'
+      - 'experiments/g13_fp32_epilogue/rtl/tb_mxu_epilogue_prefetch.sv'
       - 'experiments/quantized_mxu_g12/rtl/exact_mxu_int8_core.v'
   workflow_dispatch:
 permissions:
