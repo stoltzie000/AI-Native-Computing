@@ -1,0 +1,60 @@
+name: G1.3 fully original clocked QACT row RTL
+on:
+  push:
+    branches: [research/g13-qact-offset]
+    paths:
+      - '.github/workflows/g13-qact-original-full.yml'
+      - 'experiments/g13_qact_offset/rtl/qact_row_clocked_original.v'
+      - 'experiments/g13_qact_offset/rtl/tb_qact_row_clocked_original.sv'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-original:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: FeSens/openTPU
+          ref: d84db55712aba0d40811d7762cb052f05d55b7e5
+          path: upstream
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generate exact pinned and independent 32-row oracle
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          python -m pip install 'numpy==2.2.6'
+          test "$(git -C upstream rev-parse HEAD)" = d84db55712aba0d40811d7762cb052f05d55b7e5
+          python experiments/g13_qact_offset/qact_full_reference.py --upstream upstream --out qact-original-fixtures | tee qact-original-reference.log
+          grep -q '^PASS_QACT_FULL_REFERENCE rows=32 q=2048 offsets=256 scales=32' qact-original-reference.log
+      - name: Simulate complete original FP32 QACT with Icarus
+        shell: bash
+        run: |
+          set -euo pipefail
+          src=experiments/g13_qact_offset/rtl
+          iverilog -g2012 -Wall -s tb_qact_row_clocked_original -o /tmp/qact-original.vvp \
+            experiments/g13_fp32_epilogue/rtl/fp32_mul_ftz.v \
+            "$src/fp32_addsub_ftz.v" "$src/qact_q8_rne.v" \
+            "$src/qact_group_offset_hier.v" "$src/qact_recip_serial_original_arith.v" \
+            "$src/qact_row_scaled_serial.v" "$src/qact_row_clocked_original.v" \
+            "$src/tb_qact_row_clocked_original.sv"
+          vvp /tmp/qact-original.vvp +folder=qact-original-fixtures | tee qact-original-rtl.log
+          grep -q '^PASS_QACT_CLOCKED_ORIGINAL rows=32 q=2048 offsets=256 normal=31 special=1' qact-original-rtl.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-full-qact-rtl
+          path: |
+            qact-original-reference.log
+            qact-original-rtl.log
+            qact-original-fixtures/full-manifest.json
+          if-no-files-found: warn
