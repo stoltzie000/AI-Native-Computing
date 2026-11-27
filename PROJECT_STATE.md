@@ -243,3 +243,19 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Next:** (1) Instrument pinned real-model intermediate activation zeros on a fixed dataset without altering weights. (2) Implement a second column buffer with prefetch overlap and bounded memory queue, verify RTL. (3) Technology-map/estimate area, clock and power for 2/4 lanes. (4) Compare to optimized dense and sparse GPUs using identical full-system workload, quality and memory generation. Keep both negative and positive results.
 
 **Work sequencing:** No numbered executable Codex/GPT task assigned. Preserve active task sequence.
+
+
+## 2026-11-27 checkpoint — dual-track and continuity status
+
+**Operating policy:** Added `docs/DUAL_TRACK_POLICY.md`. Track A is evidence-driven RTL/FPGA engineering on `research/g13-qact-offset`; Track B tests broader architectural hypotheses on `research/architectural-breakthrough`; ChatGPT runtime/delivery diagnosis remains isolated on `research/gpt-execution-diagnostics-20261124`. No research was merged.
+
+**Verified branch snapshot:**
+- Track A HEAD `440aa834fe80898a6f4571d54fc8815272cad77b`. Actions run `45641131479`, attempt 2: numerical/memory job PASS; bring-up timing job PASS at 6.25 MHz; full-rate 100 MHz route FAIL, estimated 19.232 MHz. The failing route job log reports `NOT_MET: 100.0 MHz routed setup estimate`. Preserve this failure; next inspect the route artifact/timing report and test a bit-equivalent QACT critical-path change.
+- Track B parent before this checkpoint: `d8a84e9cf0cd5748b1c8f5a7a2adcab2c225c27f`. Its prior state was stale at the 2026-11-23 v1.0 checkpoint; this commit brings the policy and current cross-track status into the branch.
+- Diagnostic branch HEAD `c8827b2484c4130b808394d6446cc754d03041c9`. Its record includes Test B ending at 4/20, and Test C ending at 4/5 across two responses. These are supplied observations; Test C did not use GitHub. Neither establishes a hidden platform cause. The reported UI “Message delivery timed out” still has no request ID, client HAR/console trace, or server trace in project evidence.
+
+**Action taken for resumability:** Updated the existing hourly AI-Native engineering automation prompt on 2026-11-27 to perform a safe next engineering/validation action when one is available, persist verified evidence, and classify assistant final-turn termination separately from UI delivery errors. This is an external-workflow mitigation; it does not change ChatGPT's backend or guarantee transport delivery.
+
+**Current validation gate:** ChatGPT cause remains OPEN/UNKNOWN. OpenAI's current Help Center recommends reproducing persistent UI errors with browser Network logging, exporting a sanitized HAR, recording console errors and timestamps, then contacting Support. Keep HARs and private conversation identifiers out of the public repository. An Agents API-based durable runner is a possible separate application; no API credentials were accessed and no API-billed work was performed.
+
+**Next actions:** (1) Track B: execute the roadmap's read-only real-model activation audit before further activation-gating RTL. (2) Track A: inspect the latest route artifacts and reduce the measured QACT path without changing numerical acceptance criteria. (3) Diagnostic track: only close the causal question after collecting client-observed reproducer data or an OpenAI Support finding. No numbered AI handoff assigned; preserve the existing unknown sequence.
