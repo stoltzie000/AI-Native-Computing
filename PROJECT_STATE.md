@@ -309,3 +309,5 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 
 ## GARC pilot checkpoint (2026-11-27)
 Read-only controller and unit tests proposed in this commit; hosted results pending. Push-triggered pilot inspects five allowlisted branches at pinned revisions, rejects stale heads and bounds subprocess runtime. No engineering writes or AI provider enabled. NEXT_ACTION verify hosted pilot results, then implement explicit task manifests and durable evidence ledger. Default-branch scheduling requires separate deployment approval.
+
+GARC checkpoint: strict task eligibility module and tests added; rejects stale revisions, unknown operations, duplicate completed task/revision pairs and extra fields. Not yet integrated into worker or durable ledger. Hosted push CI remains unverified; PR-only run listing is insufficient. Continuous safe implementation authorized. NEXT_ACTION verify pilot CI and integrate durable task/evidence records.
