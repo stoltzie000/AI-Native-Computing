@@ -1,0 +1,23 @@
+name: GARC read-only pilot
+on:
+  push:
+    branches: [research/autonomous-controller]
+    paths: ['garc/**', '.github/workflows/garc-readonly.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: garc-readonly
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s garc -v
+      - run: python3 garc/controller.py
+        env:
+          GARC_ENABLED: 'true'

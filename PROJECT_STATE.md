@@ -305,3 +305,7 @@ Physical feasibility check added to `simulator_v0_2/physical_limits.py`, `test_p
 **Decision:** **ADOPT G1.2 as a validated small quantized-arithmetic correctness reference**, with explicit dependence on upstream FP32 primitives. No fair speed/energy/clock, SRAM/HBM bandwidth or physical GPU comparison exists. Next gate: unify **actual QACT/FP32/INT8 MXU operator, memory transfer and physical resource budget**; verify the same workload across a physical memory-backed platform, appropriate optimized GPU control, and matched model quality. Do not compare raw core cycles from different computational architectures. Retain negative trained-model sparsity results and all rejected designs.
 
 **CI controls and task continuity:** workflow triggers only on its YAML path on the isolated research branch, plus manual dispatch; no duplicate PR trigger, no account notification settings changed, no numbered executable Codex/GPT task assigned. This is a GitHub research checkpoint, not a claim of changes to local Windows/desktop storage.
+
+
+## GARC pilot checkpoint (2026-11-27)
+Read-only controller and unit tests proposed in this commit; hosted results pending. Push-triggered pilot inspects five allowlisted branches at pinned revisions, rejects stale heads and bounds subprocess runtime. No engineering writes or AI provider enabled. NEXT_ACTION verify hosted pilot results, then implement explicit task manifests and durable evidence ledger. Default-branch scheduling requires separate deployment approval.
