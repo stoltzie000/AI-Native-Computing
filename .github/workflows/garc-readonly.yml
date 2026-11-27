@@ -18,6 +18,7 @@ jobs:
         with:
           persist-credentials: false
       - run: python3 -m unittest discover -s garc -v
+      - run: python3 garc/queue_worker.py
       - run: python3 garc/controller.py
         env:
           GARC_ENABLED: 'true'
