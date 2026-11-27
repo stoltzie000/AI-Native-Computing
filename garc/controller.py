@@ -1,5 +1,6 @@
 """Read-only, bounded branch inspection. No commands from branch content."""
 import json, os, re, subprocess
+from ledger import append
 
 BRANCHES = ("research/g13-qact-offset", "research/architectural-breakthrough",
             "research/quantized-pipeline-g13", "research/g1-hbm4-controller-envelope",
@@ -39,6 +40,8 @@ def main():
         except (ValueError, subprocess.SubprocessError, IndexError) as exc:
             results.append({"branch": branch, "status": "blocked",
                             "error_type": type(exc).__name__})
+    for result in results:
+        append('garc-evidence.jsonl', dict(result, id='inspect-' + result['branch'].replace('/', '-')))
     print(json.dumps(results, indent=2))
     if any(x["status"] != "inspected" for x in results):
         raise SystemExit(1)
